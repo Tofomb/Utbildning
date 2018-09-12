@@ -203,6 +203,7 @@
     <Compile Include="Controllers\FrontpageCarouselsController.cs" />
     <Compile Include="Controllers\FrontpageInfoesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KurserController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -319,6 +320,7 @@
     <Content Include="Views\FrontpageInfoes\Details.cshtml" />
     <Content Include="Views\FrontpageInfoes\Edit.cshtml" />
     <Content Include="Views\FrontpageInfoes\Index.cshtml" />
+    <Content Include="Views\Kurser\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
