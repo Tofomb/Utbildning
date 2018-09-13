@@ -20,6 +20,49 @@ namespace Utbildning.Controllers
             return View(db.Courses.ToList());
         }
 
+
+
+        // GET: Kurser/Boka
+        public ActionResult Boka(int? id)
+        {
+            Course course = db.Courses.ToListAsync().Result.Where(x => x.Id == id).First();
+            ViewBag.CourseTitle = course.Name;
+            ViewBag.CourseSubtitle = course.Subtitle;
+            ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions, "Id", "StartDate");
+            return View();
+        }
+
+        // POST: Kurser/Boka
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Boka([Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking)
+        {
+            if (ModelState.IsValid)
+            {
+                DateTime now = DateTime.Now;
+                //add booking date
+                booking.BookingDate = now;
+                db.Bookings.Add(booking);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions, "Id", "StartDate", booking.CourseOccasionId);
+            return View(booking);
+        }
+
+
+
+
+
+
+
+
+
+        //
+
         // GET: Courses/Details/5        
         public ActionResult Details(int? id)
         {
@@ -73,6 +116,14 @@ namespace Utbildning.Controllers
             }
             return View(course);
         }
+
+
+
+
+
+
+
+
 
         // POST: Courses/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
