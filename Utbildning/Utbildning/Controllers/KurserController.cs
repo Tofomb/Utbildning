@@ -10,13 +10,13 @@ using Utbildning.Models;
 
 namespace Utbildning.Controllers
 {
-    public class CoursesController : Controller
+    public class KurserController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Courses
         public ActionResult Index()
-        {            
+        {
             return View(db.Courses.ToList());
         }
 
@@ -36,6 +36,7 @@ namespace Utbildning.Controllers
         }
 
         // GET: Courses/Create
+        [ActionName("hhh")]
         public ActionResult Create()
         {
             return View();
