@@ -28,15 +28,21 @@
 .button {
     border: none;
     color: #FFF;
+    text-decoration-color: white;
     padding: 15px 15px;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
     position: absolute;
+    
 }
 
+
+
 .button-readmore {
-    background-color: #00b6dd;
+    color: #FFF;
+    background-color: #00b6dd;  
+  
 }
 
     .button-readmore:hover {
@@ -47,6 +53,8 @@
 
 .button-book {
     background-color: #f8981e;
+  
+  
 }
 
     .button-book:hover {

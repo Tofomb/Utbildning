@@ -3,6 +3,11 @@
     font-size: 17px;
 }
 
+
+.container-form{
+  background-color:white;
+}
+
 .text-title {
     text-transform: uppercase;
     font-weight: 700;
@@ -49,12 +54,16 @@
     .form-right {
         border-right-style: solid;
     }
-}
+   
+        
+    }
+
 
 .ctooltip {
-    position: relative;
+    position: relative;    
     display: inline-block;
     border-bottom: 1px dotted black;
+    
 }
 
     .ctooltip .tooltiptext {

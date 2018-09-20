@@ -28,8 +28,9 @@
             </text>
         </div>
         <div class="container-button">
-            <button class="button button-all button-readmore"> @Html.ActionLink("Details", "Details", new { id = item.Id })</button>
-            <button class="button button-all button-book">   @Html.ActionLink("Boka", "Boka", new { id = item.Id })</button>
+
+            <a class="button button-all button-readmore" href='@Url.Action("Details", "Kurser", new {id=item.Id } )'>Läs Mer</a>
+            <a class="button button-all button-book" href='@Url.Action("Boka", "Kurser", new {id=item.Id } )'>Boka</a>
         </div>
     </div>
 }
