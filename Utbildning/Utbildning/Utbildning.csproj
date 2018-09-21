@@ -228,6 +228,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\List.css" />
+    <Content Include="Content\ReadMore.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -319,6 +320,8 @@
     <Content Include="Views\FrontpageInfoes\Index.cshtml" />
     <Content Include="Views\Kurser\Index.cshtml" />
     <Content Include="Views\Kurser\Boka.cshtml" />
+    <Content Include="Views\Kurser\LasMer.cshtml" />
+    <Content Include="Views\Kurser\LäsMer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

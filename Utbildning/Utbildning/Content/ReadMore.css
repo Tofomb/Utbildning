@@ -1,0 +1,15 @@
+﻿body {
+    font-family: "Source Sans Pro", "Helvetica", "Arial", "sans-serif";
+    font-size: 17px;
+}
+
+.CourseName {
+    color: #f8981e;
+    font-size: 50px;
+    text-transform: uppercase;
+}
+
+.LeaderImg{
+    max-width:500px;
+    width:100%
+}

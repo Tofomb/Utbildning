@@ -8,6 +8,10 @@
   background-color:white;
 }
 
+.inner-container-form{
+    margin:auto;
+}
+
 .text-title {
     text-transform: uppercase;
     font-weight: 700;
@@ -55,7 +59,7 @@
         border-right-style: solid;
     }
    
-        
+       
     }
 
 

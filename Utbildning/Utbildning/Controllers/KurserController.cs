@@ -54,9 +54,32 @@ namespace Utbildning.Controllers
         }
 
 
+        //
 
 
 
+
+        // GET: Courses/LäsMer/5        
+        public ActionResult LäsMer(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Course course = db.Courses.Find(id);
+            if (course == null)
+            {
+                return HttpNotFound();
+            }
+            var courseOccasions = (db.CourseOccasions.Where(m => m.CourseId == id)).ToList();
+            
+            ViewBag.CourseOccasionViewBag = courseOccasions;
+
+            var courseBulletpoints = (db.BulletPoints.Where(m => m.CourseId == id)).ToList();
+            ViewBag.CourseBulletPoints = courseBulletpoints;
+
+            return View(course);
+        }
 
 
 
@@ -77,6 +100,8 @@ namespace Utbildning.Controllers
             }
             return View(course);
         }
+
+
 
         // GET: Courses/Create
         [ActionName("hhh")]

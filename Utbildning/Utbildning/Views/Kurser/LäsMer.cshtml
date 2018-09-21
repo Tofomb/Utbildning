@@ -1,0 +1,79 @@
+﻿@model Utbildning.Models.Course
+
+@{
+    ViewBag.Title = "LäsMer";
+}
+
+
+<head>
+    <link rel="stylesheet" type="text/css" href="~/Content/ReadMore.css">
+</head>
+
+
+<h2>LäsMer</h2>
+
+
+<div class="row">
+
+    <div class="col-sm-1 col-xs-0" style="background-color:red"></div>
+    <div class="col-sm-7 col-xs-12" style="background-color:lightblue;">
+        <text class="CourseName"> @Html.DisplayFor(model => model.Name)</text>
+        <br>
+        <text class="CourseSubtitle">@Html.DisplayFor(model => model.Subtitle)</text>
+        <br>
+        <br>
+        <br>
+        <text class="CourseBold">   @Html.DisplayFor(model => model.Bold)</text>
+        <br>
+        <br>
+        <text> @Html.DisplayFor(model => model.Text)</text>
+
+        <br>
+        <br>
+        <div class="CourseOccasion" style="background-color:lightgray;">
+        <ul>
+            @foreach (var item in ViewBag.CourseOccasionViewBag)
+            {
+                <li>@item.StartDate</li>
+            }
+        </ul>
+            </div>
+
+
+    </div>
+
+    <div class="col-sm-3 col-xs-12" style="background-color:lightgoldenrodyellow">
+        <img class="LeaderImg img-thumbnail" src="@Html.DisplayFor(model => model.Image)" alt=" @Html.DisplayNameFor(model => model.Host)">
+        <br>
+        <text class="LederName">
+            @Html.DisplayFor(model => model.Host)
+        </text>
+        <text class="LederEmail">
+            <a href="mailto:@Html.DisplayFor(model => model.Email)?Subject=Fråga%20om%20 @Html.DisplayFor(model => model.Name)" target="_top">
+                @Html.DisplayFor(model => model.Email)
+            </a>
+        </text>
+        <br>
+        <br>
+
+        <div style="background-color:lightgray;">
+            <ul>
+                @foreach (var item in ViewBag.CourseBulletPoints)
+                {
+                    <li>@item.Text</li>
+                }
+            </ul>
+        </div>
+        <div style="background-color:lightcyan;">
+            <ul>
+
+                @Html.DisplayFor(model => model.Address)
+                @Html.DisplayFor(model => model.City)
+
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-1" style="background-color:magenta"></div>
+
+
+</div>
