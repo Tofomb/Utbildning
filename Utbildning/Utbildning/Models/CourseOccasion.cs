@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace Utbildning.Models
         [ForeignKey("Course")]
         public int CourseId { get; set; }
         public Course Course { get; set; }
+        [DataType(DataType.DateTime)]
         public DateTime StartDate { get; set; }
         public string AltHost { get; set; }
         public string AltAddress { get; set; }

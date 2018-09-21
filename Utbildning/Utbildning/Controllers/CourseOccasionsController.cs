@@ -48,7 +48,7 @@ namespace Utbildning.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,CourseId,StartDate,AltHost,AltAddress,AltMail,AltImage,MinPeople,MaxPeople")] CourseOccasion courseOccasion)
+        public ActionResult Create([Bind(Include = "Id,CourseId,StartDate,AltHost,AltAddress,AltMail,AltProfilePicture,MinPeople,MaxPeople")] CourseOccasion courseOccasion)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +82,7 @@ namespace Utbildning.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CourseId,StartDate,AltHost,AltAddress,AltMail,AltImage,MinPeople,MaxPeople")] CourseOccasion courseOccasion)
+        public ActionResult Edit([Bind(Include = "Id,CourseId,StartDate,AltHost,AltAddress,AltMail,AltProfilePicture,MinPeople,MaxPeople")] CourseOccasion courseOccasion)
         {
             if (ModelState.IsValid)
             {
