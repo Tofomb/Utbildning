@@ -105,7 +105,7 @@ namespace Utbildning.Controllers
 
                 string pw = PassGen();
 
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };                
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, pw);
                 if (result.Succeeded)
                 {
@@ -139,7 +139,7 @@ namespace Utbildning.Controllers
                 ViewBag.Title = Info.Title;
                 ViewBag.Bold = Info.Bold;
                 ViewBag.Text = Info.Text;
-            }            
+            }
             return View();
         }
 
@@ -182,26 +182,29 @@ namespace Utbildning.Controllers
             }
 
             NameChar[0] = char.ToUpper(Name[0]);
-            ViewBag.Name = new string(NameChar);            
+            ViewBag.Name = new string(NameChar);
 
             return View();
         }
+
         [Authorize(Roles = "Kursledare")]
         public ActionResult Kursvy()
         {
-            ApplicationDbContext db = new ApplicationDbContext();
-            return View(db.Courses.ToList().Where(m=>m.Email == User.Identity.Name));
-            
+            return View(db.Courses.ToList().Where(m => m.Email == User.Identity.Name));
         }
 
 
         // GET: CourseOccasions
         [Authorize(Roles = "Kursledare")]
-        public ActionResult Kurstillfälle(int? id)
+        public ActionResult Kurstillfälle(int? Id)
         {
-            ApplicationDbContext db = new ApplicationDbContext();
-            var courseOccasions = db.CourseOccasions.Include(c =>c.Course);
-            return View(courseOccasions.ToList().Where(m => m.Course.Email == User.Identity.Name && m.Course.Id == id));
+            if (Id == null) { return RedirectToAction("Kursvy", "Admin"); }
+            if (db.Courses.ToList().Where(x => x.Id == Id).First().Email == User.Identity.Name)
+            {
+                var courseOccasions = db.CourseOccasions.Include(c => c.Course);
+                return View(courseOccasions.ToList().Where(m => m.Course.Email == User.Identity.Name && m.Course.Id == Id));
+            }
+            return RedirectToAction("Kursvy", "Admin");
         }
     }
 }
