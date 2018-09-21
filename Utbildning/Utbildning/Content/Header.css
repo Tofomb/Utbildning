@@ -1,0 +1,21 @@
+﻿.logo {
+    height: 70px;
+    margin: 5px 0 5px 0;
+}
+
+.header {
+    background-color: #FFFFFF;
+}
+
+    .header > .container > .navbar-collapse > ul > li, div > #profile > li {
+        top: 18px;
+        font-size: 20px;
+    }
+
+        .header > .container > .navbar-collapse > ul > li > a, div > #profile > li > a {
+            color: #444444;
+        }
+
+            .header > .container > .navbar-collapse > ul > li > a:hover, div > #profile > li > a:hover {
+                color: #00b6dd;
+            }

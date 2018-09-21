@@ -12,7 +12,7 @@ namespace Utbildning
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            CreateRolesAndDefaultUsers();
+            CreateRolesAndDefaultUsers();            
         }
 
         private void CreateRolesAndDefaultUsers()
@@ -27,8 +27,8 @@ namespace Utbildning
                 var AdminRole = new IdentityRole() { Name = "Admin" };
                 RoleMng.Create(AdminRole);
 
-                var AdminUser = new ApplicationUser() { UserName = "admin@m.m" };
-                string Pw = "Mypass123!";
+                var AdminUser = new ApplicationUser() { UserName = "admin@castra.se" };
+                string Pw = "Q2FzdHJh";
 
                 var NewUser = UserMng.Create(AdminUser, Pw);
 
@@ -45,7 +45,7 @@ namespace Utbildning
 
                 //REMOVE FOLLOWING LATER WHEN OBSOLETE. Only used to have a default KL user.
                 var KLUser = new ApplicationUser() { UserName = "kl@m.m" };
-                string Pw = "Mypass123!";
+                string Pw = "Q2FzdHJh";
 
                 var NewUser = UserMng.Create(KLUser, Pw);
 
@@ -54,6 +54,6 @@ namespace Utbildning
                     var result = UserMng.AddToRole(KLUser.Id, "Kursledare");
                 }
             }
-        }
+        }        
     }
 }
