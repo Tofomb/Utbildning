@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity;
+using System.Data.Entity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
@@ -184,6 +185,23 @@ namespace Utbildning.Controllers
             ViewBag.Name = new string(NameChar);            
 
             return View();
+        }
+        [Authorize(Roles = "Kursledare")]
+        public ActionResult Kursvy()
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            return View(db.Courses.ToList().Where(m=>m.Email == User.Identity.Name));
+            
+        }
+
+
+        // GET: CourseOccasions
+        [Authorize(Roles = "Kursledare")]
+        public ActionResult Kurstillfälle(int? id)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            var courseOccasions = db.CourseOccasions.Include(c =>c.Course);
+            return View(courseOccasions.ToList().Where(m => m.Course.Email == User.Identity.Name && m.Course.Id == id));
         }
     }
 }

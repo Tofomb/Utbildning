@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Utbildning.Models.CourseOccasion>
+
+@{
+    ViewBag.Title = "Kurstillfälle";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Course.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AltHost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AltAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AltMail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AltImage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinPeople)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaxPeople)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AltHost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AltAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AltMail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AltImage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinPeople)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxPeople)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
