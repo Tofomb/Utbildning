@@ -228,6 +228,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\CastraULogo.png" />
+    <Content Include="Content\Header.css" />
     <Content Include="Content\List.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -323,6 +325,7 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Admin.cshtml" />
     <Content Include="Views\Admin\Kursledare.cshtml" />
+    <Content Include="Views\Admin\NyKursledare.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
