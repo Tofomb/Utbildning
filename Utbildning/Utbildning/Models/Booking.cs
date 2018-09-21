@@ -33,6 +33,7 @@ namespace Utbildning.Models
         public string City { get; set; }
         [Required(ErrorMessage = "Antal bokningar krävs.")]
         public int Bookings { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Message { get; set; }
         public string DiscountCode { get; set; }
         public DateTime BookingDate { get; set; }

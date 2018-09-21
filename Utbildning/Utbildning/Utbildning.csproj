@@ -328,6 +328,7 @@
     <Content Include="Views\Admin\Kursledare.cshtml" />
     <Content Include="Views\Admin\NyKursledare.cshtml" />
     <Content Include="Views\Kurser\LäsMer.cshtml" />
+    <Content Include="Views\Admin\Startsida.cshtml" />
     <Content Include="Views\Admin\Kursvy.cshtml" />
     <Content Include="Views\Admin\Kurstillfälle.cshtml" />
   </ItemGroup>
