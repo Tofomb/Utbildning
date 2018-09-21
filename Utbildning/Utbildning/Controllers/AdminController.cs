@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity.Owin;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Utbildning.Controllers
 {
     public class AdminController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -124,12 +126,46 @@ namespace Utbildning.Controllers
                 stringChars[i] = chars[random.Next(chars.Length)];
             }
 
-            return new String(stringChars);
+            return new string(stringChars);
+        }
+
+        // GET: Admin/Startsida
+        public ActionResult Startsida()
+        {
+            if (db.FrontpageInfoes.Count() > 0)
+            {
+                FrontpageInfo Info = db.FrontpageInfoes.ToList().Last();
+                ViewBag.Title = Info.Title;
+                ViewBag.Bold = Info.Bold;
+                ViewBag.Text = Info.Text;
+            }            
+            return View();
+        }
+
+        // POST: FrontpageInfoes/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Startsida([Bind(Include = "Id,Title,Bold,Text")] FrontpageInfo frontpageInfo)
+        {
+            if (ModelState.IsValid)
+            {
+                db.FrontpageInfoes.Add(frontpageInfo);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(frontpageInfo);
         }
 
         [Authorize(Roles = "Kursledare")]
         public ActionResult Kursledare()
         {
+            string PP = db.Users.ToList().Where(x => x.Id == User.Identity.GetUserId()).First().ProfilePicture;
+
+            ViewBag.PP = PP;
+
             string Name = User.Identity.Name.Split('@').First();
             Name = Regex.Replace(Name, "[^A-Za-zå-öÅ-Ö]", " ");
             Name = Name.Trim();
@@ -145,7 +181,7 @@ namespace Utbildning.Controllers
             }
 
             NameChar[0] = char.ToUpper(Name[0]);
-            ViewBag.Name = new string(NameChar);
+            ViewBag.Name = new string(NameChar);            
 
             return View();
         }

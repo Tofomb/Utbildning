@@ -15,8 +15,9 @@ namespace Utbildning.Models
         public DateTime StartDate { get; set; }
         public string AltHost { get; set; }
         public string AltAddress { get; set; }
+        public string AltCity { get; set; }
         public string AltMail { get; set; }
-        public string AltImage { get; set; }
+        public string AltProfilePicture{ get; set; }
         public int MinPeople { get; set; }
         public int MaxPeople { get; set; }
     }

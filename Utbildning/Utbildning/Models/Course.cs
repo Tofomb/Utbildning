@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,9 +13,12 @@ namespace Utbildning.Models
         public string Name { get; set; }
         public int Length { get; set; }
         public string Host { get; set; }
-        public string Email { get; set; }
+        public string Email { get; set; }        
+        [DataType(DataType.MultilineText)]
         public string Subtitle { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Bold { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Text { get; set; }
         public string Image { get; set; }
         public string Address { get; set; }
