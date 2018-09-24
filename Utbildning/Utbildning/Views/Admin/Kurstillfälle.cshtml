@@ -7,7 +7,8 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a href="@Url.Action("SkapaKurstillfälle","Admin", new { id = ViewData["CourseId"]})">Skapa Nytt Kurstillfälle</a>
+   
 </p>
 @if (Model.Count() > 0)
 {

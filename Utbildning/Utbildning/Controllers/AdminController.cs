@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Utbildning.Models;
+using System.Net;
 
 namespace Utbildning.Controllers
 {
@@ -199,12 +200,111 @@ namespace Utbildning.Controllers
         public ActionResult Kurstillfälle(int? Id)
         {
             if (Id == null) { return RedirectToAction("Kursvy", "Admin"); }
-            if (db.Courses.ToList().Where(x => x.Id == Id).First().Email == User.Identity.Name)
+            List<Course> courses = db.Courses.ToList();
+            ViewBag.CourseId = Id;
+            ViewBag.CourseName = courses.Where(m => m.Id == Id).First().Name;
+            if (courses.Where(x => x.Id == Id).First().Email == User.Identity.Name)
             {
                 var courseOccasions = db.CourseOccasions.Include(c => c.Course);
                 return View(courseOccasions.ToList().Where(m => m.Course.Email == User.Identity.Name && m.Course.Id == Id));
             }
             return RedirectToAction("Kursvy", "Admin");
         }
+
+        // GET: Admin/SkapaKurs
+        [Authorize(Roles = "Kursledare")]
+        public ActionResult SkapaKurs()
+        {
+            return View();
+        }
+
+        // POST:  Admin/SkapaKurs
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SkapaKurs([Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course)
+        {
+            if (ModelState.IsValid)
+            {
+                course.Email = User.Identity.Name;
+                course.Host = db.Users.ToList().Where(m => m.Email == User.Identity.Name).First().FullName;
+                db.Courses.Add(course);
+                
+                db.SaveChanges();
+                return RedirectToAction("Kursvy");
+            }
+
+            return View(course);
+        }
+
+        // GET: Admin/RedigeraKurs/5
+        [Authorize(Roles = "Kursledare")]
+        public ActionResult RedigeraKurs(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Course course = db.Courses.Find(id);
+            if (course == null)
+            {
+                return HttpNotFound();
+            }
+            return View(course);
+        }
+
+        // POST: Admin/RedigeraKurs/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RedigeraKurs([Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course)
+        {
+            if (ModelState.IsValid)
+            {
+
+                course.Email = User.Identity.Name;
+                course.Host = db.Users.ToList().Where(m => m.Email == User.Identity.Name).First().FullName;
+
+                db.Entry(course).State = EntityState.Modified;
+
+                db.SaveChanges();
+                return RedirectToAction("kursvy");
+            }
+            return View(course);
+        }
+
+        // GET: Admin/SkapaKurstillfälle
+        public ActionResult SkapaKurstillfälle(int? id)
+        {
+            ViewBag.SpecificCourseId = id;
+            ViewBag.CourseName = db.Courses.ToList().Where(x => x.Id == id).First().Name;
+            ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name");
+            return View();
+        }
+
+        // POST: Admin/SkapaKurstillfälle
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SkapaKurstillfälle([Bind(Include = "Id,CourseId,StartDate,AltHost,AltAddress,AltMail,AltProfilePicture,MinPeople,MaxPeople")] CourseOccasion courseOccasion, int id)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                    courseOccasion.CourseId = id;
+                    db.CourseOccasions.Add(courseOccasion);
+                    db.SaveChanges();
+                    return RedirectToAction("Kurstillfälle");
+                
+            }
+
+            ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", courseOccasion.CourseId);
+            return View(courseOccasion);
+        }
+
+
     }
 }

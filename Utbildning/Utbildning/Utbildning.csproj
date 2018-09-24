@@ -331,6 +331,9 @@
     <Content Include="Views\Admin\Startsida.cshtml" />
     <Content Include="Views\Admin\Kursvy.cshtml" />
     <Content Include="Views\Admin\Kurstillfälle.cshtml" />
+    <Content Include="Views\Admin\SkapaKurs.cshtml" />
+    <Content Include="Views\Admin\RedigeraKurs.cshtml" />
+    <Content Include="Views\Admin\SkapaKurstillfälle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
