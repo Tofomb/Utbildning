@@ -48,7 +48,7 @@
                 }
                     <td>
                         <!--TODO fix links-->
-                        @Html.ActionLink("Info", "", new { id = item.Id }) |
+                        @Html.ActionLink("Info", "Kurs", new { param1 = "Kurstillfälle", param2 = item.Id }) |
                         @Html.ActionLink("Bokningar", "", new { id = item.Id }) |
                         @Html.ActionLink("Redigera", "", new { id = item.Id }) |
                         @Html.ActionLink("Radera", "", new { id = item.Id })

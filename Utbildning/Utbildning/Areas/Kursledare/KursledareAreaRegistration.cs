@@ -16,8 +16,8 @@ namespace Utbildning.Areas.Kursledare
         {
             context.MapRoute(
                 "Kursledare_default",
-                "Kursledare/{controller}/{kurs}/{action}/{id}",
-                new { controller = "Hem", action = "Index", kurs = UrlParameter.Optional, id = UrlParameter.Optional }
+                "Kursledare/{controller}/{action}/{param1}/{param2}",
+                new { controller = "Hem", action = "Index", param1 = UrlParameter.Optional, param2 = UrlParameter.Optional }
             );
         }
     }

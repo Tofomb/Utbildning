@@ -9,6 +9,7 @@
 </head>
 
 <h2>Index</h2>
+<h1>@ViewData["test"]</h1>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -43,7 +44,7 @@
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
-                @Html.ActionLink("Kurstillfällen", "Kurstillfällen", new { id = item.Id, kurs = "Kurs"})
+                @Html.ActionLink("Kurstillfällen", "Kurs", new { param1 = "Kurstillfällen", param2 = item.Id })
             </td>
         </tr>
     }
