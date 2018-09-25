@@ -39,7 +39,7 @@ namespace Utbildning.Controllers
         // GET: Bookings/Create
         public ActionResult Create()
         {
-            ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions, "Id", "AltHost");
+            ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions, "Id", "StartDate");
             return View();
         }
 

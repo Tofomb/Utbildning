@@ -230,7 +230,7 @@ namespace Utbildning.Controllers
                 course.Email = User.Identity.Name;
                 course.Host = db.Users.ToList().Where(m => m.Email == User.Identity.Name).First().FullName;
                 db.Courses.Add(course);
-                
+
                 db.SaveChanges();
                 return RedirectToAction("Kursvy");
             }
@@ -276,6 +276,7 @@ namespace Utbildning.Controllers
         }
 
         // GET: Admin/SkapaKurstillfälle
+        [Authorize(Roles = "Kursledare")]
         public ActionResult SkapaKurstillfälle(int? id)
         {
             ViewBag.SpecificCourseId = id;
@@ -293,16 +294,47 @@ namespace Utbildning.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-                    courseOccasion.CourseId = id;
-                    db.CourseOccasions.Add(courseOccasion);
-                    db.SaveChanges();
-                    return RedirectToAction("Kurstillfälle");
-                
+
+                courseOccasion.CourseId = id;
+                db.CourseOccasions.Add(courseOccasion);
+                db.SaveChanges();
+                return RedirectToAction("Kurstillfälle");
+
             }
 
             ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", courseOccasion.CourseId);
             return View(courseOccasion);
+        }
+
+
+
+        // GET: Bookings
+        [Authorize(Roles = "Kursledare")]
+        public ActionResult Deltagare(int? id)
+        {
+            if (id.HasValue)
+            {
+                var DbCourseOc = db.CourseOccasions.ToList();
+                var DbCourse = db.Courses.ToList();
+
+                var COCourses = DbCourseOc.Where(m => m.Id == id).ToList();
+                if (COCourses.Count() < 1)
+                {
+                    return RedirectToAction("Kurstillfälle");
+                }
+                int COCourseId =  COCourses.First().CourseId;
+                string userEmail = DbCourse.Where(m => m.Id == COCourseId).First().Email;
+                if (User.Identity.Name == userEmail)
+                {
+                    ViewBag.CourseOccasionDate = DbCourseOc.Where(m => m.Id == id).First().StartDate;
+                    ViewBag.CourseName = DbCourse.Where(m => m.Id == COCourseId).First().Name;
+
+                    var bookings = db.Bookings.Include(b => b.CourseOccasion).Where(m => m.CourseOccasion.Id == id);
+
+                    return View(bookings.ToList());
+                }
+            }
+            return RedirectToAction("Kurstillfälle");
         }
 
 
