@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Kursledare";
+}
+
+<head>
+    <link rel="stylesheet" type="text/css" href="~/Content/Kursledare.css" />
+</head>
+
+@if (ViewBag.Result == "success")
+{
+<div class="NUSuccess" style="vertical-align:central">
+    <h2 style="vertical-align: central">
+        Registrering av kursledaren lyckades!
+    </h2>
+</div>
+}
+
+<h2>@ViewBag.Title</h2>
+<table class="table">
+    <tr>
+        <th>
+            Email
+        </th>
+        <th>
+            Namn
+        </th>
+    </tr>
+    @foreach (var item in ViewBag.Users)
+    {
+        <tr>
+            <td>
+                @item.UserName
+            </td>
+            <td>
+                @item.FullName
+            </td>            
+        </tr>
+    }
+</table>

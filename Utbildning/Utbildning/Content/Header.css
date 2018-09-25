@@ -1,4 +1,8 @@
-﻿.logo {
+﻿body{
+    padding-top: 80px;
+}
+
+.logo {
     height: 70px;
     margin: 5px 0 5px 0;
 }
