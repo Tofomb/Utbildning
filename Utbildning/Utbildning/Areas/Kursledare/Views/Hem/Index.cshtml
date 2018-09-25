@@ -1,0 +1,29 @@
+﻿@model Utbildning.Models.ChangeFullNameViewModel
+@if (ViewBag.NameReset == true)
+{
+    <body style="margin: auto; text-align: center;">
+        <h2>Välkommen till kursledarsidan!</h2>
+        <h4>Eftersom det är första gången du är här så ber vi dig att fylla i ditt namn.</h4>
+        @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div style="display: flex;">
+                <div class="form-group" style="margin: auto; text-align: center">
+                    @Html.LabelFor(m => m.FullName, new { @class = "control-label" })
+                    <div class="">
+                        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" value="Spara" />
+            </div>
+        }
+    </body>
+}
+else
+{
+    <h2>Välkommen till kursledarsidan, @ViewData["Name"]</h2>
+}

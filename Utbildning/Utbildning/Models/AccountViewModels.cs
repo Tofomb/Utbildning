@@ -101,6 +101,13 @@ namespace Utbildning.Models
         public string Code { get; set; }
     }
 
+    public class ChangeFullNameViewModel
+    {
+        [Required]
+        [Display(Name ="Namn")]
+        public string FullName { get; set; }
+    }
+
     public class ForgotPasswordViewModel
     {
         [Required]

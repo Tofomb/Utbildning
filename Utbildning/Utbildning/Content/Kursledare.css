@@ -1,0 +1,26 @@
+﻿.NUSuccess {
+    position: fixed;
+    background-color: #00b6dd;
+    height: 120px;
+    top: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 20px 0 20px;
+    animation-name: Success;
+    animation-duration: 5s;
+    color: #444;
+}
+
+@keyframes Success {
+    10% {
+        top: 50px;
+    }
+
+    90% {
+        top: 50px;
+    }
+
+    100% {
+        top: -120px;
+    }
+}

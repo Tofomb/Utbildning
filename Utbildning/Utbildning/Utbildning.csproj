@@ -194,6 +194,14 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\HemController.cs" />
+    <Compile Include="Areas\Admin\Controllers\KursledareController.cs" />
+    <Compile Include="Areas\Kursledare\Controllers\HemController.cs" />
+    <Compile Include="Areas\Kursledare\Controllers\KurserController.cs" />
+    <Compile Include="Areas\Kursledare\KursledareAreaRegistration.cs" />
+    <Compile Include="Classes\DBHandler.cs" />
+    <Compile Include="Classes\UserHandler.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BookingsController.cs" />
@@ -219,6 +227,7 @@
     <Compile Include="Models\FrontpageInfo.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -229,7 +238,9 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\CastraULogo.png" />
+    <Content Include="Content\Global.css" />
     <Content Include="Content\Header.css" />
+    <Content Include="Content\Kursledare.css" />
     <Content Include="Content\List.css" />
     <Content Include="Content\ReadMore.css" />
     <Content Include="favicon.ico" />
@@ -241,6 +252,18 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Hem\Index.cshtml" />
+    <Content Include="Areas\Kursledare\Views\web.config" />
+    <Content Include="Areas\Kursledare\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Kursledare\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Kursledare\Views\Hem\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Kursledare\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Kursledare\Ny.cshtml" />
+    <Content Include="Areas\Kursledare\Views\Kurser\Index.cshtml" />
+    <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -334,7 +357,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Kursledare\Models\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>

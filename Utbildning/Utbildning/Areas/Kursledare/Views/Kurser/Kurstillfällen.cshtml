@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Utbildning.Models.CourseOccasion>
+@using Utbildning.Classes;
+
+<h2>@ViewData["CourseName"]</h2>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Kursstart
+            </th>
+            <th>
+                Bokningar
+            </th>
+            <th>
+                Platser kvar
+            </th>
+            <th>
+                Många nog?
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.StartDate.Format()
+                </td>
+                <td>
+                    @item.GetBookings()
+                </td>
+                <td>
+                    @item.GetAvailableBookings()
+                </td>
+                @if (item.EnoughBookings())
+                {
+                    <td style="color:lightgreen;">✔</td>
+                }
+                else
+                {
+                    <td style="color:red;">❌</td>
+                }
+                    <td>
+                        <!--TODO fix links-->
+                        @Html.ActionLink("Info", "", new { id = item.Id }) |
+                        @Html.ActionLink("Bokningar", "", new { id = item.Id }) |
+                        @Html.ActionLink("Redigera", "", new { id = item.Id }) |
+                        @Html.ActionLink("Radera", "", new { id = item.Id })
+                    </td>
+            </tr>
+        }
+
+    </table>
+
+    <a href="~/Kursledare/Kurser/">← Tillbaka</a>
+}
+else
+{
+    <h4>Finns inga kurstillfällen tillgängliga för den valda kursen.</h4>
+}

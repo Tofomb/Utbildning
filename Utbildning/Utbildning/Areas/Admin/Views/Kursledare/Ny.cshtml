@@ -1,0 +1,28 @@
+﻿@model Utbildning.Models.RegisterViewModel
+
+<h2>Registrera ny kursledare.</h2>
+<br />
+
+<body style="margin: auto; text-align: center;">
+    @using (Html.BeginForm("Ny", "Kursledare", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div style="display: flex;">
+            <div class="form-group" style="margin: auto; text-align: center">
+                @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                <div class="">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <input type="submit" class="btn btn-default" value="Registrera" />
+        </div>
+    }
+</body>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
