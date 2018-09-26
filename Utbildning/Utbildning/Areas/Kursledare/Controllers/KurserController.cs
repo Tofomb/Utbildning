@@ -22,6 +22,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
         }
 
         // GET: Skapa Kurs
+        [Authorize(Roles = "Kursledare")]
         public ActionResult Skapa()
         {
             return View();
@@ -41,14 +42,14 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 db.Courses.Add(course);
 
                 db.SaveChanges();
-                return RedirectToAction("","Kurser");
+                return Redirect("Kursledare/Kurser");
             }
 
             return View(course);
         }
 
         [Authorize(Roles = "Kursledare")]
-        public ActionResult Kurs(string param1, string param2, string param3)
+        public ActionResult Kurs(string param1, string param2, string param3, string param4)
         {
             if (param1 == "Kurstillfällen" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfällen/{Id}
             {
@@ -73,6 +74,19 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
+            }
+
+            else if (param1 == "Redigera" && param2.HasIds())
+            {
+                param2.GetIds(out List<int> ids);
+                int id = ids.First();
+
+                Course course = db.Courses.Find(id);
+                if (course == null)
+                {
+                    return HttpNotFound();
+                }
+                return View("Redigera", course);
             }
 
             else if (param1 == "Kurstillfälle" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/1
@@ -117,8 +131,44 @@ namespace Utbildning.Areas.Kursledare.Controllers
             }
 
 
+
+
+
             //if you've come this far something has gone wrong.
             return RedirectToAction("", "Kurser");
         }
+        [HttpPost]
+        public ActionResult Kurs([Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Kurs([Bind(Include = "Id,CourseId,StartDate,AltHost,AltAddress,AltMail,AltProfilePicture,MinPeople,MaxPeople")] CourseOccasion courseOccasion)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Kurs([Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking)
+        {
+            return View();
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Kurs(int id, string param1)
+        {
+            if (param1 == "Kurs")
+            {
+                Course course = db.Courses.Find(id);
+                db.Courses.Remove(course);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return Redirect("/Kursledare/Kurser");
+            }
+        }
+
     }
 }
