@@ -34,11 +34,11 @@ namespace Utbildning.Areas.Kursledare.Controllers
         [Authorize(Roles = "Kursledare")]
         public ActionResult Kurs(string param1, string param2, string param3)
         {
-            if (param1 == "Kurstillfällen") //Kurstillfällen
+            if (param1 == "Kurstillfällen" && param2 != null) //Kurstillfällen
             {
-                int Id = 0;
-                if (int.TryParse(param2, out Id))
+                if (param2.GetIds(out List<int> Ids))
                 {
+                    int Id = Ids.First();
                     if (param2 == null) { return RedirectToAction("Index", "Kurser"); }
                     if (db.Courses.ToList().Where(x => x.Id == Id).First().Email == User.Identity.Name)
                     {
@@ -87,22 +87,20 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return View("Kurstillfällen/Bokningar/Bokningar");
             }
 
-            else if (param1 == "Kurstillfälle")
+            else if (param1 == "Kurstillfälle" && param2 != null)
             {
-                if (int.TryParse(param2, out int Id))
+                if (param2.GetIds(out List<int> Ids))
                 {
+                    int Id = Ids.First();
                     CourseOccasion courseOccasion = db.CourseOccasions.Find(Id);
                     if (courseOccasion == null)
                     {
                         return HttpNotFound();
                     }
                     ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", courseOccasion.CourseId);
-                    return View("Kurstillfälle", courseOccasion);
+                    return View("Kurstillfällen/Kurstillfälle", courseOccasion);
                 }
-                else
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+                return View("Kurser");
             }
 
             //if you've come this far something has gone wrong.
