@@ -18,6 +18,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
         [Authorize(Roles = "Kursledare")]
         public ActionResult Index(string param1)
         {
+            /*
             if (param1.GetId(out int Id))
             {
                 ViewBag.test = Id;
@@ -26,12 +27,12 @@ namespace Utbildning.Areas.Kursledare.Controllers
             {
                 return RedirectToAction("", "Kurser");
             }
-
+            */
             return View(db.Courses.ToList().Where(m => m.Email == User.Identity.Name));
         }
 
         [Authorize(Roles = "Kursledare")]
-        public ActionResult Kurs(string param2, string param1)
+        public ActionResult Kurs(string param1, string param2, string param3)
         {
             if (param1 == "Kurstillfällen") //Kurstillfällen
             {
@@ -49,7 +50,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                         {
                             AvailableBookings.Add(item.GetAvailableBookings());
                         }
-                        return View("Kurstillfällen", COList);
+                        return View("Kurstillfällen/Kurstillfällen", COList);
                     }
                 }
                 else
@@ -57,6 +58,35 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
             }
+
+            else if (param1 == "Kurstillfälle" && param2 == "Bokningar" && param3 != null)
+            {
+                if (param3.GetIds(out List<int> Ids))
+                {
+                    int id = Ids.First();
+                    var DbCourseOc = db.CourseOccasions.ToList();
+                    var DbCourse = db.Courses.ToList();
+
+                    var COCourses = DbCourseOc.Where(m => m.Id == id).ToList();
+                    if (COCourses.Count() < 1)
+                    {
+                        return RedirectToAction("Kurstillfälle");
+                    }
+                    int COCourseId = COCourses.First().CourseId;
+                    string userEmail = DbCourse.Where(m => m.Id == COCourseId).First().Email;
+                    if (User.Identity.Name == userEmail)
+                    {
+                        ViewBag.CourseOccasionDate = DbCourseOc.Where(m => m.Id == id).First().StartDate;
+                        ViewBag.CourseName = DbCourse.Where(m => m.Id == COCourseId).First().Name;
+
+                        var bookings = db.Bookings.Include(b => b.CourseOccasion).Where(m => m.CourseOccasion.Id == id);
+
+                        return View("Kurstillfällen/Bokningar/Bokningar", bookings.ToList());
+                    }
+                }
+                return View("Kurstillfällen/Bokningar/Bokningar");
+            }
+
             else if (param1 == "Kurstillfälle")
             {
                 if (int.TryParse(param2, out int Id))

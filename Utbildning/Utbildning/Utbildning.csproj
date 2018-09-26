@@ -264,8 +264,9 @@
     <Content Include="Areas\Admin\Views\Kursledare\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Kursledare\Ny.cshtml" />
     <Content Include="Areas\Kursledare\Views\Kurser\Index.cshtml" />
-    <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen.cshtml" />
-    <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfälle.cshtml" />
+    <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Kurstillfällen.cshtml" />
+    <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Kurstillfälle.cshtml" />
+    <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Bokningar\Bokningar.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
