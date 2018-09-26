@@ -70,7 +70,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     var COCourses = DbCourseOc.Where(m => m.Id == id).ToList();
                     if (COCourses.Count() < 1)
                     {
-                        return RedirectToAction("Kurstillfälle");
+                        return RedirectToAction("", "Kurser");
                     }
                     int COCourseId = COCourses.First().CourseId;
                     string userEmail = DbCourse.Where(m => m.Id == COCourseId).First().Email;
@@ -100,7 +100,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", courseOccasion.CourseId);
                     return View("Kurstillfällen/Kurstillfälle", courseOccasion);
                 }
-                return View("Kurser");
+                return RedirectToAction("", "Kurser");
             }
 
             //if you've come this far something has gone wrong.

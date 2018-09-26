@@ -49,7 +49,7 @@
                     <td>
                         <!--TODO fix links-->
                         @Html.ActionLink("Info", "Kurs", new { param1 = "Kurstillfälle", param2 = item.Id + "-" + item.Course.Name.Replace(' ', '-') }) |
-                        @Html.ActionLink("Bokningar", "", new { id = item.Id }) |
+                        @Html.ActionLink("Bokningar", "Kurs", new { param1 = "Kurstillfälle", param2 = "Bokningar", param3 = item.Id }) |
                         @Html.ActionLink("Redigera", "", new { id = item.Id }) |
                         @Html.ActionLink("Radera", "", new { id = item.Id })
                     </td>
