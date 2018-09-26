@@ -4,10 +4,10 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>Create hehe</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm(new { myValue = "hello world"}))
 {
     @Html.AntiForgeryToken()
     

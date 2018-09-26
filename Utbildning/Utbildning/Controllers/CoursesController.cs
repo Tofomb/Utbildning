@@ -46,10 +46,12 @@ namespace Utbildning.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course)
+        public ActionResult Create([Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course, string myValue)
         {
+            if (param1== )
             if (ModelState.IsValid)
             {
+                course.Bold = myValue;
                 db.Courses.Add(course);
                 db.SaveChanges();
                 return RedirectToAction("Index");

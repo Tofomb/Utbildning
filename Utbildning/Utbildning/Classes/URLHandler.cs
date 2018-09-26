@@ -52,8 +52,11 @@ namespace Utbildning.Classes
 
         public static bool HasIds(this string url)
         {
-            return int.TryParse(url.Split('-').First(), out int n);
+            if (url.Length > 0)
+                return int.TryParse(url.Split('-').First(), out int n);
+            return false;
         }
+
         public static bool HasIds(this string url, int outputs)
         {
             List<string> data = url.Split('-').ToList();

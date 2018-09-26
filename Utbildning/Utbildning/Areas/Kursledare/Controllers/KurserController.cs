@@ -130,6 +130,16 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return View("Kurstillfällen/Bokningar/Bokningar");
             }
 
+            else if (param1 == "Kurstillfällen" && param2 == "Skapa" && param3.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfällen/Skapa/{kurs-id}
+            {
+                param3.GetIds(out List<int> Ids);
+                int Id = Ids.First();
+                ViewBag.SpecificCourseId = Id;
+                ViewBag.CourseName = db.Courses.ToList().Where(x => x.Id == Id).First().Name;
+                ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name");
+                return View("Kurstillfällen/Skapa");
+            }
+
 
 
 
