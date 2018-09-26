@@ -49,5 +49,21 @@ namespace Utbildning.Classes
             }
             return Id.Count >= outputs;
         }
+
+        public static bool HasIds(this string url)
+        {
+            return int.TryParse(url.Split('-').First(), out int n);
+        }
+        public static bool HasIds(this string url, int outputs)
+        {
+            List<string> data = url.Split('-').ToList();
+
+            for (int i = 0; i < outputs; i++)
+            {
+                if (!int.TryParse(data[i], out int n))
+                    return false;
+            }
+            return true;
+        }
     }
 }
