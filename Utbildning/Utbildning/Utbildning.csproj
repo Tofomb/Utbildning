@@ -267,6 +267,7 @@
     <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Kurstillfällen.cshtml" />
     <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Kurstillfälle.cshtml" />
     <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Bokningar\Bokningar.cshtml" />
+    <Content Include="Areas\Kursledare\Views\Kurser\Skapa.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

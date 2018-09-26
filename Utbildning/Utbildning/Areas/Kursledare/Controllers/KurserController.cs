@@ -21,6 +21,32 @@ namespace Utbildning.Areas.Kursledare.Controllers
             return View(db.Courses.ToList().Where(m => m.Email == User.Identity.Name));
         }
 
+        // GET: Skapa Kurs
+        public ActionResult Skapa()
+        {
+            return View();
+        }
+
+        // POST:  Admin/SkapaKurs
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Skapa([Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course)
+        {
+            if (ModelState.IsValid)
+            {
+                course.Email = User.Identity.Name;
+                course.Host = db.Users.ToList().Where(m => m.Email == User.Identity.Name).First().FullName;
+                db.Courses.Add(course);
+
+                db.SaveChanges();
+                return RedirectToAction("","Kurser");
+            }
+
+            return View(course);
+        }
+
         [Authorize(Roles = "Kursledare")]
         public ActionResult Kurs(string param1, string param2, string param3)
         {
@@ -48,6 +74,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
             }
+
 
             else if (param1 == "Kurstillfälle" && param2.GetIds(out List<int> Idss)) //Kursledare/Kurser/Kurs/Kurstillfälle/1
             {
