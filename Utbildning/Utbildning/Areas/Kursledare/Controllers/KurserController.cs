@@ -150,32 +150,27 @@ namespace Utbildning.Areas.Kursledare.Controllers
         [HttpPost]
         public ActionResult Kurs([Bind(Include = "Id,CourseId,StartDate,AltHost,AltAddress,AltMail,AltProfilePicture,MinPeople,MaxPeople")] CourseOccasion courseOccasion, [Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course, [Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking, string param1, int? param2)
         {
-            if (course != null)
+            switch (param1)
             {
+                case "NyttKT":
+                    int id = (int)param2;
 
-            }
-            if (courseOccasion != null)
-            {
-                int id = (int)param2;
-                if (param1 == "NyttKT")
-                {
-                        if (param2 != null)
-                        {
-                            courseOccasion.CourseId = id;
-                            db.CourseOccasions.Add(courseOccasion);
-                            db.SaveChanges();
-                            return Redirect("~/Kursledare");
-                        }
+                    if (param2 != null)
+                    {
+                        courseOccasion.CourseId = id;
+                        db.CourseOccasions.Add(courseOccasion);
+                        db.SaveChanges();
+                        return Redirect("~/Kursledare");
+                    }
                     ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", courseOccasion.CourseId);
                     return View(courseOccasion);
-                }
-            }
-            else if (booking != null)
-            {
 
+                case "ditt case":
+                    return null;
+
+                default: //If you reached this something went wrong
+                    return Redirect("~/Kursledare/Kurser");
             }
-            //if you got here something went wrong
-            return Redirect("Kursledare");
         }
     }
 }
