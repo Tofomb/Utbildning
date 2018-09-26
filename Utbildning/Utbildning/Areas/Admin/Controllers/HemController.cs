@@ -18,7 +18,7 @@ namespace Utbildning.Areas.Admin.Controllers
                 else
                     return View();
             else if (User.IsInRole("Kursledare"))
-                return RedirectToAction("Index", "Hem", new { area = "Kursledare" });
+                return Redirect("Kursledare");
             else return RedirectToAction("Index", "Home");
         }
     }
