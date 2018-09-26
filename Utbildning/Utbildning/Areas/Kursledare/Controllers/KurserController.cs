@@ -148,37 +148,34 @@ namespace Utbildning.Areas.Kursledare.Controllers
             return RedirectToAction("", "Kurser");
         }
         [HttpPost]
-        public ActionResult Kurs([Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course)
+        public ActionResult Kurs([Bind(Include = "Id,CourseId,StartDate,AltHost,AltAddress,AltMail,AltProfilePicture,MinPeople,MaxPeople")] CourseOccasion courseOccasion, [Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course, [Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking, string param1, int? param2)
         {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Kurs([Bind(Include = "Id,CourseId,StartDate,AltHost,AltAddress,AltMail,AltProfilePicture,MinPeople,MaxPeople")] CourseOccasion courseOccasion)
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Kurs([Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking)
-        {
-            return View();
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult Kurs(int id, string param1)
-        {
-            if (param1 == "Kurs")
+            if (course != null)
             {
-                Course course = db.Courses.Find(id);
-                db.Courses.Remove(course);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                return Redirect("/Kursledare/Kurser");
-            }
-        }
 
+            }
+            if (courseOccasion != null)
+            {
+                int id = (int)param2;
+                if (param1 == "NyttKT")
+                {
+                        if (param2 != null)
+                        {
+                            courseOccasion.CourseId = id;
+                            db.CourseOccasions.Add(courseOccasion);
+                            db.SaveChanges();
+                            return Redirect("~/Kursledare");
+                        }
+                    ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", courseOccasion.CourseId);
+                    return View(courseOccasion);
+                }
+            }
+            else if (booking != null)
+            {
+
+            }
+            //if you got here something went wrong
+            return Redirect("Kursledare");
+        }
     }
 }

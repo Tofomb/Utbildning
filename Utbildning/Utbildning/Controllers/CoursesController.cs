@@ -48,7 +48,7 @@ namespace Utbildning.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course, string myValue)
         {
-            if (param1== )
+            //if (param1== )
             if (ModelState.IsValid)
             {
                 course.Bold = myValue;
