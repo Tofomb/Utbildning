@@ -18,23 +18,13 @@ namespace Utbildning.Areas.Kursledare.Controllers
         [Authorize(Roles = "Kursledare")]
         public ActionResult Index(string param1)
         {
-            /*
-            if (param1.GetId(out int Id))
-            {
-                ViewBag.test = Id;
-            }
-            else
-            {
-                return RedirectToAction("", "Kurser");
-            }
-            */
             return View(db.Courses.ToList().Where(m => m.Email == User.Identity.Name));
         }
 
         [Authorize(Roles = "Kursledare")]
         public ActionResult Kurs(string param1, string param2, string param3)
         {
-            if (param1 == "Kurstillfällen" && param2 != null) //Kurstillfällen
+            if (param1 == "Kurstillfällen" && param2 != null) //Kursledare/Kurser/Kurs/Kurstillfällen/{Id}
             {
                 if (param2.GetIds(out List<int> Ids))
                 {
@@ -59,7 +49,20 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 }
             }
 
-            else if (param1 == "Kurstillfälle" && param2 == "Bokningar" && param3 != null)
+            else if (param1 == "Kurstillfälle" && param2.GetIds(out List<int> Idss)) //Kursledare/Kurser/Kurs/Kurstillfälle/1
+            {
+                param2.GetIds(out List<int> Ids);
+                int Id = Ids.First();
+                CourseOccasion courseOccasion = db.CourseOccasions.Find(Id);
+                if (courseOccasion == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", courseOccasion.CourseId);
+                return View("Kurstillfällen/Kurstillfälle", courseOccasion);
+            }
+
+            else if (param1 == "Kurstillfälle" && param2 == "Bokningar" && param3 != null) //Kursledare/Kurser/Kurs/Kurstillfälle/Bokningar/{Id}
             {
                 if (param3.GetIds(out List<int> Ids))
                 {
@@ -87,21 +90,6 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return View("Kurstillfällen/Bokningar/Bokningar");
             }
 
-            else if (param1 == "Kurstillfälle" && param2 != null)
-            {
-                if (param2.GetIds(out List<int> Ids))
-                {
-                    int Id = Ids.First();
-                    CourseOccasion courseOccasion = db.CourseOccasions.Find(Id);
-                    if (courseOccasion == null)
-                    {
-                        return HttpNotFound();
-                    }
-                    ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", courseOccasion.CourseId);
-                    return View("Kurstillfällen/Kurstillfälle", courseOccasion);
-                }
-                return RedirectToAction("", "Kurser");
-            }
 
             //if you've come this far something has gone wrong.
             return RedirectToAction("", "Kurser");
