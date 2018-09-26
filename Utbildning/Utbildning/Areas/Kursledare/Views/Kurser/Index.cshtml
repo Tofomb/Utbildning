@@ -12,8 +12,7 @@
 <h1>@ViewData["test"]</h1>
 
 <p>
-    @Html.ActionLink("Skapa Ny Kurs", "Skapa")
-    @Html.ActionLink("Skapa Ny Kurs", "Skapa", "Kurser")
+    <a href="~/Kursledare/Kurser/Skapa">Skapa Ny Kurs</a>
 </p>
 <table class="table">
     <tr>
@@ -42,6 +41,7 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
+                @Html.ActionLink("Redigera", "Kurs", new { param1 = "Redigera", param2 = item.Id })
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
