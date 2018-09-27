@@ -1,7 +1,21 @@
-﻿
+﻿@model Utbildning.Models.BulletPoints
 @{
     ViewBag.Title = "Punktlista";
 }
 
 <h2>Punktlista</h2>
 
+@foreach (var item in ViewBag.BPs)
+{
+    <div>
+        <input disabled value="@item.Text" style="display:inline;"><a href="~/Kursledare/Kurser/Kurs/Punktlista/Radera/@item.Id">-</a>
+    </div>
+
+}
+@using (Html.BeginForm(new {param1="SkapaBP", param2=ViewBag.CourseId}))
+{
+    <div>
+        @Html.EditorFor(model => model.Text)
+     <input type="submit" value="+">
+    </div>
+}

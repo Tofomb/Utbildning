@@ -126,18 +126,37 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return Redirect("~/Kursledare/Kurser");
             }
 
-            else if (param1 == "punktlista" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/1
+            else if (param1 == "punktlista" && param2.HasIds())
             {
                 param2.GetIds(out List<int> Ids);
                 int Id = Ids.First();
-                BulletPoints bulletpoints = db.BulletPoints.Find(Id);
-               /* if (bulletpoints == null)
+                if (User.ValidUser(DBHandler.GetCourse(Id)))
                 {
-                    return HttpNotFound();
-                }*/
-             
-                return View("Punktlista/Punktlista", bulletpoints);
+                    List<BulletPoints> bulletpoints = db.BulletPoints.Where(x => x.CourseId == Id).ToList();
+
+                    ViewBag.BPs = bulletpoints;
+                    ViewBag.CourseId = Id;
+
+                    return View("Punktlista/Punktlista");
+                }
+                return Redirect("~/Kursledare/Kurser");
             }
+            else if (param1 == "punktlista" && param2 == "radera" && param3.HasIds())
+            {
+
+                param3.GetIds(out List<int> Ids);
+                int Id = Ids.First();
+                BulletPoints bp = db.BulletPoints.Find(Id);
+                if (User.ValidUser(DBHandler.GetCourse(bp.CourseId)))
+                {
+                    db.BulletPoints.Remove(bp);
+                    db.SaveChanges();
+                    return Redirect("~/Kursledare/Kurser/Kurs/Punktlista/" + bp.CourseId);
+                }
+                return Redirect("~/Kursledare/Kurser");
+            }
+
+
 
 
             else if (param1 == "Kurstillfälle" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/1
@@ -210,7 +229,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
             {
                 param3.GetIds(out List<int> Ids);
                 int Id = Ids.First();
-                CourseOccasion co = DBHandler.GetCourseOccasion(Id);                
+                CourseOccasion co = DBHandler.GetCourseOccasion(Id);
                 //db.CourseOccasions.Find(Id);
 
                 if (User.ValidUser(co))
@@ -226,7 +245,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
             return Redirect("~/Kursledare/Kurser");
         }
         [HttpPost]
-        public ActionResult Kurs([Bind(Include = "Id,CourseId,StartDate,AltHost,AltAddress,AltMail,AltProfilePicture,MinPeople,MaxPeople")] CourseOccasion courseOccasion, [Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course, [Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking, string param1, string param2)
+        public ActionResult Kurs([Bind(Include = "Id,CourseId,StartDate,AltHost,AltAddress,AltMail,AltProfilePicture,MinPeople,MaxPeople")] CourseOccasion courseOccasion, [Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course, [Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking, [Bind(Include ="Id,CourseId,Text")] BulletPoints bulletPoints, string param1, string param2, string param3)
         {
             int Id = 0;
             switch (param1)
@@ -280,7 +299,20 @@ namespace Utbildning.Areas.Kursledare.Controllers
 
                     return Redirect("~/Kursledare/Kurser");
 
+                case "SkapaBP":
+                    if(param2.GetIds(out List<int> Ids)) {
+                        Id = Ids.First();
+                        if (User.ValidUser(DBHandler.GetCourse(Id)))
+                        {
+                            bulletPoints.CourseId = Id;                          
+                            db.BulletPoints.Add(bulletPoints);
+                            db.SaveChanges();
+                            return Redirect("~/Kursledare/Kurser/Kurs/Punktlista/" + param2);
+                        }
+                    }
+                    return Redirect("~/Kursledare/Kurser");
 
+            
 
 
 
