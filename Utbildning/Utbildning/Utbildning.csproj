@@ -270,6 +270,8 @@
     <Content Include="Areas\Kursledare\Views\Kurser\Skapa.cshtml" />
     <Content Include="Areas\Kursledare\Views\Kurser\Redigera.cshtml" />
     <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Skapa.cshtml" />
+    <Content Include="Areas\Kursledare\Views\Kurser\Radera.cshtml" />
+    <Content Include="Areas\Kursledare\Views\Kurser\Kurs.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
