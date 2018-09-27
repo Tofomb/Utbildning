@@ -51,7 +51,12 @@ namespace Utbildning.Areas.Kursledare.Controllers
         [Authorize(Roles = "Kursledare")]
         public ActionResult Kurs(string param1, string param2, string param3, string param4)
         {
-            if (param1 == "Kurstillfällen" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfällen/{Id}
+            param1 = param1.ToLower();
+            param2 = param2.ToLower();
+            param3 = param3.ToLower();
+            param4 = param4.ToLower();
+
+            if (param1 == "kurstillfällen" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfällen/{Id}
             {
                 if (param2.GetIds(out List<int> Ids))
                 {
@@ -89,7 +94,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return View(course);
             }
 
-            else if (param1 == "Redigera" && param2.HasIds())
+            else if (param1 == "redigera" && param2.HasIds())
             {
                 param2.GetIds(out List<int> ids);
                 int id = ids.First();
@@ -106,7 +111,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return Redirect("~/Kursledare/Kurser");
             }
 
-            else if (param1 == "Radera" && param2.HasIds())
+            else if (param1 == "radera" && param2.HasIds())
             {
 
                 param2.GetIds(out List<int> ids);
@@ -125,7 +130,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return Redirect("~/Kursledare/Kurser");
             }
 
-            else if (param1 == "Kurstillfälle" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/1
+            else if (param1 == "kurstillfälle" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/1
             {
                 param2.GetIds(out List<int> Ids);
                 int Id = Ids.First();
@@ -138,7 +143,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return View("Kurstillfällen/Kurstillfälle", courseOccasion);
             }
 
-            else if (param1 == "Kurstillfälle" && param2 == "Bokningar" && param3.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/Bokningar/{Id}
+            else if (param1 == "kurstillfälle" && param2 == "bokningar" && param3.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/Bokningar/{Id}
             {
                 if (param3.GetIds(out List<int> Ids))
                 {
@@ -166,7 +171,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return View("Kurstillfällen/Bokningar/Bokningar");
             }
 
-            else if (param1 == "Kurstillfällen" && param2 == "Skapa" && param3.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfällen/Skapa/{kurs-id}
+            else if (param1 == "kurstillfällen" && param2 == "skapa" && param3.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfällen/Skapa/{kurs-id}
             {
                 param3.GetIds(out List<int> Ids);
                 int Id = Ids.First();
@@ -176,7 +181,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return View("Kurstillfällen/Skapa");
             }
 
-            else if (param1 == "Kurstillfälle" && param2 == "Radera" && param3.HasIds())
+            else if (param1 == "kurstillfälle" && param2 == "radera" && param3.HasIds())
             {
                 //TODO: Skicka mail till alla deltagare som fått sin kurs borttagen?
                 param3.GetIds(out List<int> Ids);
@@ -191,7 +196,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return Redirect("~/Kursledare/Kurser");
             }
 
-            else if (param1 == "Kurstillfälle" && param2 == "Redigera" && param3.HasIds())
+            else if (param1 == "kurstillfälle" && param2 == "redigera" && param3.HasIds())
             {
                 param3.GetIds(out List<int> Ids);
                 int Id = Ids.First();
