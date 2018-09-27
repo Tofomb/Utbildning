@@ -51,10 +51,10 @@ namespace Utbildning.Areas.Kursledare.Controllers
         [Authorize(Roles = "Kursledare")]
         public ActionResult Kurs(string param1, string param2, string param3, string param4)
         {
-            param1 = param1.ToLower();
-            param2 = param2.ToLower();
-            param3 = param3.ToLower();
-            param4 = param4.ToLower();
+            param1 = param1 != null ? param1.ToLower() : param1;
+            param2 = param2 != null ? param2.ToLower() : param2;
+            param3 = param3 != null ? param3.ToLower() : param3;
+            param4 = param4 != null ? param4.ToLower() : param4;
 
             if (param1 == "kurstillfällen" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfällen/{Id}
             {
@@ -126,7 +126,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return Redirect("~/Kursledare/Kurser");
             }
 
-            else if (param1 == "Punktlista" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/1
+            else if (param1 == "punktlista" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/1
             {
                 param2.GetIds(out List<int> Ids);
                 int Id = Ids.First();
