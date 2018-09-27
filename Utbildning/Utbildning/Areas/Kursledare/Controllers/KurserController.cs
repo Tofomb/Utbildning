@@ -64,14 +64,10 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     if (param2 == null) { return RedirectToAction("Index", "Kurser"); }
                     if (db.Courses.ToList().Where(x => x.Id == Id).First().Email == User.Identity.Name)
                     {
+                        ViewBag.CourseName = db.Courses.Find(Id).Name;
                         var courseOccasions = db.CourseOccasions.Include(c => c.Course);
                         var COList = courseOccasions.ToList().Where(m => m.Course.Email == User.Identity.Name && m.Course.Id == Id);
-                        ViewBag.CourseName = COList.First().Course.Name;
-                        List<int> AvailableBookings = new List<int>();
-                        foreach (var item in COList)
-                        {
-                            AvailableBookings.Add(item.GetAvailableBookings());
-                        }
+
                         return View("Kurstillfällen/Kurstillfällen", COList);
                     }
                 }
@@ -130,7 +126,21 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return Redirect("~/Kursledare/Kurser");
             }
 
-            else if (param1 == "kurstillfälle" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/1
+            else if (param1 == "Punktlista" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/1
+            {
+                param2.GetIds(out List<int> Ids);
+                int Id = Ids.First();
+                BulletPoints bulletpoints = db.BulletPoints.Find(Id);
+               /* if (bulletpoints == null)
+                {
+                    return HttpNotFound();
+                }*/
+             
+                return View("Punktlista/Punktlista", bulletpoints);
+            }
+
+
+            else if (param1 == "Kurstillfälle" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/1
             {
                 param2.GetIds(out List<int> Ids);
                 int Id = Ids.First();
