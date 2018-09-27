@@ -176,30 +176,76 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return View("Kurstillfällen/Skapa");
             }
 
+            else if (param1 == "Kurstillfälle" && param2 == "Radera" && param3.HasIds())
+            {
+                //TODO: Skicka mail till alla deltagare som fått sin kurs borttagen?
+                param3.GetIds(out List<int> Ids);
+                int Id = Ids.First();
+                CourseOccasion co = DBHandler.GetCourseOccasion(Id);
+                Course course = co.GetCourse();
+                ViewBag.Course = course;
+                ViewBag.COId = co.Id;
 
+                if (User.ValidUser(course))
+                    return View("Kurstillfällen/Radera", co);
+                return Redirect("~/Kursledare/Kurser");
+            }
 
+            else if (param1 == "Kurstillfälle" && param2 == "Redigera" && param3.HasIds())
+            {
+                param3.GetIds(out List<int> Ids);
+                int Id = Ids.First();
+                CourseOccasion co = DBHandler.GetCourseOccasion(Id);                
+                //db.CourseOccasions.Find(Id);
 
+                if (User.ValidUser(co))
+                {
+                    ViewBag.COId = co.Id;
+                    ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", co.CourseId);
+                    return View("Kurstillfällen/Redigera", co);
+                }
+                return Redirect("~/Kursledare/Kurser");
+            }
 
             //if you've come this far something has gone wrong.
-            return RedirectToAction("", "Kurser");
+            return Redirect("~/Kursledare/Kurser");
         }
         [HttpPost]
-        public ActionResult Kurs([Bind(Include = "Id,CourseId,StartDate,AltHost,AltAddress,AltMail,AltProfilePicture,MinPeople,MaxPeople")] CourseOccasion courseOccasion, [Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course, [Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking, string param1, int? param2)
+        public ActionResult Kurs([Bind(Include = "Id,CourseId,StartDate,AltHost,AltAddress,AltMail,AltProfilePicture,MinPeople,MaxPeople")] CourseOccasion courseOccasion, [Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course, [Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking, string param1, string param2)
         {
+            int Id = 0;
             switch (param1)
             {
                 case "NyttKT":
-                    int id = (int)param2;
-
-                    if (param2 != null)
+                    if (int.TryParse(param2, out Id))
                     {
-                        courseOccasion.CourseId = id;
-                        db.CourseOccasions.Add(courseOccasion);
-                        db.SaveChanges();
-                        return Redirect("~/Kursledare");
+                        courseOccasion.CourseId = Id;
+                        if (User.ValidUser(courseOccasion))
+                        {
+                            db.CourseOccasions.Add(courseOccasion);
+                            db.SaveChanges();
+                        }
                     }
-                    ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", courseOccasion.CourseId);
-                    return View(courseOccasion);
+                    return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen");
+
+                case "RaderaKT":
+                    if (int.TryParse(param2, out Id))
+                    {
+                        CourseOccasion co = db.CourseOccasions.Find(Id);
+                        db.CourseOccasions.Remove(co);
+                        db.SaveChanges();
+                        return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen/" + co.CourseId);
+                    }
+                    return Redirect("~/Kursledre/Kurser");
+
+                case "RedigeraKT":
+                    if (User.ValidUser(courseOccasion))
+                    {
+                        db.Entry(courseOccasion).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen/" + courseOccasion.CourseId);
+                    }
+                    return Redirect("~/Kursledare/Kurser");
 
                 case "RedigeraKurs":
 
@@ -225,7 +271,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
 
 
                 default: //If you reached this something went wrong
-                    return Redirect("~/Kursledare/Kurser");
+                    return Redirect("~/Kursledare/Kurs/Kurser");
             }
         }
     }
