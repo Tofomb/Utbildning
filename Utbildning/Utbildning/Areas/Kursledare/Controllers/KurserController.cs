@@ -59,14 +59,10 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     if (param2 == null) { return RedirectToAction("Index", "Kurser"); }
                     if (db.Courses.ToList().Where(x => x.Id == Id).First().Email == User.Identity.Name)
                     {
+                        ViewBag.CourseName = db.Courses.Find(Id).Name;
                         var courseOccasions = db.CourseOccasions.Include(c => c.Course);
                         var COList = courseOccasions.ToList().Where(m => m.Course.Email == User.Identity.Name && m.Course.Id == Id);
-                        ViewBag.CourseName = COList.First().Course.Name;
-                        List<int> AvailableBookings = new List<int>();
-                        foreach (var item in COList)
-                        {
-                            AvailableBookings.Add(item.GetAvailableBookings());
-                        }
+
                         return View("Kurstillfällen/Kurstillfällen", COList);
                     }
                 }
