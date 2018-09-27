@@ -1,0 +1,7 @@
+﻿@using Utbildning.Classes
+
+<h2>Hej, @User.GetFullName()!</h2>
+<h4>Eftersom du är både admin och kursledare så ber vi dig välja vad du vill göra:</h4>
+@Html.ActionLink("Admin", "Index", new { r = "admin" })
+<br/>
+@Html.ActionLink("Kursledare", "Index", new { r = "kl" })
