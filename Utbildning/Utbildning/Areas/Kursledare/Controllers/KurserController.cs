@@ -121,6 +121,21 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return Redirect("~/Kursledare/Kurser");
             }
 
+
+            else if (param1 == "Punktlista" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/1
+            {
+                param2.GetIds(out List<int> Ids);
+                int Id = Ids.First();
+                BulletPoints bulletpoints = db.BulletPoints.Find(Id);
+               /* if (bulletpoints == null)
+                {
+                    return HttpNotFound();
+                }*/
+             
+                return View("Punktlista/Punktlista", bulletpoints);
+            }
+
+
             else if (param1 == "Kurstillfälle" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/1
             {
                 param2.GetIds(out List<int> Ids);
