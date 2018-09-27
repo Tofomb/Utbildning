@@ -10,15 +10,23 @@ namespace Utbildning.Areas.Admin.Controllers
     {
         // GET: Admin/Hem
         [Authorize(Roles = "Admin, Kursledare")]
-        public ActionResult Index()
+        public ActionResult Index(string r)
         {
-            if (User.IsInRole("Admin"))
-                if (User.IsInRole("Kursledare"))
-                    return View("vill du admin eller KL?");
-                else
+            if (User.IsInRole("Admin") && User.IsInRole("Kursledare"))
+            {
+                if (r == "admin")
                     return View();
+                else if (r == "kl")
+                    return Redirect("~/Kursledare");
+                else
+                    return View("AdminEllerKl");
+            }
+            if (User.IsInRole("Admin"))
+                return View();
+
             else if (User.IsInRole("Kursledare"))
                 return Redirect("Kursledare");
+
             else return RedirectToAction("Index", "Home");
         }
     }
