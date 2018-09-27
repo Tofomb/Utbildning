@@ -52,7 +52,7 @@ namespace Utbildning.Classes
 
         public static bool HasIds(this string url)
         {
-            if (url.Length > 0)
+            if (url != null)
                 return int.TryParse(url.Split('-').First(), out int n);
             return false;
         }
