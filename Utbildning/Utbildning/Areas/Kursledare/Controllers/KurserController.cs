@@ -42,7 +42,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 db.Courses.Add(course);
 
                 db.SaveChanges();
-                return Redirect("Kursledare/Kurser");
+                return Redirect("~/Kursledare/Kurser");
             }
 
             return View(course);
@@ -76,17 +76,53 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 }
             }
 
+            else if (param1.HasIds())
+            {
+                param1.GetIds(out List<int> ids);
+                int id = ids.First();
+                Course course = db.Courses.Find(id);
+                if (course == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.CId = id;
+                return View(course);
+            }
+
             else if (param1 == "Redigera" && param2.HasIds())
             {
                 param2.GetIds(out List<int> ids);
                 int id = ids.First();
 
                 Course course = db.Courses.Find(id);
-                if (course == null)
+                if (course.Email == User.Identity.Name)
                 {
-                    return HttpNotFound();
+                    if (course == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    return View("Redigera", course);
                 }
-                return View("Redigera", course);
+                return Redirect("~/Kursledare/Kurser");
+            }
+
+            else if (param1 == "Radera" && param2.HasIds())
+            {
+
+                param2.GetIds(out List<int> ids);
+                int id = ids.First();
+                ViewBag.CId = id;
+                Course course = db.Courses.Find(id);
+
+                if (course.Email == User.Identity.Name)
+                {
+                    if (course == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    return View("Radera", course);
+                }
+                return Redirect("~/Kursledare/Kurser");
             }
 
             else if (param1 == "Kurstillfälle" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/1
@@ -165,8 +201,28 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", courseOccasion.CourseId);
                     return View(courseOccasion);
 
-                case "ditt case":
-                    return null;
+                case "RedigeraKurs":
+
+                    db.Entry(course).State = EntityState.Modified;
+                    course.Email = User.Identity.Name;
+                    course.Host = User.GetFullName();
+                    db.SaveChanges();
+                    return Redirect("~/Kursledare/Kurser");
+
+
+                case "RaderaKurs":
+
+                    Course CourseToBeDeleted = db.Courses.Find(param2);
+
+                    db.Courses.Remove(CourseToBeDeleted);
+                    db.SaveChanges();
+
+                    return Redirect("~/Kursledare/Kurser");
+
+
+
+
+
 
                 default: //If you reached this something went wrong
                     return Redirect("~/Kursledare/Kurser");
