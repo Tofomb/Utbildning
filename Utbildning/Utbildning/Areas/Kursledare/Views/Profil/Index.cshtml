@@ -1,0 +1,13 @@
+﻿@model Utbildning.Models.ApplicationUser
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Profilinställningar</h2>
+<h4>Hej, @ViewBag.FullName!</h4>
+
+<img src="~/images/profile/@(User.Identity.GetUserId() + Model.ProfilePicture)"/>
+
+<a href="~/Kursledare/Profil/Namn">Ändra namn</a>
+<a href="~/Kursledare/Profil/Bild">Ändra bild</a>
