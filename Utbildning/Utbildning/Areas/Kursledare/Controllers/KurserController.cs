@@ -65,6 +65,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     if (db.Courses.ToList().Where(x => x.Id == Id).First().Email == User.Identity.Name)
                     {
                         ViewBag.CourseName = db.Courses.Find(Id).Name;
+                        ViewBag.CourseId = Id;
                         var courseOccasions = db.CourseOccasions.Include(c => c.Course);
                         var COList = courseOccasions.ToList().Where(m => m.Course.Email == User.Identity.Name && m.Course.Id == Id);
 
@@ -159,7 +160,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
 
 
 
-            else if (param1 == "Kurstillfälle" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/1
+            else if (param1 == "kurstillfälle" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/1
             {
                 param2.GetIds(out List<int> Ids);
                 int Id = Ids.First();
@@ -168,37 +169,14 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 {
                     return HttpNotFound();
                 }
-                ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", courseOccasion.CourseId);
+                ViewBag.CourseId = courseOccasion.CourseId;
+                ViewBag.COId = Id;
+                
+               
                 return View("Kurstillfällen/Kurstillfälle", courseOccasion);
             }
 
-            else if (param1 == "kurstillfälle" && param2 == "bokningar" && param3.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/Bokningar/{Id}
-            {
-                if (param3.GetIds(out List<int> Ids))
-                {
-                    int id = Ids.First();
-                    var DbCourseOc = db.CourseOccasions.ToList();
-                    var DbCourse = db.Courses.ToList();
-
-                    var COCourses = DbCourseOc.Where(m => m.Id == id).ToList();
-                    if (COCourses.Count() < 1)
-                    {
-                        return RedirectToAction("", "Kurser");
-                    }
-                    int COCourseId = COCourses.First().CourseId;
-                    string userEmail = DbCourse.Where(m => m.Id == COCourseId).First().Email;
-                    if (User.Identity.Name == userEmail)
-                    {
-                        ViewBag.CourseOccasionDate = DbCourseOc.Where(m => m.Id == id).First().StartDate;
-                        ViewBag.CourseName = DbCourse.Where(m => m.Id == COCourseId).First().Name;
-
-                        var bookings = db.Bookings.Include(b => b.CourseOccasion).Where(m => m.CourseOccasion.Id == id);
-
-                        return View("Kurstillfällen/Bokningar/Bokningar", bookings.ToList());
-                    }
-                }
-                return View("Kurstillfällen/Bokningar/Bokningar");
-            }
+           
 
             else if (param1 == "kurstillfällen" && param2 == "skapa" && param3.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfällen/Skapa/{kurs-id}
             {
@@ -241,6 +219,43 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return Redirect("~/Kursledare/Kurser");
             }
 
+
+            else if (param1 == "kurstillfälle" && param2 == "bokningar" && param3.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/Bokningar/{Id}
+            {
+                if (param3.GetIds(out List<int> Ids))
+                {
+                    int id = Ids.First();
+                    var DbCourseOc = db.CourseOccasions.ToList();
+                    var DbCourse = db.Courses.ToList();
+
+                    var COCourses = DbCourseOc.Where(m => m.Id == id).ToList();
+                    if (COCourses.Count() < 1)
+                    {
+                        return RedirectToAction("", "Kurser");
+                    }
+                    int COCourseId = COCourses.First().CourseId;
+                    string userEmail = DbCourse.Where(m => m.Id == COCourseId).First().Email;
+                    if (User.Identity.Name == userEmail)
+                    {
+                        ViewBag.CourseOccasionDate = DbCourseOc.Where(m => m.Id == id).First().StartDate;
+                        ViewBag.CourseName = DbCourse.Where(m => m.Id == COCourseId).First().Name;
+
+                        var bookings = db.Bookings.Include(b => b.CourseOccasion).Where(m => m.CourseOccasion.Id == id);
+
+                        return View("Kurstillfällen/Bokningar/Bokningar", bookings.ToList());
+                    }
+                }
+                return View("Kurstillfällen/Bokningar/Bokningar");
+            }
+
+            else if(param1 == "kurstillfälle" && param2 == "bokningar" && param3 == "skapa")
+            {
+
+                 
+
+                return View("Kurstillfällen/Bokningar/Skapa");
+            }
+
             //if you've come this far something has gone wrong.
             return Redirect("~/Kursledare/Kurser");
         }
@@ -260,7 +275,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                             db.SaveChanges();
                         }
                     }
-                    return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen");
+                    return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen/"+ Id);
 
                 case "RaderaKT":
                     if (int.TryParse(param2, out Id))
