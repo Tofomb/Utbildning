@@ -199,6 +199,7 @@
     <Compile Include="Areas\Admin\Controllers\KursledareController.cs" />
     <Compile Include="Areas\Kursledare\Controllers\HemController.cs" />
     <Compile Include="Areas\Kursledare\Controllers\KurserController.cs" />
+    <Compile Include="Areas\Kursledare\Controllers\ProfilController.cs" />
     <Compile Include="Areas\Kursledare\KursledareAreaRegistration.cs" />
     <Compile Include="Classes\DBHandler.cs" />
     <Compile Include="Classes\MailHandler.cs" />
@@ -277,6 +278,9 @@
     <Content Include="Areas\Kursledare\Views\Kurser\Kurs.cshtml" />
     <Content Include="Areas\Admin\Views\Hem\AdminEllerKL.cshtml" />
     <Content Include="Areas\Kursledare\Views\Kurser\Punktlista\Punktlista.cshtml" />
+    <Content Include="Areas\Kursledare\Views\Profil\Index.cshtml" />
+    <Content Include="Areas\Kursledare\Views\Profil\Namn.cshtml" />
+    <Content Include="Areas\Kursledare\Views\Profil\Bild.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -376,6 +380,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Kursledare\Models\" />
+    <Folder Include="images\profile\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
