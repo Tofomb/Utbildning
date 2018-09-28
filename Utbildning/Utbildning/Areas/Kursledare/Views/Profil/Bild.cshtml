@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "Bild";
+}
+
+<h2>Bild</h2>
+
+@using (Html.BeginForm( "Bild", "Profil", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <span>Välj bild:</span>
+    <input type="file" name="file" />
+    <input type="submit" value="Ladda upp"/>
+}
