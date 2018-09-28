@@ -281,6 +281,7 @@
     <Content Include="Areas\Kursledare\Views\Profil\Index.cshtml" />
     <Content Include="Areas\Kursledare\Views\Profil\Namn.cshtml" />
     <Content Include="Areas\Kursledare\Views\Profil\Bild.cshtml" />
+    <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Bokningar\Skapa.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
