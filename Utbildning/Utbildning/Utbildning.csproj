@@ -283,6 +283,7 @@
     <Content Include="Areas\Kursledare\Views\Profil\Bild.cshtml" />
     <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Bokningar\Skapa.cshtml" />
     <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Bokningar\Radera.cshtml" />
+    <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Bokningar\Bokning.cshtml"
     <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Bokningar\Redigera.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
