@@ -88,6 +88,11 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     return HttpNotFound();
                 }
                 ViewBag.CId = id;
+                ViewBag.CourseName = course.Name;
+
+                List<BulletPoints> bulletpoints = db.BulletPoints.Where(x => x.CourseId == id).ToList();
+                ViewBag.BPs = bulletpoints;
+
                 return View(course);
             }
 
@@ -103,6 +108,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     {
                         return HttpNotFound();
                     }
+                    ViewBag.CourseId = course.Id;
                     return View("Redigera", course);
                 }
                 return Redirect("~/Kursledare/Kurser");
@@ -171,12 +177,12 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 }
                 ViewBag.CourseId = courseOccasion.CourseId;
                 ViewBag.COId = Id;
-                
-               
+
+
                 return View("Kurstillfällen/Kurstillfälle", courseOccasion);
             }
 
-           
+
 
             else if (param1 == "kurstillfällen" && param2 == "skapa" && param3.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfällen/Skapa/{kurs-id}
             {
@@ -239,8 +245,9 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     {
                         ViewBag.CourseOccasionDate = DbCourseOc.Where(m => m.Id == id).First().StartDate;
                         ViewBag.CourseName = DbCourse.Where(m => m.Id == COCourseId).First().Name;
-
+                        ViewBag.COId = DbCourseOc.Where(m => m.Id == id).First().Id;
                         var bookings = db.Bookings.Include(b => b.CourseOccasion).Where(m => m.CourseOccasion.Id == id);
+
 
                         return View("Kurstillfällen/Bokningar/Bokningar", bookings.ToList());
                     }
@@ -248,21 +255,43 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return View("Kurstillfällen/Bokningar/Bokningar");
             }
 
-            else if(param1 == "kurstillfälle" && param2 == "bokningar" && param3 == "skapa")
+            else if (param1 == "kurstillfälle" && param2 == "bokningar" && param3 == "skapa" && param4.HasIds())
             {
 
-                 
-
-                return View("Kurstillfällen/Bokningar/Skapa");
+                if (param4.GetIds(out List<int> Ids))
+                {
+                    int Id = Ids.First();
+                    CourseOccasion co = DBHandler.GetCourseOccasion(Id);
+                    Course course = DBHandler.GetCourse(co.CourseId);
+                    ViewBag.COId = Id;
+                    ViewBag.CourseName = course.Name;
+                    ViewBag.CODate = co.StartDate;
+                    return View("Kurstillfällen/Bokningar/Skapa");
+                }
+            }
+            else if (param1 == "kurstillfälle" && param2 == "bokning" && param3 == "radera" && param4.HasIds())
+            {
+                if (param4.GetIds(out List<int> Ids))
+                {
+                    int Id = Ids.First();
+                    Booking booking = db.Bookings.Where(m => m.Id == Id).First();
+                    CourseOccasion co = DBHandler.GetCourseOccasion(booking);
+                    Course course = DBHandler.GetCourse(co.CourseId);
+                    ViewBag.BookingId = Id;
+                    ViewBag.CourseName = course.Name;
+                    ViewBag.CODate = co.StartDate;
+                    return View("Kurstillfällen/Bokningar/Radera", booking);
+                }
             }
 
             //if you've come this far something has gone wrong.
             return Redirect("~/Kursledare/Kurser");
         }
         [HttpPost]
-        public ActionResult Kurs([Bind(Include = "Id,CourseId,StartDate,AltHost,AltAddress,AltMail,AltProfilePicture,MinPeople,MaxPeople")] CourseOccasion courseOccasion, [Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course, [Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking, [Bind(Include ="Id,CourseId,Text")] BulletPoints bulletPoints, string param1, string param2, string param3)
+        public ActionResult Kurs([Bind(Include = "Id,CourseId,StartDate,AltHost,AltAddress,AltMail,AltProfilePicture,MinPeople,MaxPeople")] CourseOccasion courseOccasion, [Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course, [Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking, [Bind(Include = "Id,CourseId,Text")] BulletPoints bulletPoints, string param1, string param2, string param3)
         {
             int Id = 0;
+            List<int> Ids;
             switch (param1)
             {
                 case "NyttKT":
@@ -275,7 +304,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                             db.SaveChanges();
                         }
                     }
-                    return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen/"+ Id);
+                    return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen/" + Id);
 
                 case "RaderaKT":
                     if (int.TryParse(param2, out Id))
@@ -315,21 +344,47 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     return Redirect("~/Kursledare/Kurser");
 
                 case "SkapaBP":
-                    if(param2.GetIds(out List<int> Ids)) {
+                    if (param2.GetIds(out Ids))
+                    {
                         Id = Ids.First();
                         if (User.ValidUser(DBHandler.GetCourse(Id)))
                         {
-                            bulletPoints.CourseId = Id;                          
+                            bulletPoints.CourseId = Id;
                             db.BulletPoints.Add(bulletPoints);
                             db.SaveChanges();
                             return Redirect("~/Kursledare/Kurser/Kurs/Punktlista/" + param2);
                         }
                     }
+
                     return Redirect("~/Kursledare/Kurser");
 
-            
 
+                case "NyBokning":
 
+                    if (param2.GetIds(out Ids))
+                    {
+                        booking.CourseOccasionId = Ids.First();
+
+                        booking.BookingDate = DateTime.Now;
+                        db.Bookings.Add(booking);
+                        db.SaveChanges();
+                        return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfälle/Bokningar/" + Ids.First());
+                    }
+                    return Redirect("");
+
+                case "RaderaBokning":
+                    if (param2.GetIds(out Ids))
+                    {
+                        
+                        int BookingId = Ids.First();
+                        Booking bo = db.Bookings.Where(m => m.Id == BookingId).First();
+                        CourseOccasion co = DBHandler.GetCourseOccasion(bo);
+                        db.Bookings.Remove(bo);
+                        db.SaveChanges();
+                      
+                        return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfälle/Bokningar/" +co.Id);
+                    }
+                    return View("");
 
 
                 default: //If you reached this something went wrong

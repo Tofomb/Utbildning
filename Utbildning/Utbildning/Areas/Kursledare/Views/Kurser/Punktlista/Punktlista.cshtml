@@ -12,10 +12,12 @@
     </div>
 
 }
-@using (Html.BeginForm(new {param1="SkapaBP", param2=ViewBag.CourseId}))
+@using (Html.BeginForm(new { param1 = "SkapaBP", param2 = ViewBag.CourseId }))
 {
     <div>
         @Html.EditorFor(model => model.Text)
-     <input type="submit" value="+">
+        <input type="submit" value="+">
     </div>
 }
+
+<a href="~/Kursledare/Kurser/kurs/@ViewBag.CourseId">← Till Kursen</a>

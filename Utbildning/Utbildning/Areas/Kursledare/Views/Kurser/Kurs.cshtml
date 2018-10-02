@@ -4,12 +4,13 @@
     ViewBag.Title = "Kurs";
 }
 
-<h2>Details</h2>
-
+<h1 style="color:#f8981e;">@ViewBag.CourseName</h1>
+<h4>Översikt</h4>
 <div>
-    <h4>Course</h4>
+    @Html.ActionLink("Redigera", "Kurs", new { param1 = "Redigera", param2 = ViewData["CId"] })
     <hr />
     <dl class="dl-horizontal">
+
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
@@ -100,8 +101,24 @@
 
     </dl>
 </div>
+
+
+<h4>Punktlista visas på kurssidan.</h4>
+@Html.ActionLink("Redigera Punktlista", "Kurs", new { param1 = "Punktlista", param2 = ViewBag.CId })
+@foreach (var item in ViewBag.BPs)
+{
+    <div>
+        <input disabled value="@item.Text" style="display:inline;">
+    </div>
+
+}
+
+
+
 <p>
-    @Html.ActionLink("Redigera", "Kurs", new { param1 = "Redigera", param2 = ViewData["CId"] })
-  <br>
-    <a href="~/Kursledare/Kurser">← Tillbaka</a>
+
+    <br>
+    <a href="~/Kursledare/Kurser">← Tillbaka till kurslistan</a>
 </p>
+
+<a href="~/Kurser/LäsMer/@ViewBag.CId">Till Kurssidan</a>
