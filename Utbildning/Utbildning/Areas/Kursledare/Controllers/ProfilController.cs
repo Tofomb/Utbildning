@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Utbildning.Classes;
 using Utbildning.Models;
@@ -21,7 +22,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
             ViewBag.FullName = User.GetFullName();
             using (var db = new ApplicationDbContext())
             {
-                ApplicationUser user = db.Users.Find(Id);                
+                ApplicationUser user = db.Users.Find(Id);
                 return View(user);
             }
         }
@@ -54,14 +55,33 @@ namespace Utbildning.Areas.Kursledare.Controllers
             if (file != null)
             {
                 string imageName = User.Identity.GetUserId() + Path.GetExtension(file.FileName);
-                string path = Path.Combine(Server.MapPath("~/images/profile"), imageName);                
+                string path = Path.Combine(Server.MapPath("~/images/profile"), imageName);
 
-                file.SaveAs(path);
+                var image = new WebImage(file.InputStream);
 
-                using (MemoryStream ms = new MemoryStream())
+                int width = image.Width;
+                int height = image.Height;
+
+                int Diff = (width - height) / 2;
+                if (width > height)
+                    image.Crop(0, Diff, 0, Diff);
+                else if (height > width)
+                    image.Crop(-Diff, 0, -Diff, 0);
+
+                if (width > height)
                 {
-                    file.InputStream.CopyTo(ms);
-                    byte[] array = ms.GetBuffer();
+                    var leftrightcrop = (width - height) / 2;
+                    var topbottomcrop = (height - width) / 2;
+                    image.Crop(0, leftrightcrop, 0, leftrightcrop);
+                }
+
+                image.Save(path);
+
+                //file.SaveAs(path);
+                using (ApplicationDbContext db = new ApplicationDbContext())
+                {
+                    db.Users.Find(User.Identity.GetUserId()).ProfilePicture = Path.GetExtension(file.FileName);
+                    db.SaveChanges();
                 }
             }
 

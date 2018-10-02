@@ -66,6 +66,15 @@ namespace Utbildning.Classes
             }
         }
 
+        public static string GetProfilePictureByEmail(string Email)
+        {
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                ApplicationUser user = db.Users.ToList().Where(x => x.Email == Email).First();
+                return user.Id + user.ProfilePicture;
+            }
+        }
+
         public static bool ValidUser(this IPrincipal User, Course course) => User.Identity.Name == course.Email;
 
         public static bool ValidUser(this IPrincipal User, CourseOccasion courseOccasion) => User.Identity.Name == courseOccasion.GetCourse().Email;

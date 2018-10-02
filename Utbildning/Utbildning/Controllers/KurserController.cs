@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Utbildning.Classes;
 using Utbildning.Models;
 
 namespace Utbildning.Controllers
@@ -77,6 +78,8 @@ namespace Utbildning.Controllers
 
             var courseBulletpoints = (db.BulletPoints.Where(m => m.CourseId == id)).ToList();
             ViewBag.CourseBulletPoints = courseBulletpoints;
+
+            ViewBag.Image = DBHandler.GetProfilePictureByEmail(course.Email);
 
             return View(course);
         }

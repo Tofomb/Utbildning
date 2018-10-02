@@ -4,10 +4,19 @@
     ViewBag.Title = "Index";
 }
 
+<h4>Browser: @ViewBag.Browser</h4>
+<br />
+<h4>IP: @ViewBag.IP</h4>
+<br />
+<br />
+
 <h2>Profilinställningar</h2>
 <h4>Hej, @ViewBag.FullName!</h4>
 
-<img src="~/images/profile/@(User.Identity.GetUserId() + Model.ProfilePicture)"/>
-
-<a href="~/Kursledare/Profil/Namn">Ändra namn</a>
-<a href="~/Kursledare/Profil/Bild">Ändra bild</a>
+<img style="border: 1px solid black;" src="~/images/profile/@(User.Identity.GetUserId() + Model.ProfilePicture)"/>
+<hr/>
+<ul>
+    <li><a href="~/Kursledare/Profil/Namn">Ändra namn</a></li>
+    <li><a href="~/Kursledare/Profil/Bild">Ändra bild</a></li>
+</ul>
+<br/>
