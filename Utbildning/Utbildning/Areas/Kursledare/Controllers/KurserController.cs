@@ -122,6 +122,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 param2.GetIds(out List<int> ids);
                 int id = ids.First();
                 ViewBag.CId = id;
+               
                 Course course = db.Courses.Find(id);
 
                 if (course.Email == User.Identity.Name)
@@ -177,7 +178,10 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 {
                     return HttpNotFound();
                 }
+
                 ViewBag.CourseId = courseOccasion.CourseId;
+                ViewBag.CODate = courseOccasion.StartDate.Format();
+                ViewBag.CourseName = DBHandler.GetCourse(courseOccasion).Name;
                 ViewBag.COId = Id;
 
 
@@ -204,6 +208,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 CourseOccasion co = DBHandler.GetCourseOccasion(Id);
                 Course course = co.GetCourse();
                 ViewBag.Course = course;
+                ViewBag.CODate = co.StartDate.Format();
                 ViewBag.COId = co.Id;
 
                 if (User.ValidUser(course))
@@ -216,12 +221,14 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 param3.GetIds(out List<int> Ids);
                 int Id = Ids.First();
                 CourseOccasion co = DBHandler.GetCourseOccasion(Id);
-                //db.CourseOccasions.Find(Id);
+             
 
                 if (User.ValidUser(co))
                 {
                     ViewBag.COId = co.Id;
-                    ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", co.CourseId);
+                    ViewBag.CourseId = co.GetCourse().Id;
+                    ViewBag.CourseName = co.GetCourse().Name;
+                    ViewBag.CODate = co.StartDate.Format();
                     return View("Kurstillfällen/Redigera", co);
                 }
                 return Redirect("~/Kursledare/Kurser");
@@ -350,19 +357,27 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     return Redirect("~/Kursledre/Kurser");
 
                 case "RedigeraKT":
-                    if (User.ValidUser(courseOccasion))
+                    if (int.TryParse(param2, out Id))
                     {
-                        CourseOccasion CoOld = db.CourseOccasions.Find(courseOccasion.Id);
-                        var result = db.CourseOccasions.SingleOrDefault(b => b.Id == courseOccasion.Id);
-                        if (result != null)
-                            result = courseOccasion;
-                        db.Entry(courseOccasion).State = EntityState.Modified;                        
-
+                     
+                        int CourseId;
+                        if (int.TryParse(param3, out CourseId))
+                        {
+                            course = db.Courses.Where(x => x.Id == CourseId).First();
+                            if (User.ValidUser(course))
+                            {
+   CourseOccasion CoOld = db.CourseOccasions.Find(courseOccasion.Id);
                         string[] Comp = CoOld.GetComparison(courseOccasion);
+                        
+                        
+                                courseOccasion.CourseId = CourseId;
 
-                        db.Logs.Add(new Log() { User = User.Identity.Name, Table = "CourseOccasions", Action = "Update", Before = Comp[0], After = Comp[1], Time = DateTime.Now });
-                        db.SaveChanges();
-                        return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen/" + courseOccasion.CourseId);
+                                db.Entry(courseOccasion).State = EntityState.Modified;
+                                db.Logs.Add(new Log() { User = User.Identity.Name, Table = "CourseOccasions", Action = "Update", Before = Comp[0], After = Comp[1], Time = DateTime.Now });
+                                db.SaveChanges();
+                                return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen/" + courseOccasion.CourseId);
+                            }
+                        }
                     }
                     return Redirect("~/Kursledare/Kurser");
 

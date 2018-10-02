@@ -4,26 +4,23 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+
+<h1 style="color:#f8981e">@ViewData["CourseName"]</h1>
+<h3>@ViewData["CODate"]</h3>
+<h4>Redigera Kurstillfälle</h4>
 
 
-@using (Html.BeginForm(new { param1 = "RedigeraKT", param2 = ViewBag.COId }))
+@using (Html.BeginForm(new { param1 = "RedigeraKT", param2 = ViewBag.COId, param3 = ViewBag.CourseId }))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>CourseOccasion</h4>
+      
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.CourseId, "CourseId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("CourseId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
-            </div>
-        </div>
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -90,7 +87,7 @@
 }
 
 <div>
-    <a href="~/Kursledare/Kurser/Kurs/Kurstillfällen/@ViewBag.SpecificCourseId">Tillbaka (-</a>
+    <a href="~/Kursledare/Kurser/Kurs/Kurstillfällen/@ViewBag.CourseId">← Tillbaka</a>
 </div>
 
 @section Scripts {
