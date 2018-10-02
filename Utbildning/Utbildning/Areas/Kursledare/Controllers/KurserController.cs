@@ -269,6 +269,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     return View("Kurstillfällen/Bokningar/Skapa");
                 }
             }
+
             else if (param1 == "kurstillfälle" && param2 == "bokning" && param3 == "radera" && param4.HasIds())
             {
                 if (param4.GetIds(out List<int> Ids))
@@ -281,6 +282,25 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     ViewBag.CourseName = course.Name;
                     ViewBag.CODate = co.StartDate;
                     return View("Kurstillfällen/Bokningar/Radera", booking);
+                }
+            }
+
+            else if (param1 == "kurstillfälle" && param2== "bokning" && param3.HasIds())
+            {
+                if (param3.GetIds(out List<int> Ids))
+                {
+                    int Id = Ids.First();
+                    if (Id == null)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                    Booking booking = db.Bookings.Find(Id);
+                    ViewBag.COstartDate = DBHandler.GetCourseOccasion(booking).StartDate;
+                    if (booking == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    return View("Kurstillfällen/Bokningar/bokning", booking);
                 }
             }
 
