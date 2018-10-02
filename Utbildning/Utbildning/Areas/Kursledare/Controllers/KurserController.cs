@@ -284,6 +284,19 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     return View("Kurstillfällen/Bokningar/Radera", booking);
                 }
             }
+            else if (param1 == "kurstillfälle" && param2 == "bokning" && param3 == "redigera" && param4.HasIds())
+            {
+                param4.GetIds(out List<int> Ids);
+                int Id = Ids.First();
+                Booking booking = db.Bookings.Find(Id);
+
+                if (User.ValidUser(booking))
+                {
+                    ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions, "Id", "StartDate", booking.CourseOccasionId);
+                    return View("Kurstillfällen/Bokningar/Redigera", booking);
+                }
+                return Redirect("~/Kursledare/Kurser");
+            }
 
             else if (param1 == "kurstillfälle" && param2== "bokning" && param3.HasIds())
             {
@@ -395,17 +408,21 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 case "RaderaBokning":
                     if (param2.GetIds(out Ids))
                     {
-                        
+
                         int BookingId = Ids.First();
                         Booking bo = db.Bookings.Where(m => m.Id == BookingId).First();
                         CourseOccasion co = DBHandler.GetCourseOccasion(bo);
                         db.Bookings.Remove(bo);
                         db.SaveChanges();
-                      
-                        return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfälle/Bokningar/" +co.Id);
+
+                        return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfälle/Bokningar/" + co.Id);
                     }
                     return View("");
 
+                case "RedigeraBokning":
+                    db.Entry(booking).State = EntityState.Modified;                    
+                    db.SaveChanges();
+                    return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfälle/Bokningar/" + booking.CourseOccasionId);
 
                 default: //If you reached this something went wrong
                     return Redirect("~/Kursledare/Kurs/Kurser");
