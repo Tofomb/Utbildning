@@ -4,7 +4,8 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<h1 style="color:#f8981e">@ViewBag.CourseName</h1>
+<h2>@ViewBag.CODate</h2>
 
 <h3>Är du säker på att du ska radera denna bokning?</h3>
 <div>
@@ -121,9 +122,9 @@
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
+    <div class="form-actions no-color">
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a href="~/Kursledare/Kurser/Kurs/Kurstillfälle/Bokningar/@Model.CourseOccasionId">← Tillbaka</a>
+    </div>
     }
 </div>

@@ -4,7 +4,8 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h1 style="color:#f8981e">@ViewBag.CourseName</h1>
+<h2>@ViewBag.CODate</h2>
 
 
 @using (Html.BeginForm(new { param1 = "RedigeraBokning" }))
@@ -129,9 +130,9 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <div>
+        <a href="~/Kursledare/Kurser/Kurs/Kurstillfälle/Bokningar/@Model.CourseOccasionId">← Tillbaka</a>
+    </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
