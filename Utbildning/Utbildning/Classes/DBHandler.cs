@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using System.Web;
 using Utbildning.Models;
@@ -80,5 +81,43 @@ namespace Utbildning.Classes
         public static bool ValidUser(this IPrincipal User, CourseOccasion courseOccasion) => User.Identity.Name == courseOccasion.GetCourse().Email;
 
         public static bool ValidUser(this IPrincipal User, Booking booking) => User.Identity.Name == booking.GetCourseOccasion().GetCourse().Email;
+
+        public static List<Variance> DetailedCompare<T>(this T OldObject, T NewObject)
+        {
+            List<Variance> variances = new List<Variance>();
+            PropertyInfo[] pi = OldObject.GetType().GetProperties();
+            foreach (PropertyInfo p in pi)
+            {
+                Variance v = new Variance()
+                {
+                    Property = p.Name,
+                    OldValue = p.GetValue(OldObject),
+                    NewValue = p.GetValue(NewObject)
+                };
+                if (!Equals(v.OldValue, v.NewValue))
+                    variances.Add(v);
+            }
+            return variances;
+        }
+
+        public static string[] GetComparison<T>(this T OldObject, T NewObject)
+        {
+            List<Variance> list = OldObject.DetailedCompare(NewObject);
+
+            string Before = (from x in list
+                             select $"{x.Property}: {x.OldValue ?? "[NULL]"}").Aggregate((x, y) => x + ", " + y);
+
+            string After = (from x in list
+                             select $"{x.Property}: {x.NewValue ?? "[NULL]"}").Aggregate((x, y) => x + ", " + y);
+
+            return new string[] { Before, After };
+        }
     }
+}
+
+public class Variance
+{
+    public string Property { get; set; }
+    public object OldValue { get; set; }
+    public object NewValue { get; set; }
 }

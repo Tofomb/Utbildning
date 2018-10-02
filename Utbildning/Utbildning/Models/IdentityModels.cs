@@ -45,6 +45,9 @@ namespace Utbildning.Models
 
         public System.Data.Entity.DbSet<Utbildning.Models.FrontpageCarousel> FrontpageCarousels { get; set; }
 
-        public System.Data.Entity.DbSet<Utbildning.Models.FrontpageInfo> FrontpageInfoes { get; set; }        
+        public System.Data.Entity.DbSet<Utbildning.Models.FrontpageInfo> FrontpageInfoes { get; set; }
+
+        object placeHolderVariable;
+        public System.Data.Entity.DbSet<Utbildning.Models.Log> Logs { get; set; }
     }
 }

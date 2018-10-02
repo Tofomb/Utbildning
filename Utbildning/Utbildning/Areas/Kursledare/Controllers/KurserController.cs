@@ -7,6 +7,7 @@ using System.Data.Entity;
 using Utbildning.Models;
 using Utbildning.Classes;
 using System.Net;
+using Microsoft.AspNet.Identity;
 
 namespace Utbildning.Areas.Kursledare.Controllers
 {
@@ -40,6 +41,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 course.Email = User.Identity.Name;
                 course.Host = db.Users.ToList().Where(m => m.Email == User.Identity.Name).First().FullName;
                 db.Courses.Add(course);
+                db.Logs.Add(new Log() { User = User.Identity.Name, Table = "Courses", Action = "Add", Before = "", After = course.Name, Time = DateTime.Now });
 
                 db.SaveChanges();
                 return Redirect("~/Kursledare/Kurser");
@@ -298,15 +300,11 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return Redirect("~/Kursledare/Kurser");
             }
 
-            else if (param1 == "kurstillfälle" && param2== "bokning" && param3.HasIds())
+            else if (param1 == "kurstillfälle" && param2 == "bokning" && param3.HasIds())
             {
                 if (param3.GetIds(out List<int> Ids))
                 {
                     int Id = Ids.First();
-                    if (Id == null)
-                    {
-                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                    }
                     Booking booking = db.Bookings.Find(Id);
                     ViewBag.COstartDate = DBHandler.GetCourseOccasion(booking).StartDate;
                     if (booking == null)
@@ -334,6 +332,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                         if (User.ValidUser(courseOccasion))
                         {
                             db.CourseOccasions.Add(courseOccasion);
+                            db.Logs.Add(new Log() { User = User.Identity.Name, Table = "CourseOccasions", Action = "Add", Before = "[NULL]", After = courseOccasion.StartDate.Format(), Time = DateTime.Now });
                             db.SaveChanges();
                         }
                     }
@@ -344,6 +343,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     {
                         CourseOccasion co = db.CourseOccasions.Find(Id);
                         db.CourseOccasions.Remove(co);
+                        db.Logs.Add(new Log() { User = User.Identity.Name, Table = "CourseOccasions", Action = "Delete", Before = $"{courseOccasion.StartDate} [#{courseOccasion.Id}]", After = "[DELETED]", Time = DateTime.Now });
                         db.SaveChanges();
                         return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen/" + co.CourseId);
                     }
@@ -352,7 +352,15 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 case "RedigeraKT":
                     if (User.ValidUser(courseOccasion))
                     {
-                        db.Entry(courseOccasion).State = EntityState.Modified;
+                        CourseOccasion CoOld = db.CourseOccasions.Find(courseOccasion.Id);
+                        var result = db.CourseOccasions.SingleOrDefault(b => b.Id == courseOccasion.Id);
+                        if (result != null)
+                            result = courseOccasion;
+                        db.Entry(courseOccasion).State = EntityState.Modified;                        
+
+                        string[] Comp = CoOld.GetComparison(courseOccasion);
+
+                        db.Logs.Add(new Log() { User = User.Identity.Name, Table = "CourseOccasions", Action = "Update", Before = Comp[0], After = Comp[1], Time = DateTime.Now });
                         db.SaveChanges();
                         return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen/" + courseOccasion.CourseId);
                     }
@@ -368,11 +376,15 @@ namespace Utbildning.Areas.Kursledare.Controllers
 
 
                 case "RaderaKurs":
+                    if (param2.GetIds(out Ids))
+                    {
+                        Id = Ids.First();
+                        Course CourseToBeDeleted = db.Courses.Find(Id);
 
-                    Course CourseToBeDeleted = db.Courses.Find(param2);
-
-                    db.Courses.Remove(CourseToBeDeleted);
-                    db.SaveChanges();
+                        db.Courses.Remove(CourseToBeDeleted);
+                        db.Logs.Add(new Log() { User = User.Identity.Name, Table = "Courses", Action = "Delete", Before = CourseToBeDeleted.Name, After = "[DELETED]", Time = DateTime.Now });
+                        db.SaveChanges();
+                    }
 
                     return Redirect("~/Kursledare/Kurser");
 
@@ -420,7 +432,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     return View("");
 
                 case "RedigeraBokning":
-                    db.Entry(booking).State = EntityState.Modified;                    
+                    db.Entry(booking).State = EntityState.Modified;
                     db.SaveChanges();
                     return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfälle/Bokningar/" + booking.CourseOccasionId);
 
