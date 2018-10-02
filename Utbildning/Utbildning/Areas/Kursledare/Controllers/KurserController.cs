@@ -122,7 +122,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 param2.GetIds(out List<int> ids);
                 int id = ids.First();
                 ViewBag.CId = id;
-               
+
                 Course course = db.Courses.Find(id);
 
                 if (course.Email == User.Identity.Name)
@@ -221,7 +221,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 param3.GetIds(out List<int> Ids);
                 int Id = Ids.First();
                 CourseOccasion co = DBHandler.GetCourseOccasion(Id);
-             
+
 
                 if (User.ValidUser(co))
                 {
@@ -359,17 +359,17 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 case "RedigeraKT":
                     if (int.TryParse(param2, out Id))
                     {
-                     
+
                         int CourseId;
                         if (int.TryParse(param3, out CourseId))
                         {
                             course = db.Courses.Where(x => x.Id == CourseId).First();
                             if (User.ValidUser(course))
                             {
-   CourseOccasion CoOld = db.CourseOccasions.Find(courseOccasion.Id);
-                        string[] Comp = CoOld.GetComparison(courseOccasion);
-                        
-                        
+                                CourseOccasion CoOld = db.CourseOccasions.Find(courseOccasion.Id);
+                                string[] Comp = CoOld.GetComparison(courseOccasion);
+
+
                                 courseOccasion.CourseId = CourseId;
 
                                 db.Entry(courseOccasion).State = EntityState.Modified;
