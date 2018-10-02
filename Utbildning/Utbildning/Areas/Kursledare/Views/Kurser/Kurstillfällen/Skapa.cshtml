@@ -31,7 +31,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control datefield", type = "date", Value = DateTime.Now.ToString("yyyy-MM-dd") } })
                 @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -97,7 +97,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Kursvy")
+    <a href="~/Kursledare/Kurser/Kurs/Kurstillfällen/@ViewBag.SpecificCourseId">Tillbaka (-</a>
 </div>
 
 @section Scripts {
