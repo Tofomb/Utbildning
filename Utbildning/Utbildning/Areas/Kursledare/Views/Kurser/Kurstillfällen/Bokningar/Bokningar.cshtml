@@ -8,13 +8,12 @@
 @ViewData["CourseName"]
 @ViewData["CourseOccasionDate"]
 <p>
-    @Html.ActionLink("Lägg till Bokning Manuelt", "Create")
+  
+    <a href="~/Kursledare/Kurser/Kurs/Kurstillfälle/Bokningar/Skapa/@ViewBag.COId">Skapa Bokning Manuellt</a>
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CourseOccasion.AltHost)
-        </th>
+       
         <th>
             @Html.DisplayNameFor(model => model.Firstname)
         </th>
@@ -30,15 +29,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Company)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BillingAddress)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PostalCode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City)
-        </th>
+       
         <th>
             @Html.DisplayNameFor(model => model.Bookings)
         </th>
@@ -56,52 +47,57 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CourseOccasion.AltHost)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Firstname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lastname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Company)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BillingAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostalCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Bookings)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Message)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiscountCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookingDate)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-        </tr>
+    <tr>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Firstname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lastname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Company)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Bookings)
+        </td>
+
+        @if (item.Message != null)
+        {
+            <td style="color:lightgreen;">✔</td>}
+        else
+        {
+            <td>@Html.DisplayFor(modelItem => item.Message)</td>
+        }
+        @if (item.DiscountCode != null)
+        {
+            <td style="color:lightgreen;">✔</td>}
+        else
+        {
+            <td>@Html.DisplayFor(modelItem => item.DiscountCode)</td>
+        }
+        <td>
+            @{ 
+
+                var value = item.BookingDate.ToString("yyyy-MM-dd");
+                @value;
+
+            }
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            @Html.ActionLink("Radera", "Kurs", new { param1 = "Kurstillfälle", param2 ="Bokning", param3 = "Radera", param4 = item.Id })
+        </td>
+    </tr>
     }
 
 </table>
