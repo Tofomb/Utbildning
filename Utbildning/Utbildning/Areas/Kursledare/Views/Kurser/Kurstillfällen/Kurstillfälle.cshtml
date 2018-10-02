@@ -1,15 +1,17 @@
 ﻿@model Utbildning.Models.CourseOccasion
 
 <div>
-    <h4>CourseOccasion</h4>
+    <h1 style="color:#f8981e">@ViewBag.CourseName</h1>
+    <h3>@ViewBag.CODate</h3>
+    <h4>Detaljer</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Course.Name)
+            Kursnamn
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Course.Name)
+            @ViewBag.CourseName
         </dd>
 
         <dt>

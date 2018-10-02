@@ -4,8 +4,8 @@
     ViewBag.Title = "SkapaKurstillfälle";
 }
 
-<h2>Create</h2>
-@ViewData["CourseName"]
+<h1 style="color:#f8981e">@ViewData["CourseName"]</h1>
+<h4>Skapa kurstillfälle</h4>
 <br>
 
 
@@ -13,20 +13,10 @@
 {
     @Html.AntiForgeryToken()    
     <div class="form-horizontal">
-        <h4>CourseOccasion</h4>
+     
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <!-- Välja kursid automatiskt -->
-        <!--<div class="form-group">
-               @Html.LabelFor(model => model.CourseId, "CourseId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("CourseId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-             -->
-
-
+     
 
         <div class="form-group">
             @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -88,7 +78,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="SkapaKurstillfälle" class="btn btn-default" />
+                <input type="submit" value="Skapa Kurstillfälle" class="btn btn-default" />
 
 
             </div>
@@ -97,7 +87,7 @@
 }
 
 <div>
-    <a href="~/Kursledare/Kurser/Kurs/Kurstillfällen/@ViewBag.SpecificCourseId">Tillbaka (-</a>
+    <a href="~/Kursledare/Kurser/Kurs/Kurstillfällen/@ViewBag.SpecificCourseId">← Tillbaka</a>
 </div>
 
 @section Scripts {

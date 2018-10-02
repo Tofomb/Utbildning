@@ -120,6 +120,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 param2.GetIds(out List<int> ids);
                 int id = ids.First();
                 ViewBag.CId = id;
+               
                 Course course = db.Courses.Find(id);
 
                 if (course.Email == User.Identity.Name)
@@ -175,7 +176,10 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 {
                     return HttpNotFound();
                 }
+
                 ViewBag.CourseId = courseOccasion.CourseId;
+                ViewBag.CODate = courseOccasion.StartDate.Format();
+                ViewBag.CourseName = DBHandler.GetCourse(courseOccasion).Name;
                 ViewBag.COId = Id;
 
 
@@ -202,6 +206,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 CourseOccasion co = DBHandler.GetCourseOccasion(Id);
                 Course course = co.GetCourse();
                 ViewBag.Course = course;
+                ViewBag.CODate = co.StartDate.Format();
                 ViewBag.COId = co.Id;
 
                 if (User.ValidUser(course))
@@ -214,12 +219,14 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 param3.GetIds(out List<int> Ids);
                 int Id = Ids.First();
                 CourseOccasion co = DBHandler.GetCourseOccasion(Id);
-                //db.CourseOccasions.Find(Id);
+             
 
                 if (User.ValidUser(co))
                 {
                     ViewBag.COId = co.Id;
-                    ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", co.CourseId);
+                    ViewBag.CourseId = co.GetCourse().Id;
+                    ViewBag.CourseName = co.GetCourse().Name;
+                    ViewBag.CODate = co.StartDate.Format();
                     return View("Kurstillfällen/Redigera", co);
                 }
                 return Redirect("~/Kursledare/Kurser");
@@ -298,7 +305,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return Redirect("~/Kursledare/Kurser");
             }
 
-            else if (param1 == "kurstillfälle" && param2== "bokning" && param3.HasIds())
+            else if (param1 == "kurstillfälle" && param2 == "bokning" && param3.HasIds())
             {
                 if (param3.GetIds(out List<int> Ids))
                 {
@@ -350,11 +357,22 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     return Redirect("~/Kursledre/Kurser");
 
                 case "RedigeraKT":
-                    if (User.ValidUser(courseOccasion))
+                    if (int.TryParse(param2, out Id))
                     {
-                        db.Entry(courseOccasion).State = EntityState.Modified;
-                        db.SaveChanges();
-                        return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen/" + courseOccasion.CourseId);
+                        int CourseId;
+                        if (int.TryParse(param3, out CourseId))
+                        {
+                            course = db.Courses.Where(x => x.Id == CourseId).First();
+                            if (User.ValidUser(course))
+                            {
+
+                                courseOccasion.CourseId = CourseId;
+
+                                db.Entry(courseOccasion).State = EntityState.Modified;
+                                db.SaveChanges();
+                                return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen/" + courseOccasion.CourseId);
+                            }
+                        }
                     }
                     return Redirect("~/Kursledare/Kurser");
 
@@ -420,7 +438,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     return View("");
 
                 case "RedigeraBokning":
-                    db.Entry(booking).State = EntityState.Modified;                    
+                    db.Entry(booking).State = EntityState.Modified;
                     db.SaveChanges();
                     return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfälle/Bokningar/" + booking.CourseOccasionId);
 
