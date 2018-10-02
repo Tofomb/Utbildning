@@ -359,30 +359,31 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 case "RedigeraKT":
                     if (int.TryParse(param2, out Id))
                     {
-
-                        int CourseId;
-                        if (int.TryParse(param3, out CourseId))
+                        if (int.TryParse(param3, out int CourseId))
                         {
                             course = db.Courses.Where(x => x.Id == CourseId).First();
                             if (User.ValidUser(course))
                             {
-                                CourseOccasion CoOld = db.CourseOccasions.Find(courseOccasion.Id);
-                                string[] Comp = CoOld.GetComparison(courseOccasion);
-
-
                                 courseOccasion.CourseId = CourseId;
 
+                                db = new ApplicationDbContext();
+                                if (db.CourseOccasions.Find(courseOccasion.Id).GetComparison(courseOccasion, out string[] Comp))
+                                {
+                                    db.Logs.Add(new Log() { User = User.Identity.Name, Table = "CourseOccasions", Action = "Update", Before = Comp[0], After = Comp[1], Time = DateTime.Now });
+                                    db.SaveChanges();
+                                }
+
+                                db = new ApplicationDbContext();
+
                                 db.Entry(courseOccasion).State = EntityState.Modified;
-                                db.Logs.Add(new Log() { User = User.Identity.Name, Table = "CourseOccasions", Action = "Update", Before = Comp[0], After = Comp[1], Time = DateTime.Now });
+
                                 db.SaveChanges();
                                 return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen/" + courseOccasion.CourseId);
                             }
                         }
                     }
                     return Redirect("~/Kursledare/Kurser");
-
                 case "RedigeraKurs":
-
                     db.Entry(course).State = EntityState.Modified;
                     course.Email = User.Identity.Name;
                     course.Host = User.GetFullName();

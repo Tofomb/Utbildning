@@ -100,17 +100,22 @@ namespace Utbildning.Classes
             return variances;
         }
 
-        public static string[] GetComparison<T>(this T OldObject, T NewObject)
+        public static bool GetComparison<T>(this T OldObject, T NewObject, out string[] result)
         {
             List<Variance> list = OldObject.DetailedCompare(NewObject);
 
-            string Before = (from x in list
-                             select $"{x.Property}: {x.OldValue ?? "[NULL]"}").Aggregate((x, y) => x + ", " + y);
+            if (list.Count > 0)
+            {
+                string Before = (from x in list
+                                 select $"{x.Property}: {x.OldValue ?? "[NULL]"}").Aggregate((x, y) => x + ", " + y);
 
-            string After = (from x in list
-                             select $"{x.Property}: {x.NewValue ?? "[NULL]"}").Aggregate((x, y) => x + ", " + y);
-
-            return new string[] { Before, After };
+                string After = (from x in list
+                                select $"{x.Property}: {x.NewValue ?? "[NULL]"}").Aggregate((x, y) => x + ", " + y);
+                result = new string[] { Before, After };
+                return true;
+            }
+            result = new string[2];
+            return false;
         }
     }
 }
