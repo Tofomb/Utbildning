@@ -4,12 +4,7 @@
     ViewBag.Title = "Kursvy";
 }
 
-<head>
-    <link rel="stylesheet" type="text/css" href="~/Content/List.css">
-</head>
-
-<h2>Index</h2>
-<h1>@ViewData["test"]</h1>
+<h2>Dina kurser</h2>
 
 <p>
     <a href="~/Kursledare/Kurser/Skapa">Skapa Ny Kurs</a>
@@ -21,7 +16,7 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Length)
-        </th>        
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Price)
         </th>
@@ -36,17 +31,15 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Length) @(item.Length == 1 || item.Length == -1 ? "dag" : "dagar")
-            </td>            
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
                 @Html.ActionLink("Översikt", "Kurs", new { param1 = item.Id }) |
                 @Html.ActionLink("Kurstillfällen", "Kurs", new { param1 = "Kurstillfällen", param2 = item.Id }) |
-                @Html.ActionLink("Punktlista", "Kurs", new { param1 = "Punktlista", param2 = item.Id }) |
                 @Html.ActionLink("Redigera", "Kurs", new { param1 = "Redigera", param2 = item.Id }) |
                 @Html.ActionLink("Radera", "Kurs", new { param1 = "Radera", param2 = item.Id })
-
             </td>
         </tr>
     }
