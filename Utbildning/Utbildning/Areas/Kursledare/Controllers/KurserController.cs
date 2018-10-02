@@ -255,7 +255,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     string userEmail = DbCourse.Where(m => m.Id == COCourseId).First().Email;
                     if (User.Identity.Name == userEmail)
                     {
-                        ViewBag.CourseOccasionDate = DbCourseOc.Where(m => m.Id == id).First().StartDate;
+                        ViewBag.CourseOccasionDate = DbCourseOc.Where(m => m.Id == id).First().StartDate.Format();
                         ViewBag.CourseName = DbCourse.Where(m => m.Id == COCourseId).First().Name;
                         ViewBag.COId = DbCourseOc.Where(m => m.Id == id).First().Id;
                         var bookings = db.Bookings.Include(b => b.CourseOccasion).Where(m => m.CourseOccasion.Id == id);
@@ -292,7 +292,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     Course course = DBHandler.GetCourse(co.CourseId);
                     ViewBag.BookingId = Id;
                     ViewBag.CourseName = course.Name;
-                    ViewBag.CODate = co.StartDate;
+                    ViewBag.CODate = co.StartDate.Format();
                     return View("Kurstillfällen/Bokningar/Radera", booking);
                 }
             }
@@ -305,6 +305,9 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 if (User.ValidUser(booking))
                 {
                     ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions, "Id", "StartDate", booking.CourseOccasionId);
+                    ViewBag.COId = DBHandler.GetCourseOccasion(booking).Id;
+                    ViewBag.CourseName = DBHandler.GetCourse(DBHandler.GetCourseOccasion(Id)).Name;
+                    ViewBag.CODate = DBHandler.GetCourseOccasion(Id).StartDate.Format();
                     return View("Kurstillfällen/Bokningar/Redigera", booking);
                 }
                 return Redirect("~/Kursledare/Kurser");
@@ -316,7 +319,8 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 {
                     int Id = Ids.First();
                     Booking booking = db.Bookings.Find(Id);
-                    ViewBag.COstartDate = DBHandler.GetCourseOccasion(booking).StartDate;
+                    ViewBag.COstartDate = DBHandler.GetCourseOccasion(booking).StartDate.Format();
+                    ViewBag.CourseName = DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking)).Name;
                     if (booking == null)
                     {
                         return HttpNotFound();
@@ -393,9 +397,10 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     }
                     return Redirect("~/Kursledare/Kurser");
                 case "RedigeraKurs":
-                    db.Entry(course).State = EntityState.Modified;
                     course.Email = User.Identity.Name;
                     course.Host = User.GetFullName();
+                    db.Entry(course).State = EntityState.Modified;
+
                     db.SaveChanges();
                     return Redirect("~/Kursledare/Kurser");
 
