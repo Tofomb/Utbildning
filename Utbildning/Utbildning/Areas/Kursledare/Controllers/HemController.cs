@@ -20,8 +20,6 @@ namespace Utbildning.Areas.Kursledare.Controllers
             {
                 ViewBag.NameReset = true;
             }
-
-            ViewBag.Name = User.GetFullName();
             return View();
         }
         [HttpPost]
@@ -30,7 +28,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
         public ActionResult Index(ChangeFullNameViewModel model)
         {
             User.SetFullName(model.FullName);
-            return RedirectToAction("Index");
+            return View();
         }
     }
 }

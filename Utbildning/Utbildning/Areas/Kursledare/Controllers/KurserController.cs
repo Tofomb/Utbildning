@@ -7,6 +7,7 @@ using System.Data.Entity;
 using Utbildning.Models;
 using Utbildning.Classes;
 using System.Net;
+using Microsoft.AspNet.Identity;
 
 namespace Utbildning.Areas.Kursledare.Controllers
 {
@@ -40,6 +41,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 course.Email = User.Identity.Name;
                 course.Host = db.Users.ToList().Where(m => m.Email == User.Identity.Name).First().FullName;
                 db.Courses.Add(course);
+                db.Logs.Add(new Log() { User = User.Identity.Name, Table = "Courses", Action = "Add", Before = "", After = course.Name, Time = DateTime.Now });
 
                 db.SaveChanges();
                 return Redirect("~/Kursledare/Kurser");
@@ -310,10 +312,6 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 if (param3.GetIds(out List<int> Ids))
                 {
                     int Id = Ids.First();
-                    if (Id == null)
-                    {
-                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                    }
                     Booking booking = db.Bookings.Find(Id);
                     ViewBag.COstartDate = DBHandler.GetCourseOccasion(booking).StartDate;
                     if (booking == null)
@@ -341,6 +339,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                         if (User.ValidUser(courseOccasion))
                         {
                             db.CourseOccasions.Add(courseOccasion);
+                            db.Logs.Add(new Log() { User = User.Identity.Name, Table = "CourseOccasions", Action = "Add", Before = "[NULL]", After = courseOccasion.StartDate.Format(), Time = DateTime.Now });
                             db.SaveChanges();
                         }
                     }
@@ -351,6 +350,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     {
                         CourseOccasion co = db.CourseOccasions.Find(Id);
                         db.CourseOccasions.Remove(co);
+                        db.Logs.Add(new Log() { User = User.Identity.Name, Table = "CourseOccasions", Action = "Delete", Before = $"{courseOccasion.StartDate} [#{courseOccasion.Id}]", After = "[DELETED]", Time = DateTime.Now });
                         db.SaveChanges();
                         return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen/" + co.CourseId);
                     }
@@ -359,16 +359,21 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 case "RedigeraKT":
                     if (int.TryParse(param2, out Id))
                     {
+                     
                         int CourseId;
                         if (int.TryParse(param3, out CourseId))
                         {
                             course = db.Courses.Where(x => x.Id == CourseId).First();
                             if (User.ValidUser(course))
                             {
-
+   CourseOccasion CoOld = db.CourseOccasions.Find(courseOccasion.Id);
+                        string[] Comp = CoOld.GetComparison(courseOccasion);
+                        
+                        
                                 courseOccasion.CourseId = CourseId;
 
                                 db.Entry(courseOccasion).State = EntityState.Modified;
+                                db.Logs.Add(new Log() { User = User.Identity.Name, Table = "CourseOccasions", Action = "Update", Before = Comp[0], After = Comp[1], Time = DateTime.Now });
                                 db.SaveChanges();
                                 return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen/" + courseOccasion.CourseId);
                             }
@@ -386,11 +391,15 @@ namespace Utbildning.Areas.Kursledare.Controllers
 
 
                 case "RaderaKurs":
+                    if (param2.GetIds(out Ids))
+                    {
+                        Id = Ids.First();
+                        Course CourseToBeDeleted = db.Courses.Find(Id);
 
-                    Course CourseToBeDeleted = db.Courses.Find(param2);
-
-                    db.Courses.Remove(CourseToBeDeleted);
-                    db.SaveChanges();
+                        db.Courses.Remove(CourseToBeDeleted);
+                        db.Logs.Add(new Log() { User = User.Identity.Name, Table = "Courses", Action = "Delete", Before = CourseToBeDeleted.Name, After = "[DELETED]", Time = DateTime.Now });
+                        db.SaveChanges();
+                    }
 
                     return Redirect("~/Kursledare/Kurser");
 

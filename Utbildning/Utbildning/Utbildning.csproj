@@ -216,6 +216,7 @@
     <Compile Include="Controllers\FrontpageInfoesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KurserController.cs" />
+    <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -229,8 +230,8 @@
     <Compile Include="Models\FrontpageCarousel.cs" />
     <Compile Include="Models\FrontpageInfo.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Log.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -283,7 +284,7 @@
     <Content Include="Areas\Kursledare\Views\Profil\Bild.cshtml" />
     <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Bokningar\Skapa.cshtml" />
     <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Bokningar\Radera.cshtml" />
-    <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Bokningar\Bokning.cshtml"/>
+    <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Bokningar\Bokning.cshtml" />
     <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Bokningar\Redigera.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -386,6 +387,7 @@
     <Folder Include="Areas\Kursledare\Models\" />
     <Folder Include="images\profile\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Views\Log\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
