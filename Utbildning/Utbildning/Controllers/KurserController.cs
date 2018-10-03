@@ -47,6 +47,9 @@ namespace Utbildning.Controllers
                 booking.BookingDate = now;
                 db.Bookings.Add(booking);
                 db.SaveChanges();
+                db = new ApplicationDbContext();
+                db.BookingDatas.Add(db.Bookings.Find(booking).GetBookingData());
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
