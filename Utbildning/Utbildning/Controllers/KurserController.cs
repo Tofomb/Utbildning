@@ -18,18 +18,40 @@ namespace Utbildning.Controllers
         // GET: Courses
         public ActionResult Index()
         {
-            return View(db.Courses.ToList());
+            List<CourseOccasion> cos = db.CourseOccasions.ToList().Where(co => co.StartDate > DateTime.Now).ToList();
+            List<Course> courses = new List<Course>();
+            ViewBag.CO = cos;
+
+
+            foreach (CourseOccasion courseoccasion in cos)
+            {
+                courses.Add(DBHandler.GetCourse(courseoccasion));
+            }
+
+            //  var x = from unicCourses in courses
+            var x = courses.GroupBy(c => c.Id).Select(y => y.First());
+
+            return View(x.ToList());
+
+            // return View(db.Courses.ToList());
         }
 
 
 
         // GET: Kurser/Boka
-        public ActionResult Boka(int? id)
+        public ActionResult Boka(int? id, string w)
         {
+            if(w == "nea")
+            {
+                ViewBag.Warning = "För många deltagare valda, försök igen eller kontakta kursansvarig.";
+            }
             Course course = db.Courses.ToListAsync().Result.Where(x => x.Id == id).First();
+            
+          //  ViewBag.Available = DBHandler.GetAvailableBookings(db.CourseOccasions.Where(x=>x.Id==id).First());
+            
             ViewBag.CourseTitle = course.Name;
             ViewBag.CourseSubtitle = course.Subtitle;
-            ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions, "Id", "StartDate");
+            ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions.Where(x => x.CourseId == course.Id && x.StartDate > DateTime.Now), "Id", "StartDate");
             return View();
         }
 
@@ -43,6 +65,9 @@ namespace Utbildning.Controllers
             if (ModelState.IsValid)
             {
                 //add booking date
+                var co = DBHandler.GetCourseOccasion(booking);
+                if (co.EnoughAvailable(booking.Bookings))
+                {
                 booking.BookingDate = DateTime.Now;
                 db.Bookings.Add(booking);
                 db.SaveChanges();
@@ -50,10 +75,14 @@ namespace Utbildning.Controllers
                 db.BookingDatas.Add(db.Bookings.Find(booking.Id).GetBookingData());
                 db.SaveChanges();
                 return RedirectToAction("Index");
+                }
+
+
             }
 
+           
             ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions, "Id", "StartDate", booking.CourseOccasionId);
-            return View(booking);
+            return Redirect("~/kurser/boka?id="+booking.GetCourseOccasion().GetCourse().Id + "&w=nea");
         }
 
 
@@ -75,7 +104,7 @@ namespace Utbildning.Controllers
                 return HttpNotFound();
             }
             var courseOccasions = (db.CourseOccasions.Where(m => m.CourseId == id)).ToList();
-            
+
             ViewBag.CourseOccasionViewBag = courseOccasions;
 
             var courseBulletpoints = (db.BulletPoints.Where(m => m.CourseId == id)).ToList();
