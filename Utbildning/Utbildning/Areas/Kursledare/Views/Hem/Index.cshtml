@@ -25,5 +25,5 @@
 }
 else
 {
-    <h2>Välkommen till kursledarsidan, @ViewData["Name"]!</h2>
+    <h2>Välkommen till kursledarsidan@((string)ViewData["Name"] == "" || (string)ViewData["Name"] == null ? "! Här kan du komma åt det mesta du kan göra här." : ", " + ViewData["Name"] + "!")</h2>
 }
