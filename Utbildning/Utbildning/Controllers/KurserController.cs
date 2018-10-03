@@ -103,7 +103,7 @@ namespace Utbildning.Controllers
             {
                 return HttpNotFound();
             }
-            var courseOccasions = (db.CourseOccasions.Where(m => m.CourseId == id)).ToList();
+            var courseOccasions = (db.CourseOccasions.Where(m => m.CourseId == id && m.StartDate > DateTime.Now)).ToList();
 
             ViewBag.CourseOccasionViewBag = courseOccasions;
 
