@@ -17,6 +17,7 @@ namespace Utbildning.Controllers
         // GET: BookingData
         public ActionResult Index()
         {
+            var x = db.Users.ToList().First();
             return View(db.BookingDatas.ToList());
         }        
     }

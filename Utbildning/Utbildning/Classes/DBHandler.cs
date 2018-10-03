@@ -122,6 +122,11 @@ namespace Utbildning.Classes
         {
             CourseOccasion courseOccasion = GetCourseOccasion(booking);
             Course course = GetCourse(courseOccasion);
+            string KLId;
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                KLId = db.Users.ToList().Where(x => x.UserName == course.Email).First().Id;
+            }
 
             BookingData BD = new BookingData()
             {
@@ -135,7 +140,7 @@ namespace Utbildning.Classes
                 Course = course.Id,
                 CourseOccasion = courseOccasion.Id,
                 CourseName = course.Name,
-                Host = courseOccasion.AltHost == null ? "[HOST]" : "[ALT]",
+                Host = courseOccasion.AltHost == null ? KLId : "[ALT]",
                 CourseCity = courseOccasion.AltCity ?? course.City,
                 CourseAddress = courseOccasion.AltAddress ?? course.Address,
                 MinPeople = courseOccasion.MinPeople,

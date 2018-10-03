@@ -25,7 +25,7 @@ namespace Utbildning.Models
         public int MaxPeople { get; set; }
         public DateTime StartDate { get; set; }
         public int CourseLength { get; set; }
-        public float Price { get; set; }        
-
+        public float Price { get; set; }
+        public string Status { get; set; } = "OK"; //Example: OK, Avbokad av användare, Cancelled by KL etc        
     }
 }
