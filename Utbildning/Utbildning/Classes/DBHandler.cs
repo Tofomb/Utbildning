@@ -117,6 +117,41 @@ namespace Utbildning.Classes
             result = new string[2];
             return false;
         }
+
+        public static BookingData GetBookingData(this Booking booking)
+        {
+            CourseOccasion courseOccasion = GetCourseOccasion(booking);
+            Course course = GetCourse(courseOccasion);
+            string KLId;
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                KLId = db.Users.ToList().Where(x => x.UserName == course.Email).First().Id;
+            }
+
+            BookingData BD = new BookingData()
+            {
+                BookingId = booking.Id,
+                Company = booking.Company,
+                BillingCity = booking.City,
+                BillingPostalCode = booking.PostalCode,
+                Bookings = booking.Bookings,
+                DiscountCode = booking.DiscountCode,
+                BookingDate = booking.BookingDate,
+                Course = course.Id,
+                CourseOccasion = courseOccasion.Id,
+                CourseName = course.Name,
+                Host = courseOccasion.AltHost == null ? KLId : "[ALT]",
+                CourseCity = courseOccasion.AltCity ?? course.City,
+                CourseAddress = courseOccasion.AltAddress ?? course.Address,
+                MinPeople = courseOccasion.MinPeople,
+                MaxPeople = courseOccasion.MaxPeople,
+                StartDate = courseOccasion.StartDate,
+                CourseLength = course.Length,
+                Price = course.Price
+            };
+
+            return BD;
+        }
     }
 }
 

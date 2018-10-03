@@ -20,6 +20,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
             {
                 ViewBag.NameReset = true;
             }
+            ViewBag.Name = User.GetFullName();
             return View();
         }
         [HttpPost]

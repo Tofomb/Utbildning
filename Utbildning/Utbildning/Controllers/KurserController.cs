@@ -42,10 +42,12 @@ namespace Utbildning.Controllers
         {
             if (ModelState.IsValid)
             {
-                DateTime now = DateTime.Now;
                 //add booking date
-                booking.BookingDate = now;
+                booking.BookingDate = DateTime.Now;
                 db.Bookings.Add(booking);
+                db.SaveChanges();
+                db = new ApplicationDbContext();
+                db.BookingDatas.Add(db.Bookings.Find(booking.Id).GetBookingData());
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

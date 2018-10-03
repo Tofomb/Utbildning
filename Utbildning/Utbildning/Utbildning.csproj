@@ -207,6 +207,7 @@
     <Compile Include="Classes\UserHandler.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BookingDataController.cs" />
     <Compile Include="Controllers\BookingsController.cs" />
     <Compile Include="Controllers\BulletPointsController.cs" />
     <Compile Include="Controllers\CourseOccasionsController.cs" />
@@ -221,17 +222,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201809211130373_InitialCreate.cs" />
-    <Compile Include="Migrations\201809211130373_InitialCreate.Designer.cs">
-      <DependentUpon>201809211130373_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810021120536_migge2.cs" />
-    <Compile Include="Migrations\201810021120536_migge2.Designer.cs">
-      <DependentUpon>201810021120536_migge2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Booking.cs" />
+    <Compile Include="Models\BookingData.cs" />
     <Compile Include="Models\BulletPoints.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\CourseOccasion.cs" />
@@ -395,6 +388,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Kursledare\Models\" />
     <Folder Include="images\profile\" />
+    <Folder Include="Views\BookingData\" />
     <Folder Include="Views\Log\" />
   </ItemGroup>
   <ItemGroup>
@@ -409,14 +403,6 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809211130373_InitialCreate.resx">
-      <DependentUpon>201809211130373_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810021120536_migge2.resx">
-      <DependentUpon>201810021120536_migge2.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

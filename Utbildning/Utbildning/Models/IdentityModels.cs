@@ -49,5 +49,7 @@ namespace Utbildning.Models
 
         object placeHolderVariable;
         public System.Data.Entity.DbSet<Utbildning.Models.Log> Logs { get; set; }
+
+        public System.Data.Entity.DbSet<Utbildning.Models.BookingData> BookingDatas { get; set; }
     }
 }
