@@ -41,18 +41,18 @@ namespace Utbildning.Controllers
         // GET: Kurser/Boka
         public ActionResult Boka(int? id, string w)
         {
-            if(w == "nea")
+            if (w == "nea")
             {
                 ViewBag.Warning = "För många deltagare valda, försök igen eller kontakta kursansvarig.";
             }
             CourseOccasion co = db.CourseOccasions.ToListAsync().Result.Where(z => z.Id == id).First();
             Course course = db.Courses.ToListAsync().Result.Where(x => x.Id == DBHandler.GetCourse(co).Id).First();
-            
+
             ViewBag.Available = DBHandler.GetAvailableBookings(co);
 
             List<int> numblist = new List<int>();
-            
-            
+
+
             for (int n = 1; n <= ViewBag.Available; n++)
             {
                 numblist.Add(n);
@@ -73,31 +73,44 @@ namespace Utbildning.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Boka([Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking)
+        public ActionResult Boka([Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking, int? Id)
         {
             if (ModelState.IsValid)
             {
                 //add booking date
-                
-               
-                var co = DBHandler.GetCourseOccasion(booking);
-                if (co.EnoughAvailable(booking.Bookings))
+
+                if (Id != null)
                 {
-                booking.BookingDate = DateTime.Now;
-                db.Bookings.Add(booking);
-                db.SaveChanges();
-                db = new ApplicationDbContext();
-                db.BookingDatas.Add(db.Bookings.Find(booking.Id).GetBookingData());
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                    booking.CourseOccasionId = (int)Id;
+
+
+                    var co = DBHandler.GetCourseOccasion(booking);
+                    if (co.EnoughAvailable(booking.Bookings))
+                    {
+                        booking.BookingDate = DateTime.Now;
+
+                        db.Bookings.Add(booking);
+                        db.SaveChanges();
+                        db = new ApplicationDbContext();
+                        db.BookingDatas.Add(db.Bookings.Find(booking.Id).GetBookingData());
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+
+                    }
+                    else
+                    {
+                        ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions, "Id", "StartDate", booking.CourseOccasionId);
+                        return Redirect("~/kurser/boka?id=" + booking.GetCourseOccasion().GetCourse().Id + "&w=nea");
+                    }
                 }
 
 
             }
-
-           
             ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions, "Id", "StartDate", booking.CourseOccasionId);
-            return Redirect("~/kurser/boka?id="+booking.GetCourseOccasion().GetCourse().Id + "&w=nea");
+            return Redirect("~/kurser/boka?id=" + booking.GetCourseOccasion().GetCourse().Id);
+
+
+
         }
 
 

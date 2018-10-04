@@ -30,14 +30,15 @@
 
         <br>
         <br>
+        <a name="kurstillfällen"></a>
         <div class="CourseOccasion" style="background-color:lightgray;">
-            <ul>
+            <ol>
                 @foreach (var item in ViewBag.CourseOccasionViewBag)
                 {
-                    <li>@DBHandler.Format(item.StartDate)</li>
-                    <a class="button button-all button-book" href='@Url.Action("Boka", "Kurser", new {id=item.Id } )'>Boka</a>
+                    <li style="border:solid; margin:5px; padding:10px; border-color:lightcoral;">@DBHandler.Format(item.StartDate) <a class="button button-all button-book" href='@Url.Action("Boka", "Kurser", new {id=item.Id } )'>Boka</a></li>
+                    
                 }
-            </ul>
+            </ol>
             </div>
 
 
