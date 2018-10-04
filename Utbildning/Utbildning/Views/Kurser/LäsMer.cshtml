@@ -1,5 +1,5 @@
 ﻿@model Utbildning.Models.Course
-
+@using Utbildning.Classes
 @{
     ViewBag.Title = "LäsMer";
 }
@@ -31,12 +31,13 @@
         <br>
         <br>
         <div class="CourseOccasion" style="background-color:lightgray;">
-        <ul>
-            @foreach (var item in ViewBag.CourseOccasionViewBag)
-            {
-                <li>@item.StartDate</li>
-            }
-        </ul>
+            <ul>
+                @foreach (var item in ViewBag.CourseOccasionViewBag)
+                {
+                    <li>@DBHandler.Format(item.StartDate)</li>
+                    <a class="button button-all button-book" href='@Url.Action("Boka", "Kurser", new {id=item.Id } )'>Boka</a>
+                }
+            </ul>
             </div>
 
 

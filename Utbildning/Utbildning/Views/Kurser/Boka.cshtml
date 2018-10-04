@@ -1,4 +1,5 @@
 ﻿@model Utbildning.Models.Booking
+    @using Utbildning.Classes
 
 @{
     ViewData["Title"] = "Boka";
@@ -16,7 +17,9 @@
 
     <h2 class="text-title"> @ViewData["CourseTitle"] </h2><br />
     <h4 class="text-subtitle"> @(ViewData["CourseSubtitle"] == null ? "" : ViewData["CourseSubtitle"])</h4>
+    <h4>@DBHandler.Format(ViewBag.CODate)</h4>
     <h4 style="color:red;">@ViewBag.Warning</h4>
+
     <hr class="dec-line" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <form asp-action="Book">
@@ -82,16 +85,29 @@
                     </div>
 
 
-                    <!--flytta, så den endast finns på Läsmer-sidan-->
                     <div class="form-group">
-                        <div>
+                        <div class="ctooltip">
 
-                            <label>Kurstillfälle</label>
+                            <label>Bokningar<span class="tooltiptext">Antal deltagare</span></label>
 
                         </div>
-                        @Html.DropDownList("CourseOccasionId", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.CourseOccasionId, "", new { @class = "text-danger" })
+
+                        <select>
+                            @for (int n = 1; n <= ViewBag.Available; n++)
+                            {
+                                <option>@n</option>
+                            }
+                        </select>
+                        @Html.DropDownListFor(model => model.Bookings, new SelectList(ViewBag.Numblist.Items as List<SelectListItem>), "Value","Text")
+                        @Html.ValidationMessageFor(model => model.Bookings, "", new { @class = "text-danger" })
+
+
+                        <!-- @Html.EditorFor(model => model.Bookings, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Bookings, "", new { @class = "text-danger" })
+       -->
                     </div>
+
+
 
                 </div>
 
@@ -131,25 +147,7 @@
 
                     </div>
 
-                    <div class="form-group">
-                        <div class="ctooltip">
-
-                            <label>Bokningar<span class="tooltiptext">Antal deltagare</span></label>
-
-                        </div>
-
-                     <select>
-                         @for (int n = 1; n <= ViewBag.Available; n++)
-                         {
-                             <option>@n</option>
-                         }
-                        </select>
-
-                        @Html.EditorFor(model => model.Bookings, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Bookings, "", new { @class = "text-danger" })
-
-                    </div>
-
+                   
                     <div class="form-group">
 
                         <div class="ctooltip">
@@ -166,8 +164,7 @@
 
                     <div class="form-group">
                         <div class="ctooltip">
-                            <!--       @Html.LabelFor(model => model.DiscountCode, htmlAttributes: new { @class = "control-label", title = "Tooltip1" })
-                    -->
+                           
                             <label>Rabattkod<span class="tooltiptext">Om du har en rabattkod så kan du fylla i den här</span></label>
 
                         </div>
@@ -177,13 +174,6 @@
 
                     </div>
 
-                    <!--   <div class="form-group">
-                @Html.LabelFor(model => model.BookingDate, htmlAttributes: new { @class = "control-label col-md-2 col-lg-2" })
-
-                    @Html.EditorFor(model => model.BookingDate, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.BookingDate, "", new { @class = "text-danger" })
-
-            </div>-->
 
 
                 </div>
