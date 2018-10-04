@@ -50,17 +50,17 @@ namespace Utbildning.Controllers
             
             ViewBag.Available = DBHandler.GetAvailableBookings(co);
 
-            List<SelectListItem> numblist = new List<SelectListItem>();
+            List<int> numblist = new List<int>();
             
             
             for (int n = 1; n <= ViewBag.Available; n++)
             {
-                numblist.Add(new SelectListItem() { Text = n.ToString(), Value = n.ToString()});
+                numblist.Add(n);
             }
             SelectList sl = new SelectList(numblist);
 
-            ViewBag.Numblist = sl;
-                ViewBag.CourseTitle = course.Name;
+            ViewBag.Numblist = numblist;
+            ViewBag.CourseTitle = course.Name;
             ViewBag.CourseSubtitle = course.Subtitle;
             //ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions.Where(x => x.CourseId == course.Id && x.StartDate > DateTime.Now), "Id", "StartDate");
             ViewBag.COId = co.Id;

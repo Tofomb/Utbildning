@@ -98,7 +98,7 @@
                                 <option>@n</option>
                             }
                         </select>
-                        @Html.DropDownListFor(model => model.Bookings, new SelectList(ViewBag.Numblist.Items as List<SelectListItem>), "Value","Text")
+                        @Html.DropDownListFor(model => model.Bookings, new SelectList(ViewBag.Numblist), "Antal")
                         @Html.ValidationMessageFor(model => model.Bookings, "", new { @class = "text-danger" })
 
 
