@@ -34,6 +34,14 @@ namespace Utbildning.Classes
             return "Failed to load.";
         }
 
+        public static string FormatFixer(DateTime dt)
+        {
+            string dtString = dt.ToString("dddd, dd MMMM yyyy", new CultureInfo("sv-SE"));
+            if (dtString.Length > 0)
+                return char.ToUpper(dtString[0]) + dtString.Substring(1);
+            return "Failed to load.";
+        }
+
         public static Course GetCourse(this CourseOccasion co)
         {
             using (ApplicationDbContext db = new ApplicationDbContext())
