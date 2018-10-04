@@ -248,11 +248,13 @@
     <Content Include="Content\Header.css" />
     <Content Include="Content\Kursledare.css" />
     <Content Include="Content\List.css" />
+    <Content Include="Content\Mail.css" />
     <Content Include="Content\ReadMore.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="js\Mail.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">

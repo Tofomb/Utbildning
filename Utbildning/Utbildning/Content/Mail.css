@@ -1,0 +1,14 @@
+﻿#mailTo:focus {
+    font-size: 150px;
+}
+
+#mailTo:focus + a {
+    font-size:150px;    
+}
+
+.notWorking {
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    position: absolute;
+}
