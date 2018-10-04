@@ -45,13 +45,26 @@ namespace Utbildning.Controllers
             {
                 ViewBag.Warning = "För många deltagare valda, försök igen eller kontakta kursansvarig.";
             }
-            Course course = db.Courses.ToListAsync().Result.Where(x => x.Id == id).First();
+            CourseOccasion co = db.CourseOccasions.ToListAsync().Result.Where(z => z.Id == id).First();
+            Course course = db.Courses.ToListAsync().Result.Where(x => x.Id == DBHandler.GetCourse(co).Id).First();
             
-          //  ViewBag.Available = DBHandler.GetAvailableBookings(db.CourseOccasions.Where(x=>x.Id==id).First());
+            ViewBag.Available = DBHandler.GetAvailableBookings(co);
+
+            List<SelectListItem> numblist = new List<SelectListItem>();
             
-            ViewBag.CourseTitle = course.Name;
+            
+            for (int n = 1; n <= ViewBag.Available; n++)
+            {
+                numblist.Add(new SelectListItem() { Text = n.ToString(), Value = n.ToString()});
+            }
+            SelectList sl = new SelectList(numblist);
+
+            ViewBag.Numblist = sl;
+                ViewBag.CourseTitle = course.Name;
             ViewBag.CourseSubtitle = course.Subtitle;
-            ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions.Where(x => x.CourseId == course.Id && x.StartDate > DateTime.Now), "Id", "StartDate");
+            //ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions.Where(x => x.CourseId == course.Id && x.StartDate > DateTime.Now), "Id", "StartDate");
+            ViewBag.COId = co.Id;
+            ViewBag.CODate = co.StartDate;
             return View();
         }
 
@@ -65,6 +78,8 @@ namespace Utbildning.Controllers
             if (ModelState.IsValid)
             {
                 //add booking date
+                
+               
                 var co = DBHandler.GetCourseOccasion(booking);
                 if (co.EnoughAvailable(booking.Bookings))
                 {
