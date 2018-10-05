@@ -34,7 +34,7 @@ namespace Utbildning.Classes
             return "Failed to load.";
         }
 
-        public static string Format(this DateTime dt, bool Time)
+        public static string Format(this DateTime dt, bool Time = false)
         {
             if (!Time) { return dt.Format(); }
             string dtTime = dt.ToString("HH:mm ", new CultureInfo("sv-SE"));

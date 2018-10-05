@@ -77,34 +77,35 @@ namespace Utbildning.Controllers
         {
             if (ModelState.IsValid)
             {
-                //add booking date
-
-                if (Id != null)
+                if (booking.Bookings > 0)
                 {
-                    booking.CourseOccasionId = (int)Id;
 
-
-                    var co = DBHandler.GetCourseOccasion(booking);
-                    if (co.EnoughAvailable(booking.Bookings))
+                    if (Id != null)
                     {
-                        booking.BookingDate = DateTime.Now;
+                        booking.CourseOccasionId = (int)Id;
 
-                        db.Bookings.Add(booking);
-                        db.SaveChanges();
-                        db = new ApplicationDbContext();
-                        db.BookingDatas.Add(db.Bookings.Find(booking.Id).GetBookingData());
-                        db.SaveChanges();
-                        return RedirectToAction("Index");
+                        var co = DBHandler.GetCourseOccasion(booking);
+                        if (co.EnoughAvailable(booking.Bookings))
+                        {
+                            booking.BookingDate = DateTime.Now;
 
-                    }
-                    else
-                    {
-                        ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions, "Id", "StartDate", booking.CourseOccasionId);
-                        return Redirect("~/kurser/boka?id=" + booking.GetCourseOccasion().GetCourse().Id + "&w=nea");
+                            db.Bookings.Add(booking);
+                            db.SaveChanges();
+                            db = new ApplicationDbContext();
+                            db.BookingDatas.Add(db.Bookings.Find(booking.Id).GetBookingData());
+                            db.SaveChanges();
+                            return RedirectToAction("Index");
+
+                        }
+                        else
+                        {
+                            ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions, "Id", "StartDate", booking.CourseOccasionId);
+                            return Redirect("~/kurser/boka?id=" + booking.GetCourseOccasion().GetCourse().Id + "&w=nea");
+                        }
                     }
                 }
-
-
+                else
+                    return View();                
             }
             ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions, "Id", "StartDate", booking.CourseOccasionId);
             return Redirect("~/kurser/boka?id=" + booking.GetCourseOccasion().GetCourse().Id);

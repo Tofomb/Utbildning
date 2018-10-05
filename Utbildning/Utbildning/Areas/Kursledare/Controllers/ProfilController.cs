@@ -67,13 +67,9 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     image.Crop(0, Diff, 0, Diff);
                 else if (height > width)
                     image.Crop(-Diff, 0, -Diff, 0);
-
-                if (width > height)
-                {
-                    var leftrightcrop = (width - height) / 2;
-                    var topbottomcrop = (height - width) / 2;
-                    image.Crop(0, leftrightcrop, 0, leftrightcrop);
-                }
+                
+                if (image.Width > 250)
+                    image.Resize(250, 250);
 
                 image.Save(path);
 
