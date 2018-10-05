@@ -337,6 +337,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
         {
             int Id = 0;
             List<int> Ids;
+            string[] Comp;
             switch (param1)
             {
                 case "NyttKT":
@@ -346,7 +347,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                         if (User.ValidUser(courseOccasion))
                         {
                             db.CourseOccasions.Add(courseOccasion);
-                            if (new CourseOccasion().GetComparison(courseOccasion, out string[] Comp))
+                            if (new CourseOccasion().GetComparison(courseOccasion, out Comp))
                             {
                                 db.Logs.Add(new Log() { User = User.Identity.Name, Table = "CourseOccasions", Action = "Add", Before = "[NULL]", After = Comp[1], Time = DateTime.Now });
                             }
@@ -360,7 +361,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     {
                         CourseOccasion co = db.CourseOccasions.Find(Id);
                         db.CourseOccasions.Remove(co);
-                        if (co.GetComparison(new CourseOccasion(), out string[] Comp))
+                        if (co.GetComparison(new CourseOccasion(), out Comp))
                         {
                             db.Logs.Add(new Log() { User = User.Identity.Name, Table = "CourseOccasions", Action = "Delete", Before = Comp[0], After = "[DELETED]", Time = DateTime.Now });
                         }
@@ -380,7 +381,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                                 courseOccasion.CourseId = CourseId;
 
                                 db = new ApplicationDbContext();
-                                if (db.CourseOccasions.Find(courseOccasion.Id).GetComparison(courseOccasion, out string[] Comp))
+                                if (db.CourseOccasions.Find(courseOccasion.Id).GetComparison(courseOccasion, out Comp))
                                 {
                                     db.Logs.Add(new Log() { User = User.Identity.Name, Table = "CourseOccasions", Action = "Update", Before = Comp[0], After = Comp[1], Time = DateTime.Now });
                                     db.SaveChanges();
@@ -399,6 +400,17 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 case "RedigeraKurs":
                     course.Email = User.Identity.Name;
                     course.Host = User.GetFullName();
+
+
+
+                    db = new ApplicationDbContext();
+                    if (db.Courses.Find(course.Id).GetComparison(course, out Comp))
+                    {
+                        db.Logs.Add(new Log() { User = User.Identity.Name, Table = "Courses", Action = "Update", Before = Comp[0], After = Comp[1], Time = DateTime.Now });
+                        db.SaveChanges();
+                    }
+                    db = new ApplicationDbContext();
+
                     db.Entry(course).State = EntityState.Modified;
 
                     db.SaveChanges();
@@ -412,7 +424,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                         Course CourseToBeDeleted = db.Courses.Find(Id);
 
                         db.Courses.Remove(CourseToBeDeleted);
-                        if (CourseToBeDeleted.GetComparison(new Course(), out string[] Comp))
+                        if (CourseToBeDeleted.GetComparison(new Course(), out Comp))
                         {
                             db.Logs.Add(new Log() { User = User.Identity.Name, Table = "Courses", Action = "Delete", Before = Comp[0], After = "[DELETED]", Time = DateTime.Now });
                         }
@@ -457,7 +469,15 @@ namespace Utbildning.Areas.Kursledare.Controllers
                         int BookingId = Ids.First();
                         Booking bo = db.Bookings.Where(m => m.Id == BookingId).First();
                         CourseOccasion co = DBHandler.GetCourseOccasion(bo);
+
                         db.Bookings.Remove(bo);
+
+                        if (db.Bookings.Find(booking.Id).GetComparison(booking, out Comp))
+                        {
+                            db.Logs.Add(new Log() { User = User.Identity.Name, Table = "Bookings", Action = "Delete", Before = Comp[0], After = "[DELETED]", Time = DateTime.Now });
+                            db.SaveChanges();
+                        }
+
                         db.SaveChanges();
 
                         return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfälle/Bokningar/" + co.Id);
@@ -465,6 +485,13 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     return View("");
 
                 case "RedigeraBokning":
+                    db = new ApplicationDbContext();
+                    if (db.Bookings.Find(booking.Id).GetComparison(booking, out Comp))
+                    {
+                        db.Logs.Add(new Log() { User = User.Identity.Name, Table = "Bookings", Action = "Update", Before = Comp[0], After = Comp[1], Time = DateTime.Now });
+                        db.SaveChanges();
+                    }
+                    db = new ApplicationDbContext();
                     db.Entry(booking).State = EntityState.Modified;
                     db.SaveChanges();
                     return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfälle/Bokningar/" + booking.CourseOccasionId);
