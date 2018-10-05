@@ -38,16 +38,18 @@ namespace Utbildning.Areas.Kursledare.Controllers
         {
             if (ModelState.IsValid)
             {
-                course.Email = User.Identity.Name;
-                course.Host = db.Users.ToList().Where(m => m.Email == User.Identity.Name).First().FullName;
-                db.Courses.Add(course);
-                if (new Course().GetComparison(course, out string[] Comp))
-                {
-                    db.Logs.Add(new Log() { User = User.Identity.Name, Table = "Courses", Action = "Add", Before = "[NULL]", After = Comp[1], Time = DateTime.Now });
-                }
+                
+                    course.Email = User.Identity.Name;
+                    course.Host = db.Users.ToList().Where(m => m.Email == User.Identity.Name).First().FullName;
+                    db.Courses.Add(course);
+                    if (new Course().GetComparison(course, out string[] Comp))
+                    {
+                        db.Logs.Add(new Log() { User = User.Identity.Name, Table = "Courses", Action = "Add", Before = "[NULL]", After = Comp[1], Time = DateTime.Now });
+                    }
 
-                db.SaveChanges();
-                return Redirect("~/Kursledare/Kurser");
+                    db.SaveChanges();
+                    return Redirect("~/Kursledare/Kurser");
+                
             }
 
             return View(course);
@@ -79,10 +81,11 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 }
                 else
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    return Redirect("~/Kursledare/Kurser");
                 }
             }
 
+            // Kursöversikt / Course overview
             else if (param1.HasIds())
             {
                 param1.GetIds(out List<int> ids);
@@ -90,17 +93,21 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 Course course = db.Courses.Find(id);
                 if (course == null)
                 {
-                    return HttpNotFound();
+                    return Redirect("~/Kursledare/Kurser"); ;
                 }
                 ViewBag.CId = id;
                 ViewBag.CourseName = course.Name;
 
                 List<BulletPoints> bulletpoints = db.BulletPoints.Where(x => x.CourseId == id).ToList();
                 ViewBag.BPs = bulletpoints;
-
-                return View(course);
+                if (User.ValidUser(course))
+                {
+                    return View(course);
+                }
+                return Redirect("~/Kursledare/Kurser");
             }
 
+            // Redigera Kurs / Edit Course
             else if (param1 == "redigera" && param2.HasIds())
             {
                 param2.GetIds(out List<int> ids);
@@ -119,6 +126,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return Redirect("~/Kursledare/Kurser");
             }
 
+            // Radera Kurs / Delete Course
             else if (param1 == "radera" && param2.HasIds())
             {
 
@@ -139,6 +147,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 return Redirect("~/Kursledare/Kurser");
             }
 
+            // Se / Skapa Punktlista / See / Create Bulletpoints
             else if (param1 == "punktlista" && param2.HasIds())
             {
                 param2.GetIds(out List<int> Ids);
@@ -171,7 +180,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
 
 
 
-
+            
             else if (param1 == "kurstillfälle" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/1
             {
                 param2.GetIds(out List<int> Ids);
@@ -179,7 +188,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 CourseOccasion courseOccasion = db.CourseOccasions.Find(Id);
                 if (courseOccasion == null)
                 {
-                    return HttpNotFound();
+                    return Redirect("~/Kursledare/Kurser");
                 }
 
                 ViewBag.CourseId = courseOccasion.CourseId;
@@ -187,12 +196,15 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 ViewBag.CourseName = DBHandler.GetCourse(courseOccasion).Name;
                 ViewBag.COId = Id;
 
-
-                return View("Kurstillfällen/Kurstillfälle", courseOccasion);
+                if (User.ValidUser(courseOccasion))
+                {
+                    return View("Kurstillfällen/Kurstillfälle", courseOccasion);
+                }
+                return Redirect("~/Kursledare/Kurser");
             }
 
 
-
+            // Skapa Kurstillfälle / Create Courseoccasion
             else if (param1 == "kurstillfällen" && param2 == "skapa" && param3.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfällen/Skapa/{kurs-id}
             {
                 param3.GetIds(out List<int> Ids);
@@ -200,7 +212,11 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 ViewBag.SpecificCourseId = Id;
                 ViewBag.CourseName = db.Courses.ToList().Where(x => x.Id == Id).First().Name;
                 ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name");
-                return View("Kurstillfällen/Skapa");
+                if (User.ValidUser(db.Courses.Where(m => m.Id == Id).First()))
+                {
+                    return View("Kurstillfällen/Skapa");
+                }
+                return Redirect("~/Kursledare/Kurser");
             }
 
             else if (param1 == "kurstillfälle" && param2 == "radera" && param3.HasIds())
@@ -215,7 +231,9 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 ViewBag.COId = co.Id;
 
                 if (User.ValidUser(course))
+                {
                     return View("Kurstillfällen/Radera", co);
+                }
                 return Redirect("~/Kursledare/Kurser");
             }
 
@@ -278,7 +296,11 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     ViewBag.COId = Id;
                     ViewBag.CourseName = course.Name;
                     ViewBag.CODate = co.StartDate;
-                    return View("Kurstillfällen/Bokningar/Skapa");
+                    if (User.ValidUser(co))
+                    {
+                        return View("Kurstillfällen/Bokningar/Skapa");
+                    }
+                    return Redirect("~/Kursledare/Kurser");
                 }
             }
 
@@ -293,7 +315,11 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     ViewBag.BookingId = Id;
                     ViewBag.CourseName = course.Name;
                     ViewBag.CODate = co.StartDate.Format();
-                    return View("Kurstillfällen/Bokningar/Radera", booking);
+                    if (User.ValidUser(booking))
+                    {
+                        return View("Kurstillfällen/Bokningar/Radera", booking);
+                    }
+                    return Redirect("~/Kursledare/Kurser");
                 }
             }
             else if (param1 == "kurstillfälle" && param2 == "bokning" && param3 == "redigera" && param4.HasIds())
@@ -325,7 +351,11 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     {
                         return HttpNotFound();
                     }
-                    return View("Kurstillfällen/Bokningar/bokning", booking);
+                    if (User.ValidUser(booking))
+                    {
+                        return View("Kurstillfällen/Bokningar/bokning", booking);
+                    }
+                    return Redirect("~/Kursledare/Kurser");
                 }
             }
 
