@@ -386,6 +386,7 @@
     <Content Include="Views\Admin\Deltagare.cshtml" />
     <Content Include="Views\Kurser\Tack.cshtml" />
     <Content Include="Views\Kurser\Om.cshtml" />
+    <Content Include="Views\Kurser\Avboka.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

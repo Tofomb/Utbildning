@@ -182,7 +182,7 @@ namespace Utbildning.Controllers
                 UserData += "\n \n";
 
             }
-            string MailText = "Du efterfrågade en utskrit om all data som Castra Utbildning har sparat kopplat till din mail, om du önskar att ta bort information från vår databas, tryck på länken nedanför. Var medveten om att detta även betyder att bokningen kopplad till din email kommer att avbokas.";
+            string MailText = $"Du efterfrågade en utskrit om all data som Castra Utbildning har sparat kopplat till din mail, om du önskar att ta bort information från vår databas, tryck på länken nedanför. Var medveten om att detta även betyder att bokningen kopplad till din email kommer att avbokas.<br/><a href='http://localhost:59115/Kurser/Avboka?email={UserEmail}'";
             string SecretEmail = UserEmail;
 
 
@@ -204,6 +204,16 @@ namespace Utbildning.Controllers
             ViewBag.City = "Ort: " + ci;
             ViewBag.Date = "Datum" + da;
 
+            return View();
+        }        
+        
+        public ActionResult Avboka(string email)
+        {
+            //TODO maila kursledaren
+            List<Booking> bookings = db.Bookings.ToList().Where(x => x.Email == email).ToList();
+            foreach(Booking b in bookings)
+                db.Bookings.Remove(b);
+            db.SaveChanges();
             return View();
         }
     }
