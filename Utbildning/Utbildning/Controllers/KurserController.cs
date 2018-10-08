@@ -94,15 +94,14 @@ namespace Utbildning.Controllers
                             db = new ApplicationDbContext();
                             db.BookingDatas.Add(db.Bookings.Find(booking.Id).GetBookingData());
                             db.SaveChanges();
-
+                            
                             // Tester
                             string MailText = DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "\n Tack för din bokning, " + booking.Firstname + " " + booking.Lastname + "\n Platser:" + booking.Bookings +  "\n Om du har några frågor, hör av dig till kursansvarig: " + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Email;
-                          // email and password
+                            // email and password
                             MailHandler.SendTester("", booking.Email, "Bokningsbekräftelse",  MailText, "");
 
-                            return RedirectToAction("Index");
-                        
-
+                            Course course = DBHandler.GetCourse(co);
+                            return RedirectToAction("Tack", new { kn = course.Name, ad = course.Address, ci = course.City, da = co.StartDate });
                         }
                         else
                         {
@@ -112,7 +111,7 @@ namespace Utbildning.Controllers
                     }
                 }
                 else
-                    return View();                
+                    return View();
             }
             ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions, "Id", "StartDate", booking.CourseOccasionId);
             return Redirect("~/kurser/boka?id=" + booking.GetCourseOccasion().GetCourse().Id);
@@ -136,7 +135,10 @@ namespace Utbildning.Controllers
             }
             var courseOccasions = (db.CourseOccasions.Where(m => m.CourseId == id && m.StartDate > DateTime.Now)).ToList();
 
-            ViewBag.CourseOccasionViewBag = courseOccasions;
+            ViewBag.CourseOccasionViewBag = from co in courseOccasions
+                                            orderby co.StartDate
+                                            select co;
+
             ViewBag.Text = new HtmlString(course.Text.Replace(Environment.NewLine, "<br/>"));
             var courseBulletpoints = (db.BulletPoints.Where(m => m.CourseId == id)).ToList();
             ViewBag.CourseBulletPoints = courseBulletpoints;
@@ -191,7 +193,14 @@ namespace Utbildning.Controllers
         }
 
 
+        public ActionResult Tack(string kn, string ad, string ci, string da)
+        {
+            ViewBag.Namn = "Kurs: " + kn;
+            ViewBag.Address = "Address: " + ad;
+            ViewBag.City = "Ort: " + ci;
+            ViewBag.Date = "Datum" + da;
 
-
+            return View();
+        }
     }
 }

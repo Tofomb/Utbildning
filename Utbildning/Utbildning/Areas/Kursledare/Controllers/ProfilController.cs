@@ -60,7 +60,9 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     user = db.Users.Find(User.Identity.GetUserId());
                 }
                 char unique;
-                if (user.ProfilePicture[0] == '1')
+                if (user.ProfilePicture == null)
+                    unique = '0';
+                else if (user.ProfilePicture[0] == '1')
                     unique = '0';
                 else
                     unique = '1';

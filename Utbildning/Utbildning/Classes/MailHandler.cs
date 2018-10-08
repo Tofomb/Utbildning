@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Reflection;
 using System.Web;
 using Utbildning.Models;
 
@@ -55,7 +56,6 @@ namespace Utbildning.Classes
             mail.Subject = Subject;
             mail.Body = Body;
             client.Send(mail);
-            SendTester("din@mail.se", "mottagare@mail.se", "Hej", "Tjena där", "a");
         }
 
         public static void SendTester(string From, string Recipient, string Subject, string Body, string Password)
@@ -68,10 +68,31 @@ namespace Utbildning.Classes
                 EnableSsl = true,
                 Credentials = new NetworkCredential(From, Password)
             };
-            
+
             mail.Subject = Subject;
             mail.Body = Body;
             client.Send(mail);
+        }
+
+        public static string GetInfo(string Email)
+        {
+            List<Booking> bookings;
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                bookings = db.Bookings.ToList().Where(x => x.Email == Email).ToList();
+            }
+
+            string s = "";
+
+            foreach (var x in bookings)
+            {
+                PropertyInfo[] properties = x.GetType().GetProperties();
+                foreach(var y in properties)
+                {
+                    s += $"{y.Name}: {y.GetValue(x, null)}<br/>";
+                }
+            }
+            return s;
         }
     }
 }

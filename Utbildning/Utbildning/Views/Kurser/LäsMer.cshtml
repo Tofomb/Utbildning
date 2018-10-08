@@ -27,14 +27,13 @@
         <br>
         <br>
         <a name="kurstillfällen"></a>
-        <div class="CourseOccasion" style="background-color:lightgray;">
-            <ol>
-                @foreach (var item in ViewBag.CourseOccasionViewBag)
-                {
-                    <li style="border:solid; margin:5px; padding:10px; border-color:lightcoral;">@DBHandler.Format(item.StartDate) <a class="button button-all button-book" href='@Url.Action("Boka", "Kurser", new {id=item.Id } )'>Boka</a></li>
-
-                }
-            </ol>
+        <div class="CourseOccasion">
+            @foreach (var item in ViewBag.CourseOccasionViewBag)
+            {
+                <div class="CourseOccasionItem">
+                    @DBHandler.Format(item.StartDate) <a class="Boka" href='@Url.Action("Boka", "Kurser", new {id=item.Id } )'>Boka</a>
+                </div>
+            }
         </div>
 
 
@@ -54,7 +53,7 @@
         <br>
         <br>
 
-        <div style="background-color:lightgray;">
+        <div>
             <ul>
                 @foreach (var item in ViewBag.CourseBulletPoints)
                 {
@@ -62,16 +61,13 @@
                 }
             </ul>
         </div>
-        <div style="background-color:lightcyan;">
+        <div">
             <ul>
 
                 @Html.DisplayFor(model => model.Address)
                 @Html.DisplayFor(model => model.City)
 
             </ul>
-        </div>
     </div>
-    <div class="col-xs-1" style="background-color:magenta"></div>
-
-
 </div>
+<div class="col-xs-1" style="background-color:magenta"></div>

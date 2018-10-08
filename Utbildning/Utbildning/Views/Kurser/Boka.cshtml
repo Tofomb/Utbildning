@@ -91,13 +91,6 @@
                             <label>Bokningar<span class="tooltiptext">Antal deltagare</span></label>
 
                         </div>
-
-                        <select>
-                            @for (int n = 1; n <= ViewBag.Available; n++)
-                            {
-                                <option>@n</option>
-                            }
-                        </select>
                         @Html.DropDownListFor(model => model.Bookings, new SelectList(ViewBag.Numblist), "Antal")
                         @Html.ValidationMessageFor(model => model.Bookings, "", new { @class = "text-danger" })
 
