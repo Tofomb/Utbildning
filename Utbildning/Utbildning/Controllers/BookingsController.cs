@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Utbildning.Classes;
 using Utbildning.Models;
 
 namespace Utbildning.Controllers
@@ -33,6 +34,7 @@ namespace Utbildning.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Info = new HtmlString(MailHandler.GetInfo(booking.Email));
             return View(booking);
         }
 

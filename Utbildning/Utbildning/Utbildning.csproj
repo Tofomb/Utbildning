@@ -384,6 +384,7 @@
     <Content Include="Views\Admin\RedigeraKurs.cshtml" />
     <Content Include="Views\Admin\SkapaKurstillfälle.cshtml" />
     <Content Include="Views\Admin\Deltagare.cshtml" />
+    <Content Include="Views\Kurser\Tack.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
