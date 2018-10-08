@@ -33,6 +33,7 @@ namespace Utbildning.Classes
                 Host = "" //?
             };
 
+            mail.IsBodyHtml = true;
             mail.Subject = Subject;
             mail.Body = Body;
             client.Send(mail);
@@ -53,6 +54,7 @@ namespace Utbildning.Classes
                 Host = "" //?
             };
 
+            mail.IsBodyHtml = true;
             mail.Subject = Subject;
             mail.Body = Body;
             client.Send(mail);
@@ -69,6 +71,7 @@ namespace Utbildning.Classes
                 Credentials = new NetworkCredential(From, Password)
             };
 
+            mail.IsBodyHtml = true;
             mail.Subject = Subject;
             mail.Body = Body;
             client.Send(mail);
