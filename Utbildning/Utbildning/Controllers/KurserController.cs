@@ -97,9 +97,10 @@ namespace Utbildning.Controllers
                             
                             // Tester
                             string MailText = DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "\n Tack för din bokning, " + booking.Firstname + " " + booking.Lastname + "\n Platser:" + booking.Bookings +  "\n Om du har några frågor, hör av dig till kursansvarig: " + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Email;
-                            // email and password
-                            MailHandler.SendTester("", booking.Email, "Bokningsbekräftelse",  MailText, "");
+                            string MailTextKL = "Ny bokning \n" + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "\n" + booking.Firstname + " " + booking.Lastname + "\n Platser:" + booking.Bookings;
 
+                            MailHandler.SendTester("tobias.c.forsberg@gmail.com", booking.Email, "Bokningsbekräftelse",  MailText, "L1llaskuggan");
+                           // MailHandler.Send(DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Email, "Bokningsbekräftelse", MailTextKL);
                             Course course = DBHandler.GetCourse(co);
                             return RedirectToAction("Tack", new { kn = course.Name, ad = course.Address, ci = course.City, da = co.StartDate });
                         }
@@ -185,9 +186,12 @@ namespace Utbildning.Controllers
             string SecretEmail = UserEmail;
 
 
-            // MailHandler.Send(UserEmail, "Castra Data", UserData + MailText);
-            // email and password
-            MailHandler.SendTester("",UserEmail,"Användardata Castra", UserData + MailText,"");
+            // MailHandler.Send(UserEmail, "Användardata Castra-utbildning", UserData + MailText);
+            
+            //Tester
+            MailHandler.SendTester("tobias.c.forsberg@gmail.com",UserEmail,"Användardata Castra", UserData + MailText,"L1llaskuggan");
+
+
 
             return View();
         }
