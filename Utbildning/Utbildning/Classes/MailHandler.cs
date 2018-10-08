@@ -10,14 +10,14 @@ namespace Utbildning.Classes
 {
     public static class MailHandler
     {
-        public static string GetEmailsString(this CourseOccasion co)
+        public static string GetEmailsString(this CourseOccasion co, bool SemiColon = false)
         {
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
                 List<Booking> bookings = db.Bookings.Where(x => x.Email == co.GetCourse().Email).ToList();
                 List<string> emails = (from b in bookings
                                        select b.Email).ToList();
-                return emails.Aggregate((x, y) => x + ", " + y);
+                return emails.Aggregate((x, y) => x + (SemiColon ? "; " : ", ") + y);
             }
         }
 
@@ -55,6 +55,7 @@ namespace Utbildning.Classes
             mail.Subject = Subject;
             mail.Body = Body;
             client.Send(mail);
+            SendTester("din@mail.se", "mottagare@mail.se", "Hej", "Tjena där", "a");
         }
 
         public static void SendTester(string From, string Recipient, string Subject, string Body, string Password)
