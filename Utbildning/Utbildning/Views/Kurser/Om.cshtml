@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Om";
+}
+
+<h2>Om</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    @Html.Editor("UserEmail", new { htmlAttributes = new { @class = "form-control" } })
+}
