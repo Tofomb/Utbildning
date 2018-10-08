@@ -94,9 +94,14 @@ namespace Utbildning.Controllers
                             db = new ApplicationDbContext();
                             db.BookingDatas.Add(db.Bookings.Find(booking.Id).GetBookingData());
                             db.SaveChanges();
+                            
+                            // Tester
+                            string MailText = DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "\n Tack för din bokning, " + booking.Firstname + " " + booking.Lastname + "\n Platser:" + booking.Bookings +  "\n Om du har några frågor, hör av dig till kursansvarig: " + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Email;
+                            // email and password
+                            MailHandler.SendTester("", booking.Email, "Bokningsbekräftelse",  MailText, "");
+
                             Course course = DBHandler.GetCourse(co);
                             return RedirectToAction("Tack", new { kn = course.Name, ad = course.Address, ci = course.City, da = co.StartDate });
-
                         }
                         else
                         {
@@ -114,11 +119,6 @@ namespace Utbildning.Controllers
 
 
         }
-
-
-        //
-
-
 
 
         // GET: Courses/LäsMer/5        
@@ -149,104 +149,49 @@ namespace Utbildning.Controllers
         }
 
 
-
-
-        //
-
-        // GET: Courses/Details/5        
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Course course = db.Courses.Find(id);
-            if (course == null)
-            {
-                return HttpNotFound();
-            }
-            return View(course);
-        }
-
-
-
-        // GET: Courses/Create
-        [ActionName("hhh")]
-        public ActionResult Create()
+         public ActionResult Om()
         {
             return View();
         }
 
-        // POST: Courses/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course)
+        public ActionResult Om(string UserEmail)
         {
-            if (ModelState.IsValid)
-            {
-                db.Courses.Add(course);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
-            return View(course);
+            string UserData = "";
+            var bookings = db.Bookings.Where(e => e.Email == UserEmail).ToList();
+            
+            foreach(var x in bookings){
+                
+                UserData += "Namn: "  + x.Firstname;
+                UserData += " " + x.Lastname;
+                UserData += "\n Mail: " + x.Email;
+                UserData += "\n Telefonnummer: " + x.PhoneNumber;
+                UserData += "\n Fakturaadress: " + x.BillingAddress;
+                UserData += "\n Postkod: " + x.PostalCode;
+                UserData += "\n Stad: " + x.City;
+                UserData += "\n Meddelande: " + x.Message;
+                UserData += "\n Rabattkod: " + x.DiscountCode;
+                UserData += "\n Bokningsdatum: " + x.BookingDate;
+                UserData += "\n Antal bokningar: " + x.Bookings;
+                UserData += "\n Kurs: " + DBHandler.GetCourse(DBHandler.GetCourseOccasion(x.CourseOccasionId)).Name;
+                UserData += "\n Kurstillfälle: " + DBHandler.GetCourseOccasion(x.CourseOccasionId).StartDate;
+                UserData += "\n \n";
+
+            }
+            string MailText = "Du efterfrågade en utskrit om all data som Castra Utbildning har sparat kopplat till din mail, om du önskar att ta bort information från vår databas, tryck på länken nedanför. Var medveten om att detta även betyder att bokningen kopplad till din email kommer att avbokas.";
+            string SecretEmail = UserEmail;
+
+
+            // MailHandler.Send(UserEmail, "Castra Data", UserData + MailText);
+            // email and password
+            MailHandler.SendTester("",UserEmail,"Användardata Castra", UserData + MailText,"");
+
+            return View();
         }
 
-        // GET: Courses/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Course course = db.Courses.Find(id);
-            if (course == null)
-            {
-                return HttpNotFound();
-            }
-            return View(course);
-        }
-
-
-
-
-
-
-
-
-
-        // POST: Courses/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(course).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(course);
-        }
-
-        // GET: Courses/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Course course = db.Courses.Find(id);
-            if (course == null)
-            {
-                return HttpNotFound();
-            }
-            return View(course);
-        }
 
         public ActionResult Tack(string kn, string ad, string ci, string da)
         {
@@ -256,26 +201,6 @@ namespace Utbildning.Controllers
             ViewBag.Date = "Datum" + da;
 
             return View();
-        }
-
-        // POST: Courses/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Course course = db.Courses.Find(id);
-            db.Courses.Remove(course);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
