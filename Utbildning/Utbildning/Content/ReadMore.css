@@ -23,3 +23,13 @@
     min-height: 50px;
     bottom: 0;
 }
+
+.CourseSubtitle {
+    font-weight: 400;
+    font-size: 23px;
+    margin-top: -23px;
+}
+
+.CourseBold {
+    font-weight: 900;
+}

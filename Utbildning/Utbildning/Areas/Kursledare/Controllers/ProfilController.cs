@@ -54,7 +54,18 @@ namespace Utbildning.Areas.Kursledare.Controllers
         {
             if (file != null)
             {
-                string imageName = User.Identity.GetUserId() + Path.GetExtension(file.FileName);
+                ApplicationUser user;
+                using (ApplicationDbContext db = new ApplicationDbContext())
+                {
+                    user = db.Users.Find(User.Identity.GetUserId());
+                }
+                char unique;
+                if (user.ProfilePicture[0] == '1')
+                    unique = '0';
+                else
+                    unique = '1';
+
+                string imageName = User.Identity.GetUserId() + unique + Path.GetExtension(file.FileName);
                 string path = Path.Combine(Server.MapPath("~/images/profile"), imageName);
 
                 var image = new WebImage(file.InputStream);
@@ -67,16 +78,14 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     image.Crop(0, Diff, 0, Diff);
                 else if (height > width)
                     image.Crop(-Diff, 0, -Diff, 0);
-                
+
                 if (image.Width > 250)
                     image.Resize(250, 250);
 
                 image.Save(path);
-
-                //file.SaveAs(path);
                 using (ApplicationDbContext db = new ApplicationDbContext())
                 {
-                    db.Users.Find(User.Identity.GetUserId()).ProfilePicture = Path.GetExtension(file.FileName);
+                    db.Users.Find(User.Identity.GetUserId()).ProfilePicture = unique + Path.GetExtension(file.FileName);
                     db.SaveChanges();
                 }
             }

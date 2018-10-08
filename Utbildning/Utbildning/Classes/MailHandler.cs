@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using Utbildning.Models;
 
@@ -19,10 +21,56 @@ namespace Utbildning.Classes
             }
         }
 
-        public static string GenMailTo(string Subject = null, string Body = null, string Recipient = null, string BCC = null)
+        public static void Send(string Recipient, string Subject, string Body)
         {
-            return "";
-            //return "mailto:" + Recipient + "?" + (Subject != null ? "" + Subject : "")
+            MailMessage mail = new MailMessage("CASTRA MAIL ???", Recipient);
+            SmtpClient client = new SmtpClient
+            {
+                Port = 25, //?
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Host = "" //?
+            };
+
+            mail.Subject = Subject;
+            mail.Body = Body;
+            client.Send(mail);
+        }
+
+        public static void Send(string[] Recipients, string Subject, string Body)
+        {
+            MailMessage mail = new MailMessage("CASTRA MAIL ???", "");
+            foreach (string s in Recipients)
+            {
+                mail.Bcc.Add(s);
+            }
+            SmtpClient client = new SmtpClient
+            {
+                Port = 25, //?
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Host = "" //?
+            };
+
+            mail.Subject = Subject;
+            mail.Body = Body;
+            client.Send(mail);
+        }
+
+        public static void SendTester(string From, string Recipient, string Subject, string Body, string Password)
+        {
+            MailMessage mail = new MailMessage(From, Recipient);
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587)
+            {
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                EnableSsl = true,
+                Credentials = new NetworkCredential(From, Password)
+            };
+            
+            mail.Subject = Subject;
+            mail.Body = Body;
+            client.Send(mail);
         }
     }
 }

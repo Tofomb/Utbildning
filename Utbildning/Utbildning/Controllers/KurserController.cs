@@ -135,7 +135,7 @@ namespace Utbildning.Controllers
             var courseOccasions = (db.CourseOccasions.Where(m => m.CourseId == id && m.StartDate > DateTime.Now)).ToList();
 
             ViewBag.CourseOccasionViewBag = courseOccasions;
-
+            ViewBag.Text = new HtmlString(course.Text.Replace(Environment.NewLine, "<br/>"));
             var courseBulletpoints = (db.BulletPoints.Where(m => m.CourseId == id)).ToList();
             ViewBag.CourseBulletPoints = courseBulletpoints;
 

@@ -430,9 +430,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 case "RedigeraKurs":
                     course.Email = User.Identity.Name;
                     course.Host = User.GetFullName();
-
-
-
+                    
                     db = new ApplicationDbContext();
                     if (db.Courses.Find(course.Id).GetComparison(course, out Comp))
                     {

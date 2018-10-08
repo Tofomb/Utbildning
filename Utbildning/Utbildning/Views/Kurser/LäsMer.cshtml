@@ -9,24 +9,20 @@
     <link rel="stylesheet" type="text/css" href="~/Content/ReadMore.css">
 </head>
 
-
-<h2>LäsMer</h2>
-
-
 <div class="row">
 
     <div class="col-sm-1 col-xs-0" style="background-color:red"></div>
     <div class="col-sm-7 col-xs-12" style="background-color:lightblue;">
-        <text class="CourseName"> @Html.DisplayFor(model => model.Name)</text>
-        <br>
-        <text class="CourseSubtitle">@Html.DisplayFor(model => model.Subtitle)</text>
-        <br>
-        <br>
-        <br>
-        <text class="CourseBold">   @Html.DisplayFor(model => model.Bold)</text>
-        <br>
-        <br>
-        <text> @Html.DisplayFor(model => model.Text)</text>
+        <div class="CourseName">
+            <p> @Html.DisplayFor(model => model.Name)</p>
+        </div>
+        <div class="CourseSubtitle">
+            <text><em>@Html.DisplayFor(model => model.Subtitle)</em></text>
+        </div>
+        <div class="CourseBold">
+            <p>@Html.DisplayFor(model => model.Bold)</p>
+        </div>
+        <p>@ViewBag.Text</p>
 
         <br>
         <br>
@@ -36,10 +32,10 @@
                 @foreach (var item in ViewBag.CourseOccasionViewBag)
                 {
                     <li style="border:solid; margin:5px; padding:10px; border-color:lightcoral;">@DBHandler.Format(item.StartDate) <a class="button button-all button-book" href='@Url.Action("Boka", "Kurser", new {id=item.Id } )'>Boka</a></li>
-                    
+
                 }
             </ol>
-            </div>
+        </div>
 
 
     </div>
