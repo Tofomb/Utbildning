@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 
 namespace Utbildning.Classes
@@ -14,7 +16,7 @@ namespace Utbildning.Classes
             if (url.Length > 0)
             {
                 List<string> Urls = url.Split('-').ToList();
-                for(int i = 0; i < Urls.Count; i++)
+                for (int i = 0; i < Urls.Count; i++)
                 {
                     if (int.TryParse(Urls[i], out int data))
                     {
@@ -67,6 +69,18 @@ namespace Utbildning.Classes
                     return false;
             }
             return true;
+        }
+
+        public static string GenAUId(string Email)
+        {
+            SHA256Managed hashString = new SHA256Managed();
+            byte[] hash = hashString.ComputeHash(Encoding.Unicode.GetBytes(Email));
+            string output = "";
+            foreach(byte b in hash)
+            {
+                output += string.Format("{0:x2}", b);
+            }
+            return output;
         }
     }
 }
