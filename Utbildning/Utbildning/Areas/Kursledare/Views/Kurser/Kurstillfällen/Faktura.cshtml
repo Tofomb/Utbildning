@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Utbildning.Models.Booking>
+
+@using Utbildning.Classes;
+
+<h2>Generera fakturalista att skriva ut, eller ladda ner.</h2>
+
+<table class="table">
+    <tr>
+        <th>Förnamn</th>
+        <th>Efternamn</th>
+        <th>Telefonnummer</th>
+        <th>Email</th>
+        <th>Faktureringsaddress</th>
+        <th>Ort</th>
+        <th>Postnummer</th>
+        <th>Företag</th>
+        <th>Bokningar</th>
+        <th>Pris (sek)</th>
+        <th>Rabattkod</th>
+    </tr>
+    @foreach(var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Firstname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lastname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BillingAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostalCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Company)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bookings)
+        </td>
+        <td>
+            <input style="width:100px" type="number" value='@item.CourseOccasion.GetCourse().Price'/>            
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiscountCode)
+        </td>
+    </tr>
+    }
+</table>
+
+<button>Generera</button>

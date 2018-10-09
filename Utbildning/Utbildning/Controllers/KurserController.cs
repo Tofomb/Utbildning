@@ -191,11 +191,8 @@ namespace Utbildning.Controllers
             //Tester
             MailHandler.SendTester("",UserEmail,"Användardata Castra", UserData + MailText,"");
 
-
-
             return View();
         }
-
 
         public ActionResult Tack(string kn, string ad, string ci, string da)
         {
