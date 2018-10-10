@@ -18,4 +18,37 @@
             li[i].style.display = "none";
         }
     }
+
+    checkList();
+}
+
+
+
+function isHidden(el) {
+    var style = window.getComputedStyle(el);
+    return ((style.display === 'none') || (style.visibility === 'hidden'));
+}
+
+function checkList() {
+    var t0 = performance.now();
+    var anyShown = false;
+    var shown = 0;
+    list = document.getElementById("listbox");
+    li = list.getElementsByClassName("container-list");
+
+    for (i = 0; i < li.length; i++) {
+        if (!isHidden(li[i])) {
+            anyShown = true;
+            shown++;
+        }
+    }
+    var t1 = performance.now();
+    if (anyShown === true) {
+        document.getElementById("noobjects").style.display = "none";
+        document.getElementById("resultat").innerHTML = shown + " resultat.";
+    }
+    else {
+        document.getElementById("noobjects").style.display = "";
+        document.getElementById("resultat").innerHTML = "";
+    }
 }

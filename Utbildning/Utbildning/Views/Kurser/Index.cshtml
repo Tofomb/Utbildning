@@ -5,50 +5,53 @@
 }
 
 <head>
-    <link rel="stylesheet" type="text/css" href="~/Content/List.css">    
+    <link rel="stylesheet" type="text/css" href="~/Content/List.css">
 </head>
 <script src="~/js/List.js"></script>
 
 @ViewBag.E
 
+<body onload="checkList()">
+    <div class="row">
+        <div class="col-sm-3 filter">
+            <h2 style="margin:0;">Utbildningar</h2>
 
-<div class="row">
-    <div class="col-sm-3 filter">
-        <h2 style="margin:0;">Utbildningar</h2>
+            <p>
+                Här hittar du alla våra utbildningar!
+            </p>
+            <input id="search" type="text" class="search" placeholder="Filtrera..." onkeyup="search()" />
+            <div class="flex">
+                <div>C++ (10)</div>
+                <div>C# (10)</div>
+                <div>MVC (8)</div>
+                <div>Agila metoder (7)</div>
+                <div>Projektledning (5)</div>
+                <div>Nybörjare (5)</div>
+                <div>Expert (4)</div>
+            </div>
+        </div>
+        <div class="col-sm-9" id="listbox">
+            <h6 id="resultat" style=""></h6>
+            <h2 style="display:none" id="noobjects">Inga kurser hittades</h2>
+            @foreach (var item in Model)
+            {
+                <div class="container-list">
+                    <div class="container-info">
+                        <text class="text-title">
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </text>
+                        <br />
+                        <text class="text-city">
+                            @((item.City ?? "") + (item.City != null && item.Length > 0 ? ", " : "") + (item.Length > 0 ? item.Length + " dagar" : "") + (item.City != null || item.Length > 0 ? "." : "-"))
+                        </text>
+                    </div>
+                    <div class="container-button">
 
-        <p>
-            Här hittar du alla våra utbildningar!
-        </p>
-        <input id="search" type="text" class="search" placeholder="Filtrera..." onkeyup="search()" />
-        <div class="flex">
-            <div>C++ (10)</div>
-            <div>C# (10)</div>
-            <div>MVC (8)</div>
-            <div>Agila metoder (7)</div>
-            <div>Projektledning (5)</div>
-            <div>Nybörjare (5)</div>
-            <div>Expert (4)</div>
+                        <a class="button button-all button-readmore" href='@Url.Action("LäsMer", "Kurser", new {id=item.Id } )'>Läs Mer</a>
+                        <a class="button button-all button-book" href="~/Kurser/Läsmer/@item.Id#kurstillfällen" )'>Boka</a>
+                    </div>
+                </div>
+            }
         </div>
     </div>
-    <div class="col-sm-9" id="listbox">
-        @foreach (var item in Model)
-        {
-            <div class="container-list">
-                <div class="container-info">
-                    <text class="text-title">
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </text>
-                    <br />
-                    <text class="text-city">
-                        @((item.City ?? "") + (item.City != null && item.Length > 0 ? ", " : "") + (item.Length > 0 ? item.Length + " dagar" : "") + (item.City != null || item.Length > 0 ? "." : "-"))
-                    </text>
-                </div>
-                <div class="container-button">
-
-                    <a class="button button-all button-readmore" href='@Url.Action("LäsMer", "Kurser", new {id=item.Id } )'>Läs Mer</a>
-                    <a class="button button-all button-book" href="~/Kurser/Läsmer/@item.Id#kurstillfällen" )'>Boka</a>
-                </div>
-            </div>
-        }
-    </div>
-</div>
+</body>

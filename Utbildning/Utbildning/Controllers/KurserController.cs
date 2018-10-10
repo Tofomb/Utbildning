@@ -22,21 +22,18 @@ namespace Utbildning.Controllers
             List<Course> courses = new List<Course>();
             ViewBag.CO = cos;
 
+            cos = (from c in cos
+                  orderby c.StartDate
+                  select c).ToList();
 
             foreach (CourseOccasion courseoccasion in cos)
             {
                 courses.Add(DBHandler.GetCourse(courseoccasion));
             }
-
-            //  var x = from unicCourses in courses
-            var x = courses.GroupBy(c => c.Id).Select(y => y.First());
+            var x = courses.GroupBy(c => c.Id).Select(y => y.First());            
 
             return View(x.ToList());
-
-            // return View(db.Courses.ToList());
         }
-
-
 
         // GET: Kurser/Boka
         public ActionResult Boka(int? id, string w)
