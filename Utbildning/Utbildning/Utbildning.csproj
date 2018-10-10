@@ -240,7 +240,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="favicon.png" />
+    <Content Include="Content\CastraLogoBSticker.png" />
+    <Content Include="favicon.ico" />
+    <Content Include="Content\CastraULogoB.png" />
     <Content Include="Content\Book.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />

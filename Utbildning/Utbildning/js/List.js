@@ -22,8 +22,6 @@
     checkList();
 }
 
-
-
 function isHidden(el) {
     var style = window.getComputedStyle(el);
     return ((style.display === 'none') || (style.visibility === 'hidden'));
