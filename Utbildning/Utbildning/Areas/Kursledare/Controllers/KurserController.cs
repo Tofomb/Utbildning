@@ -388,6 +388,16 @@ namespace Utbildning.Areas.Kursledare.Controllers
                         return View("Kurstillfällen/Bokningar/bokning", booking);
                     }
                     return Redirect("~/Kursledare/Kurser");
+                }               
+            }
+            else if (param1 == "kurstillfälle" && param2 == "faktura" && param3.HasIds())
+            {
+                if (param3.GetIds(out List<int>Ids))
+                {
+                    int Id = Ids.First();
+                    CourseOccasion co = db.CourseOccasions.Find(Id);
+                    List<Booking> bookings = db.Bookings.ToList().Where(x => x.CourseOccasionId == co.Id).ToList();
+                    return View("Kurstillfällen/Faktura", bookings);
                 }
             }
 
