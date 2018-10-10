@@ -1,5 +1,7 @@
 ﻿@model Utbildning.Models.Course
 
+@using Utbildning.Classes;
+
 @{
     ViewBag.Title = "Kurs";
 }
@@ -102,29 +104,88 @@
     </dl>
 </div>
 
+<div class="col-xs-12">
+    <div class="col-xs-6">
+        <h4>Punktlista visas på kurssidan.</h4>
+        @Html.ActionLink("Redigera Punktlista", "Kurs", new { param1 = "Punktlista", param2 = ViewBag.CId })
+        @foreach (var item in ViewBag.BPs)
+        {
+            <div>
+                <input disabled value="@item.Text" style="display:inline;">
+            </div>
 
-<h4>Punktlista visas på kurssidan.</h4>
-@Html.ActionLink("Redigera Punktlista", "Kurs", new { param1 = "Punktlista", param2 = ViewBag.CId })
-@foreach (var item in ViewBag.BPs)
-{
-    <div>
-        <input disabled value="@item.Text" style="display:inline;">
+        }
     </div>
+    <div class="col-xs-6">
+        <h4>Taggar används vid filtrering av kurser.</h4>
+        @Html.ActionLink("Redigera Taggar", "Kurs", new { param1 = "Taggar", param2 = ViewBag.CId })
+        @foreach (var item in ViewBag.Tags)
+        {
+            <div>
+                <input disabled value="@item.Text" style="display:inline;">
+            </div>
 
-}
-
-<h4>Taggar används vid filtrering av kurser.</h4>
-@Html.ActionLink("Redigera Taggar", "Kurs", new { param1 = "Taggar", param2 = ViewBag.CId })
-@foreach (var item in ViewBag.Tags)
-{
-    <div>
-        <input disabled value="@item.Text" style="display:inline;">
+        }
     </div>
+</div>
+<div class="col-xs-12">
+    <h4>Kurstillfällen</h4>
 
-}
+
+    <table class="table">
+        <tr>
+            <th>
+                Kursstart
+            </th>
+            <th>
+                Bokningar
+            </th>
+            <th>
+                Platser kvar
+            </th>
+            <th>
+                Många nog?
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in ViewBag.COs)
+        {
+            <tr>
+                <td>
+                    @DBHandler.Format(item.StartDate)
+                </td>
+                <td>
+                    @DBHandler.GetBookings(item)
+                </td>
+                <td>
+                    @DBHandler.GetAvailableBookings(item)
+                </td>
+                @if (DBHandler.EnoughBookings(item))
+                {
+                    <td style="color:lightgreen;">✔</td>
+                }
+                else
+                {
+                    <td style="color:red;">❌</td>
+                }
+                <td>
+                   
+                    @Html.ActionLink("Info", "Kurs", new { param1 = "Kurstillfälle", param2 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
+                    @Html.ActionLink("Bokningar", "Kurs", new { param1 = "Kurstillfälle", param2 = "Bokningar", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
+                    @Html.ActionLink("Redigera", "Kurs", new { param1 = "Kurstillfälle", param2 = "Redigera", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
+                    @Html.ActionLink("Radera", "Kurs", new { param1 = "Kurstillfälle", param2 = "Radera", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") })
+                </td>
+            </tr>
+        }
+
+    </table>
 
 
 
+
+</div>
+<div class="col-xs-12">
 <p>
 
     <br>
@@ -132,3 +193,4 @@
 </p>
 
 <a href="~/Kurser/LäsMer/@ViewBag.CId">Till Kurssidan</a>
+    </div>

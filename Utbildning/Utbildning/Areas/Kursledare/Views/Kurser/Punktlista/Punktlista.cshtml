@@ -8,7 +8,7 @@
 @foreach (var item in ViewBag.BPs)
 {
     <div>
-        <input disabled value="@item.Text" style="display:inline;"><a href="~/Kursledare/Kurser/Kurs/Punktlista/Radera/@item.Id">-</a>
+        <input disabled value="@item.Text" style="display:inline;"><a style="display: inline-block; width:27px; height:27px; padding:5px; margin-left:3px;" class="btn btn-default" href="~/Kursledare/Kurser/Kurs/Punktlista/Radera/@item.Id">-</a>
     </div>
 
 }
@@ -16,7 +16,7 @@
 {
     <div>
         @Html.EditorFor(model => model.Text)
-        <input type="submit" value="+">
+        <input type="submit" class="btn btn-default"  style="display: inline-block; width:27px; height:27px;" value="+">
     </div>
 }
 
