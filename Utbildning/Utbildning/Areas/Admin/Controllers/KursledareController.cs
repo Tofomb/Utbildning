@@ -85,17 +85,26 @@ namespace Utbildning.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                //TODO: Add confirmation email
+             
+
 
                 string pw = UserHandler.GeneratePasswordString();
+                string MailText = "";
+                MailText = "Ett konto har skapats åt dig på Castra Utbldning (Länk). \n ditt lösenord är: " + pw;
 
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FullName = model.Email };
                 var result = await UserManager.CreateAsync(user, pw);
                 if (result.Succeeded)
                 {
+
+
+                    //  MailHandler.SendTester("", user.Email, "Nytt Konto På Castra Utbildning", MailText, "");
+                    //TODO: Add confirmation email, un-comment 'Send' after Castra mail has been implemented
+                    //  MailHandler.Send(user.Email, "Nytt Konto På Castra Utbildning", MailText);
+
                     await UserManager.AddToRoleAsync(user.Id, "Kursledare");
                     return RedirectToAction("", new { result = "success", password = pw }); //TODO remove pw from url
-                } //TODO Send mail to user
+                } 
             }
             return View(model);
         }
