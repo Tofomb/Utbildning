@@ -150,5 +150,5 @@
     padding: 0 3px 0 3px;
     background-color: lightgray;
     margin: 3px 5px;
-    cursor: pointer;
+    cursor: not-allowed;
 }
