@@ -23,15 +23,27 @@ namespace Utbildning.Controllers
             ViewBag.CO = cos;
 
             cos = (from c in cos
-                  orderby c.StartDate
-                  select c).ToList();
+                   orderby c.StartDate
+                   select c).ToList();
 
             foreach (CourseOccasion courseoccasion in cos)
             {
                 courses.Add(DBHandler.GetCourse(courseoccasion));
             }
-            var x = courses.GroupBy(c => c.Id).Select(y => y.First());            
+            var x = courses.GroupBy(c => c.Id).Select(y => y.First());
+            List<List<CourseTags>> CTags = new List<List<CourseTags>>();
+            foreach(var y in x)
+            {
+                CTags.Add(db.CourseTags.ToList().Where(c => c.CourseId == y.Id).ToList());
+            }
 
+            ViewBag.CTags = CTags;
+            foreach(var a in CTags)
+            {
+                foreach(var b in a)
+                {
+                }
+            }
             return View(x.ToList());
         }
 
@@ -91,13 +103,13 @@ namespace Utbildning.Controllers
                             db = new ApplicationDbContext();
                             db.BookingDatas.Add(db.Bookings.Find(booking.Id).GetBookingData());
                             db.SaveChanges();
-                            
+
                             // Tester
-                            string MailText = DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "\n Tack för din bokning, " + booking.Firstname + " " + booking.Lastname + "\n Platser:" + booking.Bookings +  "\n Om du har några frågor, hör av dig till kursansvarig: " + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Email + $"<br/>Avbokning: <a href='http://localhost:59115/Kurser/Avboka?email={URLHandler.GenAUId(booking.Email)}' Avboka";
+                            string MailText = DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "\n Tack för din bokning, " + booking.Firstname + " " + booking.Lastname + "\n Platser:" + booking.Bookings + "\n Om du har några frågor, hör av dig till kursansvarig: " + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Email + $"<br/>Avbokning: <a href='http://localhost:59115/Kurser/Avboka?email={URLHandler.GenAUId(booking.Email)}' Avboka";
                             string MailTextKL = "Ny bokning \n" + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "\n" + booking.Firstname + " " + booking.Lastname + "\n Platser:" + booking.Bookings;
 
-                           // MailHandler.SendTester("", booking.Email, "Bokningsbekräftelse",  MailText, "");
-                           // MailHandler.Send(DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Email, "Bokningsbekräftelse", MailTextKL);
+                            // MailHandler.SendTester("", booking.Email, "Bokningsbekräftelse",  MailText, "");
+                            // MailHandler.Send(DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Email, "Bokningsbekräftelse", MailTextKL);
                             Course course = DBHandler.GetCourse(co);
                             return RedirectToAction("Tack", new { kn = course.Name, ad = course.Address, ci = course.City, da = co.StartDate });
                         }
@@ -147,7 +159,7 @@ namespace Utbildning.Controllers
         }
 
 
-         public ActionResult Om()
+        public ActionResult Om()
         {
             return View();
         }
@@ -160,10 +172,11 @@ namespace Utbildning.Controllers
 
             string UserData = "";
             var bookings = db.Bookings.Where(e => e.Email == UserEmail).ToList();
-            
-            foreach(var x in bookings){
-                
-                UserData += "Namn: "  + x.Firstname;
+
+            foreach (var x in bookings)
+            {
+
+                UserData += "Namn: " + x.Firstname;
                 UserData += " " + x.Lastname;
                 UserData += "\n Mail: " + x.Email;
                 UserData += "\n Telefonnummer: " + x.PhoneNumber;
@@ -184,10 +197,10 @@ namespace Utbildning.Controllers
 
 
             // MailHandler.Send(UserEmail, "Användardata Castra-utbildning", UserData + MailText);
-            
+
             //Tester
             // MailHandler.SendTester("",UserEmail,"Användardata Castra", UserData + MailText,"");
-            
+
 
 
             return View();
@@ -202,13 +215,13 @@ namespace Utbildning.Controllers
             ViewBag.Date = "Datum" + da;
 
             return View();
-        }        
-        
+        }
+
         public ActionResult Avboka(string user)
         {
             //TODO maila kursledaren
             List<Booking> bookings = db.Bookings.ToList().Where(x => URLHandler.GenAUId(x.Email) == user).ToList();
-            foreach(Booking b in bookings)
+            foreach (Booking b in bookings)
                 db.Bookings.Remove(b);
             db.SaveChanges();
             return View();

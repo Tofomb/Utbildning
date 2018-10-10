@@ -41,6 +41,19 @@
                         <text class="text-title">
                             @Html.DisplayFor(modelItem => item.Name)
                         </text>
+                        <text class="tags">
+                            här:
+                            @foreach (var x in ViewBag.CTags)
+                            {
+                                foreach (var y in x)
+                                {
+                                    if (y.CourseId == item.Id)
+                                    {
+                                        @y.Text
+                                    }
+                                }
+                            }
+                        </text>
                         <br />
                         <text class="text-city">
                             @((item.City ?? "") + (item.City != null && item.Length > 0 ? ", " : "") + (item.Length > 0 ? item.Length + " dagar" : "") + (item.City != null || item.Length > 0 ? "." : "-"))
