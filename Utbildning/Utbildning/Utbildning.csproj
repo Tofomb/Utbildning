@@ -240,6 +240,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\CastraLogoBSticker.png" />
     <Content Include="favicon.ico" />
     <Content Include="Content\CastraULogoB.png" />
     <Content Include="Content\Book.css" />
