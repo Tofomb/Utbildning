@@ -113,6 +113,16 @@
 
 }
 
+<h4>Taggar används vid filtrering av kurser.</h4>
+@Html.ActionLink("Redigera Taggar", "Kurs", new { param1 = "Taggar", param2 = ViewBag.CId })
+@foreach (var item in ViewBag.Tags)
+{
+    <div>
+        <input disabled value="@item.Text" style="display:inline;">
+    </div>
+
+}
+
 
 
 <p>

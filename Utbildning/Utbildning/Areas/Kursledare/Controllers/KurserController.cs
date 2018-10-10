@@ -100,6 +100,8 @@ namespace Utbildning.Areas.Kursledare.Controllers
 
                 List<BulletPoints> bulletpoints = db.BulletPoints.Where(x => x.CourseId == id).ToList();
                 ViewBag.BPs = bulletpoints;
+                List<CourseTags> courseTags = db.CourseTags.Where(x => x.CourseId == id).ToList();
+                ViewBag.Tags = courseTags;
                 if (User.ValidUser(course))
                 {
                     return View(course);
@@ -179,8 +181,38 @@ namespace Utbildning.Areas.Kursledare.Controllers
             }
 
 
+            else if (param1 == "taggar" && param2.HasIds())
+            {
+                param2.GetIds(out List<int> Ids);
+                int Id = Ids.First();
+                if (User.ValidUser(DBHandler.GetCourse(Id)))
+                {
+                    List<CourseTags> courseTags = db.CourseTags.Where(x => x.CourseId == Id).ToList();
 
-            
+                    ViewBag.Tags = courseTags;
+                    ViewBag.CourseId = Id;
+
+                    return View("Taggar/Taggar");
+                }
+                return Redirect("~/Kursledare/Kurser");
+            }
+
+            else if (param1 == "tagg" && param2 == "radera" && param3.HasIds())
+            {
+
+                param3.GetIds(out List<int> Ids);
+                int Id = Ids.First();
+                CourseTags courseTags = db.CourseTags.Find(Id);
+                if (User.ValidUser(DBHandler.GetCourse(courseTags.CourseId)))
+                {
+                    db.CourseTags.Remove(courseTags);
+                    db.SaveChanges();
+                    return Redirect("~/Kursledare/Kurser/Kurs/Taggar/" + courseTags.CourseId);
+                }
+                return Redirect("~/Kursledare/Kurser");
+            }
+
+
             else if (param1 == "kurstillfälle" && param2.HasIds()) //Kursledare/Kurser/Kurs/Kurstillfälle/1
             {
                 param2.GetIds(out List<int> Ids);
@@ -363,7 +395,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
             return Redirect("~/Kursledare/Kurser");
         }
         [HttpPost]
-        public ActionResult Kurs([Bind(Include = "Id,CourseId,StartDate,AltHost,AltAddress,AltMail,AltProfilePicture,MinPeople,MaxPeople")] CourseOccasion courseOccasion, [Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course, [Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking, [Bind(Include = "Id,CourseId,Text")] BulletPoints bulletPoints, string param1, string param2, string param3)
+        public ActionResult Kurs([Bind(Include = "Id,CourseId,StartDate,AltHost,AltAddress,AltMail,AltProfilePicture,MinPeople,MaxPeople")] CourseOccasion courseOccasion, [Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course, [Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking, [Bind(Include = "Id,CourseId,Text")] BulletPoints bulletPoints, CourseTags courseTags , string param1, string param2, string param3)
         {
             int Id = 0;
             List<int> Ids;
@@ -471,6 +503,21 @@ namespace Utbildning.Areas.Kursledare.Controllers
                             db.BulletPoints.Add(bulletPoints);
                             db.SaveChanges();
                             return Redirect("~/Kursledare/Kurser/Kurs/Punktlista/" + param2);
+                        }
+                    }
+
+                    return Redirect("~/Kursledare/Kurser");
+
+                case "SkapaTagg":
+                    if (param2.GetIds(out Ids))
+                    {
+                        Id = Ids.First();
+                        if (User.ValidUser(DBHandler.GetCourse(Id)))
+                        {
+                            courseTags.CourseId = Id;
+                            db.CourseTags.Add(courseTags);
+                            db.SaveChanges();
+                            return Redirect("~/Kursledare/Kurser/Kurs/Taggar/" + param2);
                         }
                     }
 

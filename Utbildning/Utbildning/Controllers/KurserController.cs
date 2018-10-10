@@ -99,7 +99,7 @@ namespace Utbildning.Controllers
                             string MailText = DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "\n Tack för din bokning, " + booking.Firstname + " " + booking.Lastname + "\n Platser:" + booking.Bookings +  "\n Om du har några frågor, hör av dig till kursansvarig: " + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Email + $"<br/>Avbokning: <a href='http://localhost:59115/Kurser/Avboka?email={URLHandler.GenAUId(booking.Email)}' Avboka";
                             string MailTextKL = "Ny bokning \n" + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "\n" + booking.Firstname + " " + booking.Lastname + "\n Platser:" + booking.Bookings;
 
-                            MailHandler.SendTester("", booking.Email, "Bokningsbekräftelse",  MailText, "");
+                           // MailHandler.SendTester("", booking.Email, "Bokningsbekräftelse",  MailText, "");
                            // MailHandler.Send(DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Email, "Bokningsbekräftelse", MailTextKL);
                             Course course = DBHandler.GetCourse(co);
                             return RedirectToAction("Tack", new { kn = course.Name, ad = course.Address, ci = course.City, da = co.StartDate });
@@ -189,8 +189,8 @@ namespace Utbildning.Controllers
             // MailHandler.Send(UserEmail, "Användardata Castra-utbildning", UserData + MailText);
             
             //Tester
-            MailHandler.SendTester("",UserEmail,"Användardata Castra", UserData + MailText,"");
-
+            // MailHandler.SendTester("",UserEmail,"Användardata Castra", UserData + MailText,"");
+            
 
 
             return View();

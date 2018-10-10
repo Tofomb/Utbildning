@@ -212,6 +212,7 @@
     <Compile Include="Controllers\BulletPointsController.cs" />
     <Compile Include="Controllers\CourseOccasionsController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
+    <Compile Include="Controllers\CourseTagsController.cs" />
     <Compile Include="Controllers\FrontpageBulletPointsController.cs" />
     <Compile Include="Controllers\FrontpageCarouselsController.cs" />
     <Compile Include="Controllers\FrontpageInfoesController.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="Models\BulletPoints.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\CourseOccasion.cs" />
+    <Compile Include="Models\CourseTags.cs" />
     <Compile Include="Models\FrontpageBulletPoints.cs" />
     <Compile Include="Models\FrontpageCarousel.cs" />
     <Compile Include="Models\FrontpageInfo.cs" />
@@ -238,6 +240,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="favicon.png" />
     <Content Include="Content\Book.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -250,7 +253,6 @@
     <Content Include="Content\List.css" />
     <Content Include="Content\Mail.css" />
     <Content Include="Content\ReadMore.css" />
-    <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -290,6 +292,7 @@
     <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Bokningar\Radera.cshtml" />
     <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Bokningar\Bokning.cshtml" />
     <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Bokningar\Redigera.cshtml" />
+    <Content Include="Areas\Kursledare\Views\Kurser\Taggar\Taggar.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -387,6 +390,11 @@
     <Content Include="Views\Kurser\Tack.cshtml" />
     <Content Include="Views\Kurser\Om.cshtml" />
     <Content Include="Views\Kurser\Avboka.cshtml" />
+    <Content Include="Views\CourseTags\Create.cshtml" />
+    <Content Include="Views\CourseTags\Delete.cshtml" />
+    <Content Include="Views\CourseTags\Details.cshtml" />
+    <Content Include="Views\CourseTags\Edit.cshtml" />
+    <Content Include="Views\CourseTags\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
