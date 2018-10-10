@@ -102,6 +102,8 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 ViewBag.BPs = bulletpoints;
                 List<CourseTags> courseTags = db.CourseTags.Where(x => x.CourseId == id).ToList();
                 ViewBag.Tags = courseTags;
+                List<CourseOccasion> cos = db.CourseOccasions.Where(c => c.CourseId == course.Id).ToList();
+                ViewBag.COs = cos;
                 if (User.ValidUser(course))
                 {
                     return View(course);
