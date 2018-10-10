@@ -148,7 +148,7 @@
         cursor: not-allowed;
     }
 
-.sticker {
+/*.sticker {
     transition: all 0.5s ease;
     transform: scale(0.5) rotate(-20deg);
     position: absolute;
@@ -164,3 +164,4 @@
         -o-transform: scale(0.75) rotate(20deg);
         transform: scale(0.75) rotate(20deg);
     }
+    */

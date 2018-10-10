@@ -241,6 +241,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\CastraLogoBSticker.png" />
+    <Content Include="Content\CastraLogoBStickerPD.png" />
     <Content Include="favicon.ico" />
     <Content Include="Content\CastraULogoB.png" />
     <Content Include="Content\Book.css" />

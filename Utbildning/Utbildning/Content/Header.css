@@ -1,4 +1,4 @@
-﻿body{
+﻿body {
     padding-top: 80px;
 }
 
@@ -23,3 +23,18 @@
             .header > .container > .navbar-collapse > ul > li > a:hover, div > #profile > li > a:hover {
                 color: #00b6dd;
             }
+
+.sticker {
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    top: -15px;
+    transform: rotate(20deg) scale(1);
+    transition: all 0.5s ease;
+    cursor: pointer;
+    right: 20px;
+}
+
+.sticker:hover {
+    transform: rotate(-20deg) scale(1.15);
+}
