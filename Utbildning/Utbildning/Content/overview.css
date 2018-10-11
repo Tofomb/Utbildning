@@ -1,0 +1,19 @@
+﻿#CourseBox{
+}
+.overviewBox {
+    background-color: #f2f2f2;
+    padding: 10px;
+    margin-top:10px;
+    margin-bottom:10px;
+    border-radius: 5px;
+}
+#BP {
+    text-align:center;
+    border-radius:5px 0px 0px 5px;
+    
+}
+#Tags{
+    text-align:center;
+    border-radius:0px 5px 5px 0px;
+    
+}
