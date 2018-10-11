@@ -31,20 +31,23 @@ namespace Utbildning.Controllers
                 courses.Add(DBHandler.GetCourse(courseoccasion));
             }
             var x = courses.GroupBy(c => c.Id).Select(y => y.First());
-            List<List<CourseTags>> CTags = new List<List<CourseTags>>();
-            foreach(var y in x)
-            {
-                CTags.Add(db.CourseTags.ToList().Where(c => c.CourseId == y.Id).ToList());
-            }
 
-            ViewBag.CTags = CTags;
-            foreach(var a in CTags)
+            var CLIs = from y in x
+                       select new CourseListItem(y);
+
+            List<string> CTList = new List<string>();
+            using (ApplicationDbContext db = new ApplicationDbContext())
             {
-                foreach(var b in a)
+                foreach(var a in x)
                 {
+                    CTList.AddRange(from b in db.CourseTags.Where(b => b.CourseId == a.Id) select b.Text);
                 }
             }
-            return View(x.ToList());
+            var Tags = CTList.GroupBy(a => a).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).ToList();
+            
+            ViewBag.Tags = Tags;
+
+            return View(CLIs.ToList());
         }
 
         // GET: Kurser/Boka

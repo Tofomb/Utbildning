@@ -228,6 +228,7 @@
     <Compile Include="Models\BookingData.cs" />
     <Compile Include="Models\BulletPoints.cs" />
     <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\CourseListItem.cs" />
     <Compile Include="Models\CourseOccasion.cs" />
     <Compile Include="Models\CourseTags.cs" />
     <Compile Include="Models\FrontpageBulletPoints.cs" />
