@@ -11,7 +11,7 @@
 
 .container-list {
     background-color: #f2f2f2;
-    margin: 10px auto 10px auto;
+    margin: 0 0 10px 0;
     position: relative;
     width: 90%;
 }
@@ -54,7 +54,7 @@
     .button-book:hover {
         background-color: #f78f08;
         text-decoration: none;
-        color: #FFF;    
+        color: #FFF;
     }
 
 @media (min-width: 551px) {
@@ -114,7 +114,7 @@
     }
 }
 
-.filter {
+.searchbox {
     background-color: #f2f2f2;
     border-width: 1px;
     border-radius: 13px;
@@ -134,34 +134,27 @@
 
 .flex {
     display: flex;
-    margin-top: 5px;
     flex-wrap: wrap;
+    border-top: solid;
+    border-width: 1px;
+    border-color: #D2d2d2;
+    margin-top: 8px;
+    padding-top: 5px;
+    border-radius: 3px;
 }
 
-    .flex > div {
-        border-style: solid;
-        border-width: 1px;
-        border-radius: 3px;
-        padding: 0 3px 0 3px;
-        background-color: lightgray;
-        margin: 3px 5px;
-        cursor: not-allowed;
-    }
-
-/*.sticker {
-    transition: all 0.5s ease;
-    transform: scale(0.5) rotate(-20deg);
-    position: absolute;
-    top: 50px;
-    right: -30px;
+.filter {
+    border-width: 1px;
+    border-radius: 3px;
+    padding: 0 3px 0 3px;
+    background-color: #00b6dd;
+    margin: 3px 5px;
+    cursor: pointer;
+    border-color: black;
+    color: white;
+    font-size: 15px;
 }
 
-    .sticker:hover {
-        opacity: 90;
-        -webkit-transform: scale(0.75) rotate(20deg);
-        -moz-transform: scale(0.75) rotate(20deg);
-        -ms-transform: scale(0.75) rotate(20deg);
-        -o-transform: scale(0.75) rotate(20deg);
-        transform: scale(0.75) rotate(20deg);
-    }
-    */
+.tags {
+    display: none;
+}

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Utbildning.Models.Course>
+﻿    @model IEnumerable<Utbildning.Models.CourseListItem>
 
 @{
     ViewBag.Title = "Index";
@@ -13,25 +13,31 @@
 
 <body onload="checkList()">
     <div class="row">
-        <div class="col-sm-3 filter">
+        <div class="col-sm-3 searchbox">
             <h2 style="margin:0;">Utbildningar</h2>
 
             <p>
                 Här hittar du alla våra utbildningar!
             </p>
             <input id="search" type="text" class="search" placeholder="Filtrera..." onkeyup="search()" />
-            <div class="flex">
-                <div>C++ (10)</div>
-                <div>C# (10)</div>
-                <div>MVC (8)</div>
-                <div>Agila metoder (7)</div>
-                <div>Projektledning (5)</div>
-                <div>Nybörjare (5)</div>
-                <div>Expert (4)</div>
+            <div id="filtercontainer" class="flex">
+                @for(int i = 0; i < ViewBag.Tags.Count; i++)
+                {
+                    <div id=@("filter" + i) class="filter" onmouseup=@("filter(" + i + ")")>@(ViewBag.Tags[i].Length > 15 ? ViewBag.Tags[i].Substring(0,15) + "..." : ViewBag.Tags[i])</div>
+                }
+                <!--
+                <div id="filter0" class="filter" onmouseup="filter(0)">C++</div>
+                <div id="filter1" class="filter" onmouseup="filter(1)">C#</div>
+                <div id="filter2" class="filter" onmouseup="filter(2)">MVC</div>
+                <div id="filter3" class="filter" onmouseup="filter(3)">Agila metoder</div>
+                <div id="filter4" class="filter" onmouseup="filter(4)">Projektledning</div>
+                <div id="filter5" class="filter" onmouseup="filter(5)">Nybörjare</div>
+                <div id="filter6" class="filter" onmouseup="filter(6)">Expert</div>
+                    -->
             </div>
         </div>
         <div class="col-sm-9" id="listbox">
-            <h6 id="resultat" style=""></h6>
+            <h6 id="resultat" style="position:absolute; top: -25px"></h6>
             <h2 style="display:none" id="noobjects">Inga kurser hittades</h2>
             @foreach (var item in Model)
             {
@@ -41,16 +47,9 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </text>
                         <text class="tags">
-                            här:
-                            @foreach (var x in ViewBag.CTags)
+                            @foreach (string s in item.Tags)
                             {
-                                foreach (var y in x)
-                                {
-                                    if (y.CourseId == item.Id)
-                                    {
-                                        @y.Text
-                                    }
-                                }
+                                @s
                             }
                         </text>
                         <br />
