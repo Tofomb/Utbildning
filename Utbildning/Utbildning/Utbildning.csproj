@@ -197,6 +197,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\HemController.cs" />
     <Compile Include="Areas\Admin\Controllers\KursledareController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LogsController.cs" />
     <Compile Include="Areas\Kursledare\Controllers\HemController.cs" />
     <Compile Include="Areas\Kursledare\Controllers\KurserController.cs" />
     <Compile Include="Areas\Kursledare\Controllers\ProfilController.cs" />
@@ -303,6 +304,7 @@
     <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Faktura.cshtml" />
     <Content Include="Areas\Kursledare\Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\Logs\Index.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
