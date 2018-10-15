@@ -260,6 +260,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\profile\Profile.png" />
     <Content Include="js\List.js" />
     <Content Include="js\Mail.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -299,6 +300,8 @@
     <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Bokningar\Redigera.cshtml" />
     <Content Include="Areas\Kursledare\Views\Kurser\Taggar\Taggar.cshtml" />
     <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Faktura.cshtml" />
+    <Content Include="Areas\Kursledare\Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_LoginPartial.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -406,7 +409,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Kursledare\Models\" />
-    <Folder Include="images\profile\" />
     <Folder Include="Views\BookingData\" />
     <Folder Include="Views\Log\" />
   </ItemGroup>

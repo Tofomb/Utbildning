@@ -23,6 +23,10 @@ namespace Utbildning.Areas.Kursledare.Controllers
             using (var db = new ApplicationDbContext())
             {
                 ApplicationUser user = db.Users.Find(Id);
+                if (System.IO.File.Exists("~/images/profile/" + User.Identity.GetUserId() + user.ProfilePicture))
+                    ViewBag.Img = "~/images/profile/" + User.Identity.GetUserId() + user.ProfilePicture;
+                else
+                    ViewBag.Img = "/images/profile/Profile.png";
                 return View(user);
             }
         }

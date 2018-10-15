@@ -26,4 +26,8 @@
 else
 {
     <h2>Välkommen till kursledarsidan@((string)ViewData["Name"] == "" || (string)ViewData["Name"] == null ? "! Här kan du komma åt det mesta du kan göra här." : ", " + ViewData["Name"] + "!")</h2>
+    <ul>
+        <li><a href="~/Kursledare/Kurser">Kurser</a></li>
+        <li><a href="~/Kursledare/Profil">Profil</a></li>
+    </ul>
 }
