@@ -310,6 +310,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                         ViewBag.CourseOccasionDate = DbCourseOc.Where(m => m.Id == id).First().StartDate.Format();
                         ViewBag.CourseName = DbCourse.Where(m => m.Id == COCourseId).First().Name;
                         ViewBag.COId = DbCourseOc.Where(m => m.Id == id).First().Id;
+                        ViewBag.CourseId = DBHandler.GetCourse(DBHandler.GetCourseOccasion(DbCourseOc.Where(m => m.Id == id).First().Id)).Id;
                         var bookings = db.Bookings.Include(b => b.CourseOccasion).Where(m => m.CourseOccasion.Id == id);
 
 
