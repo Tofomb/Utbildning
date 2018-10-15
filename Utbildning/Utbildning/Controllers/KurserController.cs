@@ -85,7 +85,6 @@ namespace Utbildning.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [PreventDuplicateRequest]
         public ActionResult Boka([Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking, int? Id)
         {
             if (ModelState.IsValid)
@@ -140,7 +139,7 @@ namespace Utbildning.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return Redirect("~/Kurser");
             }
             Course course = db.Courses.Find(id);
             if (course == null)
@@ -231,36 +230,4 @@ namespace Utbildning.Controllers
             return View();
         }
     }
-
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public class PreventDuplicateRequestAttribute : ActionFilterAttribute
-    {
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            if (HttpContext.Current.Request["__RequestVerificationToken"] == null)
-                return;
-
-            var currentToken = HttpContext.Current.Request["__RequestVerificationToken"].ToString();
-
-            if (HttpContext.Current.Session["LastProcessedToken"] == null)
-            {
-                HttpContext.Current.Session["LastProcessedToken"] = currentToken;
-                return;
-            }
-
-            lock (HttpContext.Current.Session["LastProcessedToken"])
-            {
-                var lastToken = HttpContext.Current.Session["LastProcessedToken"].ToString();
-
-                if (lastToken == currentToken)
-                {
-                    filterContext.Controller.ViewData.ModelState.AddModelError("", "Looks like you accidentally tried to double post.");
-                    return;
-                }
-
-                HttpContext.Current.Session["LastProcessedToken"] = currentToken;
-            }
-        }
-    }
-
 }

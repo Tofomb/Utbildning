@@ -243,7 +243,6 @@
   <ItemGroup>
     <Content Include="Content\CastraLogoBSticker.png" />
     <Content Include="Content\CastraLogoBStickerPD.png" />
-    <Content Include="Content\overview.css" />
     <Content Include="favicon.ico" />
     <Content Include="Content\CastraULogoB.png" />
     <Content Include="Content\Book.css" />
@@ -303,6 +302,7 @@
     <Content Include="Areas\Kursledare\Views\Kurser\Kurstillfällen\Faktura.cshtml" />
     <Content Include="Areas\Kursledare\Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Areas\Kursledare\Views\Profil\Lösenord.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -335,7 +335,7 @@
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
+    <None Include="Views\Account\Register.cshtml.bak" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />

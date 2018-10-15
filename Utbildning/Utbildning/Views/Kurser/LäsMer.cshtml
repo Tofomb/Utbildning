@@ -40,7 +40,7 @@
     </div>
 
     <div class="col-sm-3 col-xs-12" style="background-color:lightgoldenrodyellow">
-        <img class="LeaderImg img-thumbnail" src="~/images/profile/@ViewBag.Image" alt=" @Html.DisplayNameFor(model => model.Host)">
+        <img class="LeaderImg img-thumbnail" src="~/images/profile/@ViewBag.Image" onerror="this.onerror = null; this.src = '/images/profile/Profile.png';">
         <br>
         <text class="LederName">
             @Html.DisplayFor(model => model.Host)
