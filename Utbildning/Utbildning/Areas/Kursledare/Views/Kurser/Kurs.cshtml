@@ -5,107 +5,112 @@
 @{
     ViewBag.Title = "Kurs";
 }
-
+<head>
+    <link rel="stylesheet" type="text/css" href="~/Content/overview.css">
+</head>
 <h1 style="color:#f8981e;">@ViewBag.CourseName</h1>
 <h4>Översikt</h4>
 <div>
-    @Html.ActionLink("Redigera", "Kurs", new { param1 = "Redigera", param2 = ViewData["CId"] })
+
     <hr />
-    <dl class="dl-horizontal">
+ 
+    <div id="CourseBox" class="overviewBox">
+        @Html.ActionLink("Redigera", "Kurs", new { param1 = "Redigera", param2 = ViewData["CId"] })
+        <dl class="dl-horizontal">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Length)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Length)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Length)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Length)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Host)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Host)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Host)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Host)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Subtitle)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Subtitle)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Subtitle)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Subtitle)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Bold)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Bold)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Bold)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Bold)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Text)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Text)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Text)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Text)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Image)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Image)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Image)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.City)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.City)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.City)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-
-    </dl>
+            <dd>
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+        </dl>
+    </div>
 </div>
 
 <div class="col-xs-12">
-    <div class="col-xs-6">
+    <div class="col-xs-6 overviewBox" id="BP">
         <h4>Punktlista visas på kurssidan.</h4>
         @Html.ActionLink("Redigera Punktlista", "Kurs", new { param1 = "Punktlista", param2 = ViewBag.CId })
         @foreach (var item in ViewBag.BPs)
@@ -116,7 +121,7 @@
 
         }
     </div>
-    <div class="col-xs-6">
+    <div class="col-xs-6 overviewBox" id="Tags">
         <h4>Taggar används vid filtrering av kurser.</h4>
         @Html.ActionLink("Redigera Taggar", "Kurs", new { param1 = "Taggar", param2 = ViewBag.CId })
         @foreach (var item in ViewBag.Tags)
@@ -130,8 +135,7 @@
 </div>
 <div class="col-xs-12">
     <h4>Kurstillfällen</h4>
-
-
+    <a href="~/Kursledare/Kurser/Kurs/Kurstillfällen/Skapa/@ViewBag.CId">Skapa Nytt Kurstillfälle</a>
     <table class="table">
         <tr>
             <th>
@@ -170,7 +174,7 @@
                     <td style="color:red;">❌</td>
                 }
                 <td>
-                   
+
                     @Html.ActionLink("Info", "Kurs", new { param1 = "Kurstillfälle", param2 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
                     @Html.ActionLink("Bokningar", "Kurs", new { param1 = "Kurstillfälle", param2 = "Bokningar", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
                     @Html.ActionLink("Redigera", "Kurs", new { param1 = "Kurstillfälle", param2 = "Redigera", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
@@ -186,11 +190,11 @@
 
 </div>
 <div class="col-xs-12">
-<p>
+    <p>
 
-    <br>
-    <a href="~/Kursledare/Kurser">← Tillbaka till kurslistan</a>
-</p>
+        <br>
+        <a href="~/Kursledare/Kurser">← Tillbaka till kurslistan</a>
+    </p>
 
-<a href="~/Kurser/LäsMer/@ViewBag.CId">Till Kurssidan</a>
-    </div>
+    <a href="~/Kurser/LäsMer/@ViewBag.CId">Till Kurssidan</a>
+</div>
