@@ -8,12 +8,12 @@
 <h2>@ViewData["CourseOccasionDate"]</h2>
 <h4>Bokningar</h4>
 <p>
-  
+
     <a href="~/Kursledare/Kurser/Kurs/Kurstillfälle/Bokningar/Skapa/@ViewBag.COId">Skapa Bokning Manuellt</a>
 </p>
 <table class="table">
     <tr>
-       
+
         <th>
             @Html.DisplayNameFor(model => model.Firstname)
         </th>
@@ -29,7 +29,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Company)
         </th>
-       
+
         <th>
             @Html.DisplayNameFor(model => model.Bookings)
         </th>
@@ -47,59 +47,60 @@
 
     @foreach (var item in Model)
     {
-    <tr>
+        <tr>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Firstname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Lastname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PhoneNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Company)
-        </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Firstname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lastname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Company)
+            </td>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Bookings)
-        </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bookings)
+            </td>
 
-        @if (item.Message != null)
-        {
-            <td style="color:lightgreen;">✔</td>}
-        else
-        {
-            <td>@Html.DisplayFor(modelItem => item.Message)</td>
-        }
-        @if (item.DiscountCode != null)
-        {
-            <td style="color:lightgreen;">✔</td>}
-        else
-        {
-            <td>@Html.DisplayFor(modelItem => item.DiscountCode)</td>
-        }
-        <td>
-            @{ 
-
-                var value = item.BookingDate.ToString("yyyy-MM-dd");
-                @value;
-
+            @if (item.Message != null)
+            {
+                <td style="color:lightgreen;">✔</td>}
+            else
+            {
+                <td>@Html.DisplayFor(modelItem => item.Message)</td>
             }
-        </td>
-        <td>
-         
-            @Html.ActionLink("Redigera", "Kurs", new { param1 = "Kurstillfälle", param2 = "Bokning", param3 = "Redigera" , param4 = item.Id })
-            |
-            @Html.ActionLink("Info", "Kurs", new { param1 = "Kurstillfälle", param2 = "Bokning", param3 = item.Id })
-        |
-            @Html.ActionLink("Radera", "Kurs", new { param1 = "Kurstillfälle", param2 = "Bokning", param3 = "Radera", param4 = item.Id })
-        </td>
-    </tr>
+            @if (item.DiscountCode != null)
+            {
+                <td style="color:lightgreen;">✔</td>}
+            else
+            {
+                <td>@Html.DisplayFor(modelItem => item.DiscountCode)</td>
+            }
+            <td>
+                @{
+
+                    var value = item.BookingDate.ToString("yyyy-MM-dd");
+                    @value;
+
+                }
+            </td>
+            <td>
+
+                @Html.ActionLink("Redigera", "Kurs", new { param1 = "Kurstillfälle", param2 = "Bokning", param3 = "Redigera", param4 = item.Id })
+                |
+                @Html.ActionLink("Info", "Kurs", new { param1 = "Kurstillfälle", param2 = "Bokning", param3 = item.Id })
+                |
+                @Html.ActionLink("Radera", "Kurs", new { param1 = "Kurstillfälle", param2 = "Bokning", param3 = "Radera", param4 = item.Id })
+            </td>
+        </tr>
     }
 
 </table>
+<a href="~/Kursledare/Kurser/Kurs/@ViewData["CourseId"]">← Tillbaka</a> |

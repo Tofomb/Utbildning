@@ -15,6 +15,12 @@
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Length)
         </th>
         <th>
@@ -25,23 +31,28 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Length) @(item.Length == 1 || item.Length == -1 ? "dag" : "dagar")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.ActionLink("Översikt", "Kurs", new { param1 = item.Id }) |
-                @Html.ActionLink("Kurstillfällen", "Kurs", new { param1 = "Kurstillfällen", param2 = item.Id }) |
-                @Html.ActionLink("Redigera", "Kurs", new { param1 = "Redigera", param2 = item.Id }) |
-                @Html.ActionLink("Radera", "Kurs", new { param1 = "Radera", param2 = item.Id })
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Length) @(item.Length == 1 || item.Length == -1 ? "dag" : "dagar")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.ActionLink("Översikt", "Kurs", new { param1 = item.Id }) |
+            @Html.ActionLink("Redigera", "Kurs", new { param1 = "Redigera", param2 = item.Id }) |
+            @Html.ActionLink("Radera", "Kurs", new { param1 = "Radera", param2 = item.Id })
+        </td>
+    </tr>
     }
 </table>
 <a href="~/Kursledare/">← Tillbaka</a>
