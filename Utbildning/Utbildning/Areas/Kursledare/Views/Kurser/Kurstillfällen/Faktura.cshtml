@@ -2,60 +2,65 @@
 
 @using Utbildning.Classes;
 
+<head>
+    <link type="text/css" rel="stylesheet" href="~/Content/Faktura.css" />
+</head>
+
 <h2>Generera fakturalista att skriva ut, eller ladda ner.</h2>
-
-<table class="table">
-    <tr>
-        <th>Förnamn</th>
-        <th>Efternamn</th>
-        <th>Telefonnummer</th>
-        <th>Email</th>
-        <th>Faktureringsaddress</th>
-        <th>Ort</th>
-        <th>Postnummer</th>
-        <th>Företag</th>
-        <th>Bokningar</th>
-        <th>Pris (sek)</th>
-        <th>Rabattkod</th>
-    </tr>
-    @foreach(var item in Model)
-    {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Firstname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Lastname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PhoneNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BillingAddress)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PostalCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Company)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Bookings)
-        </td>
-        <td>
-            <input style="width:100px" type="number" value='@item.CourseOccasion.GetCourse().Price'/>            
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DiscountCode)
-        </td>
-    </tr>
-    }
-</table>
-
-<button>Generera</button>
+<h3 class="printText">Faktura</h3>
+<div class="divTable">
+    <div class="divTableBody">
+        <div class="divTableRow">
+            <div class="divTableCell">Förnamn</div>
+            <div class="divTableCell">Efternamn</div>
+            <div class="divTableCell">Telefonnummer</div>
+            <div class="divTableCell">Email</div>
+            <div class="divTableCell">Faktureringsaddress</div>
+            <div class="divTableCell">Ort</div>
+            <div class="divTableCell">Postkod</div>
+            <div class="divTableCell">Företag</div>
+            <div class="divTableCell">Bokningar</div>
+            <div class="divTableCell">Pris (sek)</div>
+            <div class="divTableCell">Rabattkod</div>
+        </div>
+        @foreach (var item in Model)
+        {
+            <div class="divTableRow">
+                <div class="divTableCell">
+                    @Html.DisplayFor(modelItem => item.Firstname)
+                </div>
+                <div class="divTableCell">
+                    @Html.DisplayFor(modelItem => item.Lastname)
+                </div>
+                <div class="divTableCell">
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </div>
+                <div class="divTableCell">
+                    @Html.DisplayFor(modelItem => item.Email)
+                </div>
+                <div class="divTableCell">
+                    @Html.DisplayFor(modelItem => item.BillingAddress)
+                </div>
+                <div class="divTableCell">
+                    @Html.DisplayFor(modelItem => item.City)
+                </div>
+                <div class="divTableCell">
+                    @Html.DisplayFor(modelItem => item.PostalCode)
+                </div>
+                <div class="divTableCell">
+                    @Html.DisplayFor(modelItem => item.Company)
+                </div>
+                <div class="divTableCell">
+                    @Html.DisplayFor(modelItem => item.Bookings)
+                </div>
+                <div class="divTableCell">
+                    <input style="width:100px" type="number" value='@item.CourseOccasion.GetCourse().Price' />
+                </div>
+                <div class="divTableCell">
+                    @Html.DisplayFor(modelItem => item.DiscountCode)
+                </div>
+            </div>
+        }
+    </div>
+<button id="print" onclick="window.print()">Skriv ut</button>
+</div>
