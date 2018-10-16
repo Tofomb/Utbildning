@@ -91,7 +91,8 @@
                             <label>Bokningar<span class="tooltiptext">Antal deltagare</span></label>
 
                         </div>
-                        @Html.DropDownListFor(model => model.Bookings, new SelectList(ViewBag.Numblist), "Antal")
+                        <br/>
+                        @Html.DropDownListFor(model => model.Bookings, new SelectList(ViewBag.Numblist), "Antal", new { @class = "antal"} )
                         @Html.ValidationMessageFor(model => model.Bookings, "", new { @class = "text-danger" })
 
 
@@ -129,7 +130,7 @@
 
                     </div>
 
-                    <div class="form-group">
+                    <div onkey class="form-group">
                         <div>
 
                             <label>Stad</label>
@@ -150,7 +151,7 @@
                         </div>
 
                     
-                        @Html.EditorFor(model => model.Message, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Message, new { htmlAttributes = new { @class = "form-control", @id = "messageBox" } })
                         @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
 
                     </div>
