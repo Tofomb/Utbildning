@@ -343,7 +343,7 @@
     <Content Include="Views\Kurser\Boka.cshtml" />
     <Content Include="Views\Kurser\LäsMer.cshtml" />
     <Content Include="Views\Kurser\Tack.cshtml" />
-    <Content Include="Views\Kurser\Om.cshtml" />
+    <Content Include="Views\Kurser\Persondata.cshtml" />
     <Content Include="Views\Kurser\Avboka.cshtml" />
   </ItemGroup>
   <ItemGroup>

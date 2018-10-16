@@ -3,13 +3,13 @@
     ViewBag.Title = "Om";
 }
 
-<h2>Om</h2>
+<h2>Persondata</h2>
+<p>Skriv in din email här så skickar vi all data vi har om dig.</p>
+<p>(Om du inte får något mail så innebär det att vi inte har något om dig.)</p>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
-
     @Html.Editor("UserEmail", new { htmlAttributes = new { @class = "form-control" } })
 }

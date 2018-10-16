@@ -162,7 +162,7 @@ namespace Utbildning.Controllers
         }
 
 
-        public ActionResult Om()
+        public ActionResult Persondata()
         {
             return View();
         }
@@ -170,7 +170,7 @@ namespace Utbildning.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Om(string UserEmail)
+        public ActionResult Persondata(string UserEmail)
         {
 
             string UserData = "";
