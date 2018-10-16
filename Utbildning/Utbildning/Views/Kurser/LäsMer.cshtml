@@ -11,23 +11,29 @@
 
 <div class="row">
 
-    <div class="col-sm-1 col-xs-0" style="background-color:red"></div>
-    <div class="col-sm-7 col-xs-12" style="background-color:lightblue;">
-        <div class="CourseName">
-            <p> @Html.DisplayFor(model => model.Name)</p>
+    <div class="col-sm-1 col-xs-0"></div>
+    <div class="col-sm-7 col-xs-12" style="">
+        <div style="box-shadow:0 4px 10px rgba(0,0,0,0.15); padding:0px 20px 10px; margin-right:20px;">
+            <div class="CourseName">
+                <p> @Html.DisplayFor(model => model.Name)</p>
+            </div>
+            <div class="CourseSubtitle">
+                <text><em>@Html.DisplayFor(model => model.Subtitle)</em></text>
+            </div>
+            <div class="CourseBold">
+                <p>@Html.DisplayFor(model => model.Bold)</p>
+            </div>
+            <p>@ViewBag.Text</p>
         </div>
-        <div class="CourseSubtitle">
-            <text><em>@Html.DisplayFor(model => model.Subtitle)</em></text>
-        </div>
-        <div class="CourseBold">
-            <p>@Html.DisplayFor(model => model.Bold)</p>
-        </div>
-        <p>@ViewBag.Text</p>
-
         <br>
         <br>
+        <hr>
         <a name="kurstillfällen"></a>
-        <div class="CourseOccasion">
+        <div style="text-align:center;">
+            <h3 style="color:#00b6dd;">Kurstillfällen</h3>
+        </div>
+
+        <div class="CourseOccasion" style="">
             @foreach (var item in ViewBag.CourseOccasionViewBag)
             {
                 <div class="CourseOccasionItem">
@@ -39,7 +45,7 @@
 
     </div>
 
-    <div class="col-sm-3 col-xs-12" style="background-color:lightgoldenrodyellow">
+    <div class="col-sm-3 col-xs-12" style=" padding:10px; border-radius:5px;">
         <img class="LeaderImg img-thumbnail" src="~/images/profile/@ViewBag.Image" onerror="this.onerror = null; this.src = '/images/profile/Profile.png';">
         <br>
         <text class="LederName">
@@ -70,4 +76,4 @@
             </ul>
     </div>
 </div>
-<div class="col-xs-1" style="background-color:magenta"></div>
+<div class="col-xs-1"></div>

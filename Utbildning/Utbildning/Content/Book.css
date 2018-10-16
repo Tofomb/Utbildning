@@ -21,6 +21,13 @@
     text-align: center;
 }
 
+.text-date {
+    text-align: center;
+    margin-top: -25px;
+    padding-bottom: 20px;
+    word-wrap: break-word;
+}
+
 .text-subtitle {
     text-align: center;
     margin-top: -25px;
