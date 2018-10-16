@@ -40,12 +40,6 @@ namespace Utbildning.Models
         public System.Data.Entity.DbSet<Utbildning.Models.BulletPoints> BulletPoints { get; set; }
 
         public System.Data.Entity.DbSet<Utbildning.Models.Course> Courses { get; set; }
-
-        public System.Data.Entity.DbSet<Utbildning.Models.FrontpageBulletPoints> FrontpageBulletPoints { get; set; }
-
-        public System.Data.Entity.DbSet<Utbildning.Models.FrontpageCarousel> FrontpageCarousels { get; set; }
-
-        public System.Data.Entity.DbSet<Utbildning.Models.FrontpageInfo> FrontpageInfoes { get; set; }
         
         public System.Data.Entity.DbSet<Utbildning.Models.Log> Logs { get; set; }
 
