@@ -131,35 +131,7 @@ namespace Utbildning.Controllers
             return new string(stringChars);
         }
 
-        // GET: Admin/Startsida
-        public ActionResult Startsida()
-        {
-            if (db.FrontpageInfoes.Count() > 0)
-            {
-                FrontpageInfo Info = db.FrontpageInfoes.ToList().Last();
-                ViewBag.Title = Info.Title;
-                ViewBag.Bold = Info.Bold;
-                ViewBag.Text = Info.Text;
-            }
-            return View();
-        }
-
-        // POST: FrontpageInfoes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Startsida([Bind(Include = "Id,Title,Bold,Text")] FrontpageInfo frontpageInfo)
-        {
-            if (ModelState.IsValid)
-            {
-                db.FrontpageInfoes.Add(frontpageInfo);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(frontpageInfo);
-        }
+        
 
         [Authorize(Roles = "Kursledare")]
         public ActionResult Kursledare()
