@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using Utbildning.Classes;
@@ -170,7 +171,7 @@ namespace Utbildning.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Persondata(string UserEmail)
+        public ActionResult Persondata(string UserEmail, string test)
         {
 
             string UserData = "";
@@ -195,7 +196,12 @@ namespace Utbildning.Controllers
                 UserData += "\n \n";
 
             }
-            string MailText = $"Du efterfrågade en utskrit om all data som Castra Utbildning har sparat kopplat till din mail, om du önskar att ta bort information från vår databas, tryck på länken nedanför. Var medveten om att detta även betyder att bokningen kopplad till din email kommer att avbokas.<br/><a href='http://localhost:59115/Kurser/Avboka?email={URLHandler.GenAUId(UserEmail)}'>Klicka här</a>";
+            string URLBegining = test;
+            var URL = Regex.Match(test, @".+:\/\/[A-Za-z0-9\-\.:]+\/" +
+                "").Groups[0].Captures[0];
+            
+            
+            string MailText = "Du efterfrågade en utskrit om all data som Castra Utbildning har sparat kopplat till din mail, om du önskar att ta bort information från vår databas, tryck på länken nedanför. Var medveten om att detta även betyder att bokningen kopplad till din email kommer att avbokas.<br/><a href='"+ URL.Value + $"Kurser/Avboka?email={URLHandler.GenAUId(UserEmail)}'>Klicka här</a>";
             string SecretEmail = UserEmail;
 
 
