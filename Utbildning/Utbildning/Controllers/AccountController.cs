@@ -135,7 +135,7 @@ namespace Utbildning.Controllers
         }
 
         //
-        // GET: /Account/Register
+       /* // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
         {
@@ -171,7 +171,7 @@ namespace Utbildning.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
+        */
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
