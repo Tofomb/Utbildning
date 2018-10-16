@@ -15,7 +15,8 @@ namespace Utbildning
 {
     public partial class Startup
     {
-        private const int ExpirationTime = 14; //Amount of days program waits before deleting courseoccasions
+        private const int ExpirationTime = 30; //Amount of days program waits before deleting courseoccasions
+
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
