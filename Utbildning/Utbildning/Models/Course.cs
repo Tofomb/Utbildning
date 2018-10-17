@@ -27,8 +27,6 @@ namespace Utbildning.Models
         [Display(Name = "Text")]
         [DataType(DataType.MultilineText)]
         public string Text { get; set; }
-        [Display(Name = "Bild")]
-        public string Image { get; set; }
         [Display(Name = "Address")]
         public string Address { get; set; }
         [Display(Name = "Ort")]
