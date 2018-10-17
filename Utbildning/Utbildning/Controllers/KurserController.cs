@@ -221,7 +221,8 @@ namespace Utbildning.Controllers
             ViewBag.Namn = "Kurs: " + kn;
             ViewBag.Address = "Address: " + ad;
             ViewBag.City = "Ort: " + ci;
-            ViewBag.Date = "Datum" + da;
+            if (!string.IsNullOrEmpty(da))
+                ViewBag.Date = DateTime.Parse(da).Format();
 
             return View();
         }
@@ -235,6 +236,30 @@ namespace Utbildning.Controllers
                     db.Bookings.Remove(b);
             db.SaveChanges();
 
+            return View();
+        }
+
+        public ActionResult Om()
+        {
+            using (ApplicationDbContext db = new ApplicationDbContext()) {
+                ViewBag.Title = db.SiteConfigurations.Where(x => x.Property == "AboutTitle").First().Value;
+                ViewBag.Bold = db.SiteConfigurations.Where(x => x.Property == "AboutBold").First().Value;
+                ViewBag.Text = db.SiteConfigurations.Where(x => x.Property == "AboutText").First().Value;
+            }
+            return View();
+        }
+
+        public ActionResult Kontakt()
+        {
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                ViewBag.Title = db.SiteConfigurations.Where(x => x.Property == "ContactTitle").First().Value;
+                ViewBag.CompanyName = db.SiteConfigurations.Where(x => x.Property == "ContactCompanyName").First().Value;
+                ViewBag.Text = db.SiteConfigurations.Where(x => x.Property == "ContactText").First().Value;
+                ViewBag.Address = db.SiteConfigurations.Where(x => x.Property == "ContactAddress").First().Value;
+                ViewBag.PhoneNumber = db.SiteConfigurations.Where(x => x.Property == "ContactPhoneNumber").First().Value;
+                ViewBag.Email = db.SiteConfigurations.Where(x => x.Property == "ContactEmail").First().Value;
+            }
             return View();
         }
     }

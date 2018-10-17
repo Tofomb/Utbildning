@@ -1,28 +1,29 @@
 ﻿<body style="text-align: center">
     <h2 style="color: #F8981E">Tack för din bokning!</h2>
     <p>Du får även ett mail som bekräftelse</p>
-    <div class="TackCard row">
-        <div class="col-sm-6">
-            @ViewBag.Namn <br />
-            @ViewBag.Address
-        </div>
-        <div class="col-sm-6">
-            @ViewBag.Date <br />
-            @ViewBag.City
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="TackCard row col-sm-6">
+            <div class="col-sm-6">
+                @ViewBag.Namn <br />
+                @ViewBag.Address
+            </div>
+            <div class="col-sm-6">
+                @ViewBag.Date <br />
+                @ViewBag.City
+            </div>
         </div>
     </div>
 </body>
 
 <style>
     .TackCard {
-        text-align:left;
-        border-style: solid;
+        text-align: left;
         background-color: #00B6DD;
-        border-radius: 13px;
         margin: auto;
-        width: 700px;
         padding: 15px;
-        font-size: 15px;
+        font-size: 18px;
         border-width: 1px;
+        box-shadow: 0 0 10px 4px rgba(0,0,0,0.15);
     }
 </style>

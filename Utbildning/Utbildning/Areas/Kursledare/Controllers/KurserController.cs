@@ -429,7 +429,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                             db.SaveChanges();
                         }
                     }
-                    return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen/" + Id);
+                    return Redirect("~/Kursledare/Kurser/Kurs/" + Id);
 
                 case "RaderaKT":
                     if (int.TryParse(param2, out Id))
@@ -441,7 +441,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                             db.Logs.Add(new Log() { User = User.Identity.Name, Table = "CourseOccasions", Action = "Delete", Before = Comp[0], After = "[DELETED]", Time = DateTime.Now });
                         }
                         db.SaveChanges();
-                        return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen/" + co.CourseId);
+                        return Redirect("~/Kursledare/Kurser/Kurs/" + co.CourseId);
                     }
                     return Redirect("~/Kursledre/Kurser");
 
@@ -467,7 +467,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                                 db.Entry(courseOccasion).State = EntityState.Modified;
 
                                 db.SaveChanges();
-                                return Redirect("~/Kursledare/Kurser/Kurs/Kurstillfällen/" + courseOccasion.CourseId);
+                                return Redirect("~/Kursledare/Kurser/Kurs/" + courseOccasion.CourseId);
                             }
                         }
                     }

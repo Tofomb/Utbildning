@@ -346,11 +346,8 @@
     <Content Include="Views\Kurser\Tack.cshtml" />
     <Content Include="Views\Kurser\Persondata.cshtml" />
     <Content Include="Views\Kurser\Avboka.cshtml" />
-    <Content Include="Views\PageConfigs\Create.cshtml" />
-    <Content Include="Views\PageConfigs\Delete.cshtml" />
-    <Content Include="Views\PageConfigs\Details.cshtml" />
-    <Content Include="Views\PageConfigs\Edit.cshtml" />
-    <Content Include="Views\PageConfigs\Index.cshtml" />
+    <Content Include="Views\Kurser\Om.cshtml" />
+    <Content Include="Views\Kurser\Kontakt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
