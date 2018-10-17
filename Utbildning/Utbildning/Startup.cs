@@ -22,6 +22,7 @@ namespace Utbildning
             ConfigureAuth(app);
             StartDBThread();
             CreateRolesAndDefaultUsers();
+            CreateContactAbout();
         }
 
         private void CreateRolesAndDefaultUsers()
@@ -64,6 +65,18 @@ namespace Utbildning
                 }
             }
         }
+
+        private void CreateContactAbout()
+        {
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                //if (db.Page.Count() < 1)
+                {
+                    //db.Page.Add(new Page("text", "text", "text", "text", "text"...));
+                }
+            }
+        }
+
         private void StartDBThread()
         {
             DBInterval();
