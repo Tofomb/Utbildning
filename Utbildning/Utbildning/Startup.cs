@@ -70,7 +70,7 @@ namespace Utbildning
         {
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
-                //if (db.Page.Count() < 1)
+                //if (db.Count() < 1)
                 {
                     //db.Page.Add(new Page("text", "text", "text", "text", "text"...));
                 }
@@ -95,6 +95,7 @@ namespace Utbildning
         {
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
+                //ExpirationTime = db.SiteConfiguration.ToList().First().ExpirationTime;
                 List<CourseOccasion> OldCOs = db.CourseOccasions.ToList().Where(x => x.StartDate.AddDays(ExpirationTime) < DateTime.Now).ToList();
                 foreach (CourseOccasion co in OldCOs)
                 {

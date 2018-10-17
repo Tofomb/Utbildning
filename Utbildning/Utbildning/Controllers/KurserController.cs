@@ -226,13 +226,15 @@ namespace Utbildning.Controllers
             return View();
         }
 
-        public ActionResult Avboka(string user)
+        public ActionResult Avboka(string user, string url)
         {
             //TODO maila kursledaren
             List<Booking> bookings = db.Bookings.ToList().Where(x => URLHandler.GenAUId(x.Email) == user).ToList();
             foreach (Booking b in bookings)
-                db.Bookings.Remove(b);
+                if (DBHandler.GetCourseOccasion(b).StartDate > DateTime.Now)
+                    db.Bookings.Remove(b);
             db.SaveChanges();
+
             return View();
         }
     }

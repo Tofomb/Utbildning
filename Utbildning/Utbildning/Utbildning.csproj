@@ -226,6 +226,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\SiteConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -345,6 +346,11 @@
     <Content Include="Views\Kurser\Tack.cshtml" />
     <Content Include="Views\Kurser\Persondata.cshtml" />
     <Content Include="Views\Kurser\Avboka.cshtml" />
+    <Content Include="Views\PageConfigs\Create.cshtml" />
+    <Content Include="Views\PageConfigs\Delete.cshtml" />
+    <Content Include="Views\PageConfigs\Details.cshtml" />
+    <Content Include="Views\PageConfigs\Edit.cshtml" />
+    <Content Include="Views\PageConfigs\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
