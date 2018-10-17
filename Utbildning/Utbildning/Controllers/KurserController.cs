@@ -109,7 +109,7 @@ namespace Utbildning.Controllers
                             db.SaveChanges();
 
                             // Tester
-                            string MailText = DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "\n Tack för din bokning, " + booking.Firstname + " " + booking.Lastname + "\n Platser:" + booking.Bookings + "\n Om du har några frågor, hör av dig till kursansvarig: " + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Email + $"<br/>Avbokning: <a href='http://localhost:59115/Kurser/Avboka?email={URLHandler.GenAUId(booking.Email)}' Avboka";
+                            string MailText = DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "\n Tack för din bokning, " + booking.Firstname + " " + booking.Lastname + "\n Platser:" + booking.Bookings + "\n Om du har några frågor, hör av dig till kursansvarig: " + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Email + $"<br/>Avbokning: <a href='" + URLHandler.GetBaseUrl(Request.Url) + "/Kurser/Avboka?email={URLHandler.GenAUId(booking.Email)}' Avboka";
                             string MailTextKL = "Ny bokning \n" + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "\n" + booking.Firstname + " " + booking.Lastname + "\n Platser:" + booking.Bookings;
 
                             // MailHandler.SendTester("", booking.Email, "Bokningsbekräftelse",  MailText, "");
@@ -171,7 +171,7 @@ namespace Utbildning.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Persondata(string UserEmail, string test)
+        public ActionResult Persondata(string UserEmail)
         {
 
             string UserData = "";
@@ -196,13 +196,10 @@ namespace Utbildning.Controllers
                 UserData += "\n \n";
 
             }
-            string URLBegining = test;
-            var URL = Regex.Match(test, @".+:\/\/[A-Za-z0-9\-\.:]+\/" +
-                "").Groups[0].Captures[0];
+         
             
-            
-            string MailText = "Du efterfrågade en utskrit om all data som Castra Utbildning har sparat kopplat till din mail, om du önskar att ta bort information från vår databas, tryck på länken nedanför. Var medveten om att detta även betyder att bokningen kopplad till din email kommer att avbokas.<br/><a href='"+ URL.Value + $"Kurser/Avboka?email={URLHandler.GenAUId(UserEmail)}'>Klicka här</a>";
-            string SecretEmail = UserEmail;
+            string MailText = "Du efterfrågade en utskrit om all data som Castra Utbildning har sparat kopplat till din mail, om du önskar att ta bort information från vår databas, tryck på länken nedanför. Var medveten om att detta även betyder att bokningen kopplad till din email kommer att avbokas.<br/><a href='" + URLHandler.GetBaseUrl(Request.Url) + $"/Kurser/Avboka?email={URLHandler.GenAUId(UserEmail)}'>Klicka här</a>";
+             string SecretEmail = UserEmail;
 
 
             // MailHandler.Send(UserEmail, "Användardata Castra-utbildning", UserData + MailText);
