@@ -15,7 +15,6 @@ namespace Utbildning.Models
         public string Subtitle { get; set; }
         public string Bold { get; set; }
         public string Text { get; set; }
-        public string Image { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
         public float Price { get; set; }
@@ -31,7 +30,6 @@ namespace Utbildning.Models
             Subtitle = course.Subtitle;
             Bold = course.Bold;
             Text = course.Text;
-            Image = course.Image;
             Address = course.Address;
             City = course.City;
             Price = course.Price;
