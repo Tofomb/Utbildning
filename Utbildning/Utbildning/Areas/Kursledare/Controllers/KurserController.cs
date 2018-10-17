@@ -56,7 +56,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
         }
 
         [Authorize(Roles = "Kursledare")]
-        public ActionResult Kurs(string param1, string param2, string param3, string param4)
+        public ActionResult Kurs(string param1, string param2, string param3, string param4, string w)
         {
             param1 = param1 != null ? param1.ToLower() : param1;
             param2 = param2 != null ? param2.ToLower() : param2;
@@ -185,6 +185,9 @@ namespace Utbildning.Areas.Kursledare.Controllers
 
             else if (param1 == "taggar" && param2.HasIds())
             {
+                if (w == "tlt")
+                    ViewBag.Warning = "Taggarna får inte vara mer än 15 tecken.";
+
                 param2.GetIds(out List<int> Ids);
                 int Id = Ids.First();
                 if (User.ValidUser(DBHandler.GetCourse(Id)))
@@ -201,7 +204,6 @@ namespace Utbildning.Areas.Kursledare.Controllers
 
             else if (param1 == "tagg" && param2 == "radera" && param3.HasIds())
             {
-
                 param3.GetIds(out List<int> Ids);
                 int Id = Ids.First();
                 CourseTags courseTags = db.CourseTags.Find(Id);
@@ -524,6 +526,10 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 case "SkapaTagg":
                     if (param2.GetIds(out Ids))
                     {
+                        if (courseTags.Text.Length > 15)
+                        {
+                            return Redirect("~/Kursledare/Kurser/Kurs/Taggar/" + param2 + "?w=tlt");
+                        }
                         Id = Ids.First();
                         if (User.ValidUser(DBHandler.GetCourse(Id)))
                         {
@@ -558,13 +564,13 @@ namespace Utbildning.Areas.Kursledare.Controllers
                         Booking bo = db.Bookings.Where(m => m.Id == BookingId).First();
                         CourseOccasion co = DBHandler.GetCourseOccasion(bo);
 
-                        db.Bookings.Remove(bo);
-
-                        if (db.Bookings.Find(booking.Id).GetComparison(booking, out Comp))
+                        if (db.Bookings.Find(bo.Id).GetComparison(booking, out Comp))
                         {
                             db.Logs.Add(new Log() { User = User.Identity.Name, Table = "Bookings", Action = "Delete", Before = Comp[0], After = "[DELETED]", Time = DateTime.Now });
                             db.SaveChanges();
                         }
+
+                        db.Bookings.Remove(bo);
 
                         db.SaveChanges();
 
