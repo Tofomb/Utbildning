@@ -34,7 +34,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Skapa([Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course)
+        public ActionResult Skapa([Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Address,City,Price")] Course course)
         {
             if (ModelState.IsValid)
             {
@@ -369,8 +369,8 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 {
                     ViewBag.CourseOccasionId = new SelectList(db.CourseOccasions, "Id", "StartDate", booking.CourseOccasionId);
                     ViewBag.COId = DBHandler.GetCourseOccasion(booking).Id;
-                    ViewBag.CourseName = DBHandler.GetCourse(DBHandler.GetCourseOccasion(Id)).Name;
-                    ViewBag.CODate = DBHandler.GetCourseOccasion(Id).StartDate.Format();
+                    ViewBag.CourseName = DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking)).Name;
+                    ViewBag.CODate = DBHandler.GetCourseOccasion(booking).StartDate.Format();
                     return View("Kurstillfällen/Bokningar/Redigera", booking);
                 }
                 return Redirect("~/Kursledare/Kurser");
@@ -410,7 +410,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
             return Redirect("~/Kursledare/Kurser");
         }
         [HttpPost]
-        public ActionResult Kurs([Bind(Include = "Id,CourseId,StartDate,AltHost,AltAddress,AltMail,AltProfilePicture,MinPeople,MaxPeople")] CourseOccasion courseOccasion, [Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Image,Address,City,Price")] Course course, [Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking, [Bind(Include = "Id,CourseId,Text")] BulletPoints bulletPoints, CourseTags courseTags , string param1, string param2, string param3)
+        public ActionResult Kurs([Bind(Include = "Id,CourseId,StartDate,MinPeople,MaxPeople")] CourseOccasion courseOccasion, [Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Address,City,Price")] Course course, [Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking, [Bind(Include = "Id,CourseId,Text")] BulletPoints bulletPoints, CourseTags courseTags , string param1, string param2, string param3)
         {
             int Id = 0;
             List<int> Ids;

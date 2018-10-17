@@ -17,19 +17,9 @@ namespace Utbildning.Models
         [DataType(DataType.DateTime)]
         [Display(Name = "Kursstart")]
         public DateTime StartDate { get; set; }
-        [Display(Name = "Tillfällig kursledare")]
-        public string AltHost { get; set; }
-        [Display(Name = "Tillfällig address")]
-        public string AltAddress { get; set; }
-        [Display(Name = "Tillfällig ort")]
-        public string AltCity { get; set; }
-        [Display(Name = "Tillfällig Email")]
-        public string AltMail { get; set; }
-        [Display(Name = "Tillfällig profilbild")]
-        public string AltProfilePicture{ get; set; }
-        [Display(Name = "Minst antal människor")]
+        [Display(Name = "Minst antal deltagare")]
         public int MinPeople { get; set; }
-        [Display(Name = "Mest antal människor")]
+        [Display(Name = "Mest antal deltagare")]
         public int MaxPeople { get; set; }
     }
 }

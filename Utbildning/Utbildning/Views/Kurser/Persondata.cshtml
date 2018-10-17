@@ -1,10 +1,4 @@
-﻿
-<script>
-    function getURL() {
-        document.getElementById("myInput").value = document.URL; 
-    }
-</script>
-@{
+﻿@{
     ViewBag.Title = "Om";
 }
 
@@ -16,7 +10,5 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.Editor("UserEmail", new { htmlAttributes = new { @class = "form-control", @onkeyup="getURL()" } })
-
-    @Html.Editor("test", new { htmlAttributes = new {@class = "form-control", @id = "myInput", @type = "hidden"}})
+    @Html.Editor("UserEmail", new { htmlAttributes = new { @class = "form-control"} })
 }
