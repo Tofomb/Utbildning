@@ -46,5 +46,7 @@ namespace Utbildning.Models
         public System.Data.Entity.DbSet<Utbildning.Models.BookingData> BookingDatas { get; set; }
 
         public System.Data.Entity.DbSet<Utbildning.Models.CourseTags> CourseTags { get; set; }
+
+        public System.Data.Entity.DbSet<Utbildning.Models.SiteConfiguration> SiteConfigurations { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace Utbildning
             ConfigureAuth(app);
             StartDBThread();
             CreateRolesAndDefaultUsers();
-            CreateContactAbout();
+            CreateDefaultConfigs();
         }
 
         private void CreateRolesAndDefaultUsers()
@@ -66,14 +66,52 @@ namespace Utbildning
             }
         }
 
-        private void CreateContactAbout()
+        private void CreateDefaultConfigs()
         {
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
-                //if (db.Count() < 1)
+                List<SiteConfiguration> siteConfigurations = db.SiteConfigurations.ToList();                
+                if (!siteConfigurations.Exists(x => x.Property == "ContactTitle"))
                 {
-                    //db.Page.Add(new Page("text", "text", "text", "text", "text"...));
+                    db.SiteConfigurations.Add(new SiteConfiguration("ContactTitle", "Kontakt"));
                 }
+                if (!siteConfigurations.Exists(x => x.Property == "ContactText"))
+                {
+                    db.SiteConfigurations.Add(new SiteConfiguration("ContactText", "Här har du kontaktinfomration om du har några frågor eller annat."));
+                }
+                if (!siteConfigurations.Exists(x => x.Property == "ContactCompanyName"))
+                {
+                    db.SiteConfigurations.Add(new SiteConfiguration("ContactCompanyName", "Castra Väst"));
+                }
+                if (!siteConfigurations.Exists(x => x.Property == "ContactAddress"))
+                {
+                    db.SiteConfigurations.Add(new SiteConfiguration("ContactAddress", "Engelbrektsgatan 28, 41319 Göteborg"));
+                }
+                if (!siteConfigurations.Exists(x => x.Property == "ContactPhoneNumber"))
+                {
+                    db.SiteConfigurations.Add(new SiteConfiguration("ContactPhoneNumber", "031-10 78 10"));
+                }
+                if (!siteConfigurations.Exists(x => x.Property == "ContactEmail"))
+                {
+                    db.SiteConfigurations.Add(new SiteConfiguration("ContactEmail", "info@castra.se"));
+                }
+                if (!siteConfigurations.Exists(x => x.Property == "AboutTitle"))
+                {
+                    db.SiteConfigurations.Add(new SiteConfiguration("AboutTitle", "Om oss"));
+                }
+                if (!siteConfigurations.Exists(x => x.Property == "AboutBold"))
+                {
+                    db.SiteConfigurations.Add(new SiteConfiguration("AboutBold", "Information om Castra Utbildning"));
+                }
+                if (!siteConfigurations.Exists(x => x.Property == "AboutText"))
+                {
+                    db.SiteConfigurations.Add(new SiteConfiguration("AboutText", "Castra Utbildning är en sida för dig som vill hitta en kurs för dig eller ditt företag. Här har vi ett stort utbud av kurser, men om det är någon kurs som saknas så får ni gärna höra av er, så kan vi nog anordna något."));
+                }
+                if (!siteConfigurations.Exists(x => x.Property == "ExpirationTime"))
+                {
+                    db.SiteConfigurations.Add(new SiteConfiguration("ExpirationTime", "60"));
+                }
+                db.SaveChanges();
             }
         }
 

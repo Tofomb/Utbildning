@@ -24,44 +24,61 @@
                 Många nog?
             </th>
             <th></th>
+            <th></th>
         </tr>
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @item.StartDate.Format()
-                </td>
-                <td>
-                    @item.GetBookings()
-                </td>
-                <td>
-                    @item.GetAvailableBookings()
-                </td>
-                @if (item.EnoughBookings())
+        <tr>
+            <td>
+                @item.StartDate.Format()
+            </td>
+            <td>
+                @item.GetBookings()
+            </td>
+            <td>
+                @item.GetAvailableBookings()
+            </td>
+            @if (item.EnoughBookings())
+            {
+                <td style="color:lightgreen;">✔</td>
+            }
+            else
+            {
+                <td style="color:red;">❌</td>
+            }
+
+            @using (Utbildning.Models.ApplicationDbContext db = new Utbildning.Models.ApplicationDbContext())
+            {
+                if ((DateTime.Now - item.StartDate).TotalDays - int.Parse(db.SiteConfigurations.Where(x => x.Property == "ExpirationTime").First().Value) < 3)
                 {
-                    <td style="color:lightgreen;">✔</td>
+                    <td style="color: lightcoral">⚠️</td>
+                }
+                else if ((DateTime.Now - item.StartDate).TotalDays - int.Parse(db.SiteConfigurations.Where(x => x.Property == "ExpirationTime").First().Value) < 10)
+                {
+                    <td style="color: red">⚠</td>
                 }
                 else
                 {
-                    <td style="color:red;">❌</td>
+                    <td></td>
                 }
-                <td>
-                    <!--TODO fix links-->
-                    @Html.ActionLink("Info", "Kurs", new { param1 = "Kurstillfälle", param2 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
-                    @Html.ActionLink("Bokningar", "Kurs", new { param1 = "Kurstillfälle", param2 = "Bokningar", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
-                    @Html.ActionLink("Redigera", "Kurs", new { param1 = "Kurstillfälle", param2 = "Redigera", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
-                    @Html.ActionLink("Radera", "Kurs", new { param1 = "Kurstillfälle", param2 ="Radera", param3=item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") })
-                </td>
-            </tr>
+            }
+            <td>
+                <!--TODO fix links-->
+                @Html.ActionLink("Info", "Kurs", new { param1 = "Kurstillfälle", param2 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
+                @Html.ActionLink("Bokningar", "Kurs", new { param1 = "Kurstillfälle", param2 = "Bokningar", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
+                @Html.ActionLink("Redigera", "Kurs", new { param1 = "Kurstillfälle", param2 = "Redigera", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
+                @Html.ActionLink("Radera", "Kurs", new { param1 = "Kurstillfälle", param2 = "Radera", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") })
+            </td>
+        </tr>
         }
 
     </table>
 
-    
+
 }
 else
 {
     <h4>Finns inga kurstillfällen tillgängliga för den valda kursen.</h4>
 }
-    <a href="~/Kursledare/Kurser/">← Tillbaka</a>
+<a href="~/Kursledare/Kurser/">← Tillbaka</a>
