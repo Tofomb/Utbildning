@@ -195,6 +195,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\ConfigController.cs" />
     <Compile Include="Areas\Admin\Controllers\HemController.cs" />
     <Compile Include="Areas\Admin\Controllers\KursledareController.cs" />
     <Compile Include="Areas\Admin\Controllers\LogsController.cs" />
@@ -295,6 +296,8 @@
     <Content Include="Areas\Admin\Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Areas\Admin\Views\Logs\Index.cshtml" />
     <Content Include="Areas\Kursledare\Views\Profil\Lösenord.cshtml" />
+    <Content Include="Areas\Admin\Views\Config\index.cshtml" />
+    <Content Include="Areas\Admin\Views\Config\Redigera.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
