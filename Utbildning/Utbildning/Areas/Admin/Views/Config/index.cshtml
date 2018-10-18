@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Utbildning.Models.SiteConfiguration>
+@{
+    ViewBag.Title = "Config";
+}
+
+<h2>Config</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<div>
+    @foreach (var x in  Model)
+    {
+
+
+    <div class="form-group">
+        @Html.Label(x.Property)
+        <div>
+            @x.Value |  @Html.ActionLink("Redigera", "Redigera", new { id = x.Id })
+        </div>
+    </div>
+    }
+   
+</div>
+}

@@ -401,8 +401,11 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 if (param3.GetIds(out List<int>Ids))
                 {
                     int Id = Ids.First();
+                    
                     CourseOccasion co = db.CourseOccasions.Find(Id);
                     List<Booking> bookings = db.Bookings.ToList().Where(x => x.CourseOccasionId == co.Id).ToList();
+                    ViewBag.CourseName = co.StartDate.Format();
+                    ViewBag.CODate = co.GetCourse().Name;
                     return View("Kurstillfällen/Faktura", bookings);
                 }
             }

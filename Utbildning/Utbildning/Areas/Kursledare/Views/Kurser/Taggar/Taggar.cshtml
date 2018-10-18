@@ -8,17 +8,21 @@
 
 @foreach (var item in ViewBag.Tags)
 {
-    <div>
-        <input disabled value="@item.Text" style="display:inline;"><a style="display: inline-block; width:27px; height:27px; padding:5px; margin-left:3px;" class="btn btn-default" href="~/Kursledare/Kurser/Kurs/Tagg/Radera/@item.Id">-</a>
-    </div>
+<div>
+    <input disabled value="@item.Text" style="display:inline;"><a style="display: inline-block; width:27px; height:27px; padding:5px; margin-left:3px;" class="btn btn-default" href="~/Kursledare/Kurser/Kurs/Tagg/Radera/@item.Id">-</a>
+</div>
 
 }
 @using (Html.BeginForm(new { param1 = "SkapaTagg", param2 = ViewBag.CourseId }))
 {
-    <div>
-        @Html.EditorFor(model => model.Text)
-        <input type="submit" class="btn btn-default" style="display: inline-block; width:27px; height:27px;" value="+">
-    </div>
+    if (ViewBag.Tags.Count < 5)
+    {
+<div>
+    @Html.EditorFor(model => model.Text)
+    <input type="submit" class="btn btn-default" style="display: inline-block; width:27px; height:27px;" value="+">
+</div>
 }
+}
+
 
 <a href="~/Kursledare/Kurser/kurs/@ViewBag.CourseId">← Till Kursen</a>
