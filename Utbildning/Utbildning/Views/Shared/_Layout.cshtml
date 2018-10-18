@@ -21,7 +21,7 @@
                 <a href="~/Kurser/"><img src="~/Content/CastraULogoB.png" class="logo" /></a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">                    
+                <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Om oss", "Om", "Kurser")</li>
                     <li>@Html.ActionLink("Kontakt", "Kontakt", "Kurser")</li>
                 </ul>
@@ -36,7 +36,9 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <ul>
+                <li><p><a href="~/Kurser/Persondata">Persondata</a></p></li>
+            </ul>
         </footer>
     </div>
 
