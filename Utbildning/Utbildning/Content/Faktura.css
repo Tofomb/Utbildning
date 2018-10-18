@@ -63,4 +63,12 @@ footer, hr {
     #print, footer, h2 {
         display: none;
     }
+    .cName{
+        position:absolute;
+        right:0;
+        text-align:right;
+        top:7px;
+        right:5px;
+       
+    }   
 }

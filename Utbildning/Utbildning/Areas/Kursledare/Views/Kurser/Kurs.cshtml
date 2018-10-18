@@ -184,7 +184,8 @@
                 @Html.ActionLink("Info", "Kurs", new { param1 = "Kurstillfälle", param2 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
                 @Html.ActionLink("Bokningar", "Kurs", new { param1 = "Kurstillfälle", param2 = "Bokningar", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
                 @Html.ActionLink("Redigera", "Kurs", new { param1 = "Kurstillfälle", param2 = "Redigera", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
-                @Html.ActionLink("Radera", "Kurs", new { param1 = "Kurstillfälle", param2 = "Radera", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") })
+                @Html.ActionLink("Radera", "Kurs", new { param1 = "Kurstillfälle", param2 = "Radera", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
+                @Html.ActionLink("Faktura", "Kurs", new { param1 = "Kurstillfälle", param2 = "Faktura", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") })
             </td>
         </tr>
         }
