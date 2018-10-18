@@ -27,6 +27,13 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new {@class = "form-control datefield", type = "date", Value = ViewBag.EndDate }})
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.MinPeople, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.MinPeople, new { htmlAttributes = new { @class = "form-control" } })

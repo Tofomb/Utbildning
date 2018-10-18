@@ -5,7 +5,7 @@
 }
 <h2>Profilinställningar</h2>
 <h4>Bild: <a href="~/Kursledare/Profil/Bild">(Ändra)</a></h4>
-<img style="border: 1px solid black;" src="@ViewBag.Img" />
+<img style="border: 1px solid black;width:250px;image-rendering: pixelated;" src="~/images/profile/@ViewBag.Image" onerror="this.onerror = null; this.src = '/images/profile/Profile.png';" />
 <h4>Namn: @ViewBag.FullName <a href="~/Kursledare/Profil/Namn">(Ändra)</a></h4>
 <ul>
     <li><a href="~/Kursledare/Profil/Lösenord">Byt lösenord</a></li>

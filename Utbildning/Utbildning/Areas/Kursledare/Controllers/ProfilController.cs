@@ -63,10 +63,8 @@ namespace Utbildning.Areas.Kursledare.Controllers
             using (var db = new ApplicationDbContext())
             {
                 ApplicationUser user = db.Users.Find(Id);
-                if (System.IO.File.Exists("~/images/profile/" + User.Identity.GetUserId() + user.ProfilePicture))
-                    ViewBag.Img = "~/images/profile/" + User.Identity.GetUserId() + user.ProfilePicture;
-                else
-                    ViewBag.Img = "/images/profile/Profile.png";
+
+                ViewBag.Image = User.Identity.GetUserId() + user.ProfilePicture;
                 return View(user);
             }
         }
@@ -87,8 +85,12 @@ namespace Utbildning.Areas.Kursledare.Controllers
         }
 
         [Authorize(Roles = "Kursledare")]
-        public ActionResult Bild()
+        public ActionResult Bild(string w)
         {
+            if (w == "wff")
+            {
+                ViewBag.Warning = "Fel filformat. Endast .jpg och .png stöds.";
+            }
             return View();
         }
 
@@ -98,41 +100,50 @@ namespace Utbildning.Areas.Kursledare.Controllers
         {
             if (file != null)
             {
-                ApplicationUser user;
-                using (ApplicationDbContext db = new ApplicationDbContext())
+                string ext = Path.GetExtension(file.FileName).ToLower();
+                if (ext == ".jpg" || ext == ".jpeg" || ext == ".png")
                 {
-                    user = db.Users.Find(User.Identity.GetUserId());
+
+                    ApplicationUser user;
+                    using (ApplicationDbContext db = new ApplicationDbContext())
+                    {
+                        user = db.Users.Find(User.Identity.GetUserId());
+                    }
+                    char unique;
+                    if (user.ProfilePicture == null)
+                        unique = '0';
+                    else if (user.ProfilePicture[0] == '1')
+                        unique = '0';
+                    else
+                        unique = '1';
+
+                    string imageName = User.Identity.GetUserId() + unique + Path.GetExtension(file.FileName);
+                    string path = Path.Combine(Server.MapPath("~/images/profile"), imageName);
+
+                    var image = new WebImage(file.InputStream);
+
+                    int width = image.Width;
+                    int height = image.Height;
+
+                    int Diff = (width - height) / 2;
+                    if (width > height)
+                        image.Crop(0, Diff, 0, Diff);
+                    else if (height > width)
+                        image.Crop(-Diff, 0, -Diff, 0);
+
+                    if (image.Width > 250)
+                        image.Resize(250, 250);
+
+                    image.Save(path);
+                    using (ApplicationDbContext db = new ApplicationDbContext())
+                    {
+                        db.Users.Find(User.Identity.GetUserId()).ProfilePicture = unique + Path.GetExtension(file.FileName);
+                        db.SaveChanges();
+                    }
                 }
-                char unique;
-                if (user.ProfilePicture == null)
-                    unique = '0';
-                else if (user.ProfilePicture[0] == '1')
-                    unique = '0';
                 else
-                    unique = '1';
-
-                string imageName = User.Identity.GetUserId() + unique + Path.GetExtension(file.FileName);
-                string path = Path.Combine(Server.MapPath("~/images/profile"), imageName);
-
-                var image = new WebImage(file.InputStream);
-
-                int width = image.Width;
-                int height = image.Height;
-
-                int Diff = (width - height) / 2;
-                if (width > height)
-                    image.Crop(0, Diff, 0, Diff);
-                else if (height > width)
-                    image.Crop(-Diff, 0, -Diff, 0);
-
-                if (image.Width > 250)
-                    image.Resize(250, 250);
-
-                image.Save(path);
-                using (ApplicationDbContext db = new ApplicationDbContext())
                 {
-                    db.Users.Find(User.Identity.GetUserId()).ProfilePicture = unique + Path.GetExtension(file.FileName);
-                    db.SaveChanges();
+                    return Redirect("~/Kursledare/Profil/Bild?w=wff");
                 }
             }
 

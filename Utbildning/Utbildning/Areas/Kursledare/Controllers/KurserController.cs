@@ -246,8 +246,9 @@ namespace Utbildning.Areas.Kursledare.Controllers
                 param3.GetIds(out List<int> Ids);
                 int Id = Ids.First();
                 ViewBag.SpecificCourseId = Id;
-                ViewBag.CourseName = db.Courses.ToList().Where(x => x.Id == Id).First().Name;
+                ViewBag.CourseName = DBHandler.GetCourse(Id).Name;
                 ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name");
+                ViewBag.EndDate = DateTime.Now.AddDays(DBHandler.GetCourse(Id).Length).ToString("yyyy-MM-dd");
                 if (User.ValidUser(db.Courses.Where(m => m.Id == Id).First()))
                 {
                     return View("Kurstillfällen/Skapa");
@@ -410,7 +411,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
             return Redirect("~/Kursledare/Kurser");
         }
         [HttpPost]
-        public ActionResult Kurs([Bind(Include = "Id,CourseId,StartDate,MinPeople,MaxPeople")] CourseOccasion courseOccasion, [Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Address,City,Price")] Course course, [Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking, [Bind(Include = "Id,CourseId,Text")] BulletPoints bulletPoints, CourseTags courseTags , string param1, string param2, string param3)
+        public ActionResult Kurs([Bind(Include = "Id,CourseId,StartDate,EndDate,MinPeople,MaxPeople")] CourseOccasion courseOccasion, [Bind(Include = "Id,Name,Length,Host,Email,Subtitle,Bold,Text,Address,City,Price")] Course course, [Bind(Include = "Id,Firstname,Lastname,Email,CourseOccasionId,PhoneNumber,Company,BillingAddress,PostalCode,City,Bookings,Message,DiscountCode,BookingDate")] Booking booking, [Bind(Include = "Id,CourseId,Text")] BulletPoints bulletPoints, CourseTags courseTags , string param1, string param2, string param3)
         {
             int Id = 0;
             List<int> Ids;
@@ -489,7 +490,7 @@ namespace Utbildning.Areas.Kursledare.Controllers
                     db.Entry(course).State = EntityState.Modified;
 
                     db.SaveChanges();
-                    return Redirect("~/Kursledare/Kurser");
+                    return Redirect("~/Kursledare/Kurser/Kurs/" + course.Id);
 
 
                 case "RaderaKurs":

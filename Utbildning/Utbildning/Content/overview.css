@@ -1,6 +1,4 @@
-﻿#CourseBox{
-}
-.overviewBox {
+﻿.overviewBox {
     background-color: #f2f2f2;
     padding: 10px;
     margin-top:10px;
@@ -9,11 +7,28 @@
 }
 #BP {
     text-align:center;
-    border-radius:5px 0px 0px 5px;
+    border-radius:5px 0 0 5px;
     
 }
 #Tags{
     text-align:center;
-    border-radius:0px 5px 5px 0px;
+    border-radius: 0 5px 5px 0;
     
+}
+
+table > tbody > tr > td {
+    font-size: 17px;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+table > tbody > tr > td:active {    
+    overflow: visible;
+    white-space: normal;
+    text-overflow: clip;
+}
+
+table > tbody > tr > td > strong::after {
+    content: ":";
 }

@@ -17,6 +17,8 @@ namespace Utbildning.Models
         [DataType(DataType.DateTime)]
         [Display(Name = "Kursstart")]
         public DateTime StartDate { get; set; }
+        [Display(Name = "Kursslut")]
+        public DateTime EndDate { get; set; }
         [Display(Name = "Minst antal deltagare")]
         public int MinPeople { get; set; }
         [Display(Name = "Mest antal deltagare")]

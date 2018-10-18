@@ -8,16 +8,56 @@
 <head>
     <link rel="stylesheet" type="text/css" href="~/Content/overview.css">
 </head>
-<h1 style="color:#f8981e;">@ViewBag.CourseName</h1>
-<h4>Översikt</h4>
-<div class="col-xs-12">
+<div style="padding-left: 15px">
+    <table style="width: 100%">
+        <tr>
+            <td>
+                <h1 style="color:#f8981e;">@ViewBag.CourseName</h1>
+            </td>
+            <td>
+                <h4>
+                    <a style="float:right" href="~/Kurser/LäsMer/@ViewBag.CId">Till Kurssidan</a>
+                </h4>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h4>Översikt</h4>
+            </td>
+        </tr>
+
+    </table>
+</div>
+<div class="col-xs-12" style="padding: 0;">
 
     <hr />
- 
-    <div id="CourseBox" class="overviewBox">
-        @Html.ActionLink("Redigera", "Kurs", new { param1 = "Redigera", param2 = ViewData["CId"] })
-        <dl class="dl-horizontal">
 
+    <div id="CourseBox" class="overviewBox">
+        @Html.ActionLink("Redigera", "Kurs", new { param1 = "Redigera", param2 = ViewData["CId"] }, new { @style = "position:absolute;right:15px;" })
+        <table style="width: 100%; table-layout:fixed">
+            <tr>
+                <td onclick="ToggleVis('Name')" id="Name"><strong>@Html.DisplayNameFor(model => model.Name)</strong> @Html.DisplayFor(model => model.Name)</td>
+                <td onclick="ToggleVis('Length')" id="Length"><strong>@Html.DisplayNameFor(model => model.Length)</strong> @Html.DisplayFor(model => model.Length)</td>
+            </tr>
+            <tr>
+
+                <td onclick="ToggleVis('Host')" id="Host"><strong>@Html.DisplayNameFor(model => model.Host)</strong> @Html.DisplayFor(model => model.Host)</td>
+                <td onclick="ToggleVis('Email')" id="Email"><strong>@Html.DisplayNameFor(model => model.Email)</strong> @Html.DisplayFor(model => model.Email)</td>
+            </tr>
+            <tr>
+                <td onclick="ToggleVis('Subtitle')" id="Subtitle"><strong>@Html.DisplayNameFor(model => model.Subtitle)</strong> @Html.DisplayFor(model => model.Subtitle)</td>
+                <td onclick="ToggleVis('Bold')" id="Bold"><strong>@Html.DisplayNameFor(model => model.Bold)</strong> @Html.DisplayFor(model => model.Bold)</td>
+            </tr>
+            <tr>
+                <td onclick="ToggleVis('Text')" id="Text"><strong>@Html.DisplayNameFor(model => model.Text)</strong>@Html.DisplayFor(model => model.Text)</td>
+                <td onclick="ToggleVis('Address')" id="Address"><strong>@Html.DisplayNameFor(model => model.Address)</strong> @Html.DisplayFor(model => model.Address)</td>
+            </tr>
+            <tr>
+                <td onclick="ToggleVis('City')" id="City"><strong>@Html.DisplayNameFor(model => model.City)</strong> @Html.DisplayFor(model => model.City)</td>
+                <td onclick="ToggleVis('Price')" id="Price"><strong>@Html.DisplayNameFor(model => model.Price)</strong> @Html.DisplayFor(model => model.Price)</td>
+            </tr>
+        </table>
+        <dl class="dl-horizontal" style="display:none">
             <dt>
                 @Html.DisplayNameFor(model => model.Name)
             </dt>
@@ -101,8 +141,8 @@
     </div>
 </div>
 
-<div class="col-xs-12">
-    <div class="col-xs-6 overviewBox" id="BP">
+<div class="col-xs-12 overviewBox">
+    <div class="col-xs-6" id="BP">
         <h4>Punktlista visas på kurssidan.</h4>
         @Html.ActionLink("Redigera Punktlista", "Kurs", new { param1 = "Punktlista", param2 = ViewBag.CId })
         @foreach (var item in ViewBag.BPs)
@@ -113,7 +153,7 @@
 
         }
     </div>
-    <div class="col-xs-6 overviewBox" id="Tags">
+    <div class="col-xs-6" id="Tags">
         <h4>Taggar används vid filtrering av kurser.</h4>
         @Html.ActionLink("Redigera Taggar", "Kurs", new { param1 = "Taggar", param2 = ViewBag.CId })
         @foreach (var item in ViewBag.Tags)
@@ -129,71 +169,72 @@
     <h4>Kurstillfällen</h4>
     <a href="~/Kursledare/Kurser/Kurs/Kurstillfällen/Skapa/@ViewBag.CId">Skapa Nytt Kurstillfälle</a>
     <table class="table">
-        <tr>
-            <th>
-                Kursstart
-            </th>
-            <th>
-                Bokningar
-            </th>
-            <th>
-                Platser kvar
-            </th>
-            <th>
-                Många nog?
-            </th>
-            <th></th>
-            <th></th>
-        </tr>
+        @if (ViewBag.COs.Count > 0)
+        {
+            <tr>
+                <th>
+                    Kursstart
+                </th>
+                <th>
+                    Bokningar
+                </th>
+                <th>
+                    Platser kvar
+                </th>
+                <th>
+                    <abbr title="Tillräckligt många som anmält sig för att kursen ska gå igenom, enligt " style="text-decoration:none">
+                        Många nog?
+                    </abbr>
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        }
 
         @foreach (var item in ViewBag.COs)
         {
-        <tr>
-            <td>
-                @DBHandler.Format(item.StartDate)
-            </td>
-            <td>
-                @DBHandler.GetBookings(item)
-            </td>
-            <td>
-                @DBHandler.GetAvailableBookings(item)
-            </td>
-            @if (DBHandler.EnoughBookings(item))
-            {
-                <td style="color:lightgreen;">✔</td>
-            }
-            else
-            {
-                <td style="color:red;">❌</td>
-            }
-
-            @using (Utbildning.Models.ApplicationDbContext db = new Utbildning.Models.ApplicationDbContext())
-            {
-                if ((item.StartDate - DateTime.Now).TotalDays + int.Parse(db.SiteConfigurations.Where(x => x.Property == "ExpirationTime").First().Value) <= 10)
+            <tr>
+                <td>
+                    @DBHandler.Format(item.StartDate)
+                </td>
+                <td>
+                    @DBHandler.GetBookings(item)
+                </td>
+                <td>
+                    @DBHandler.GetAvailableBookings(item)
+                </td>
+                @if (DBHandler.EnoughBookings(item))
                 {
-                    <td style="color: goldenrod">⚠️</td>
+                    <td style="color:lightgreen;">✔</td>
                 }
                 else
                 {
-                    <td></td>
+                    <td style="color:red;">❌</td>
                 }
-            }
 
-            <td>
+                @using (Utbildning.Models.ApplicationDbContext db = new Utbildning.Models.ApplicationDbContext())
+                {
+                    if ((item.StartDate - DateTime.Now).TotalDays + int.Parse(db.SiteConfigurations.Where(x => x.Property == "ExpirationTime").First().Value) <= 10)
+                    {
+                        <td style="color: goldenrod">⚠️</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                }
 
-                @Html.ActionLink("Info", "Kurs", new { param1 = "Kurstillfälle", param2 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
-                @Html.ActionLink("Bokningar", "Kurs", new { param1 = "Kurstillfälle", param2 = "Bokningar", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
-                @Html.ActionLink("Redigera", "Kurs", new { param1 = "Kurstillfälle", param2 = "Redigera", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
-                @Html.ActionLink("Radera", "Kurs", new { param1 = "Kurstillfälle", param2 = "Radera", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") })
-            </td>
-        </tr>
+                <td>
+
+                    @Html.ActionLink("Info", "Kurs", new { param1 = "Kurstillfälle", param2 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
+                    @Html.ActionLink("Bokningar", "Kurs", new { param1 = "Kurstillfälle", param2 = "Bokningar", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
+                    @Html.ActionLink("Redigera", "Kurs", new { param1 = "Kurstillfälle", param2 = "Redigera", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") }) |
+                    @Html.ActionLink("Radera", "Kurs", new { param1 = "Kurstillfälle", param2 = "Radera", param3 = item.Id + "-" + item.Course.Name.Replace(' ', '-') + "-" + DBHandler.GetCourseOccasion(item.Id).StartDate.ToString("yyyy-MM-dd") })
+                </td>
+            </tr>
         }
 
     </table>
-
-
-
-
 </div>
 <div class="col-xs-12">
     <p>
@@ -202,5 +243,23 @@
         <a href="~/Kursledare/Kurser">← Tillbaka till kurslistan</a>
     </p>
 
-    <a href="~/Kurser/LäsMer/@ViewBag.CId">Till Kurssidan</a>
 </div>
+
+<script>
+    function ToggleVis(Id) {
+        var el = document.getElementById(Id);
+
+        if (el.value === "1") {
+            el.style.overflow = "visible";
+            el.style.textOverflow = "clip";
+            el.style.whiteSpace = "normal";
+            el.value = "0";
+        }
+        else {
+            el.style.overflow = "hidden";
+            el.style.textOverflow = "ellipsis";
+            el.style.whiteSpace = "nowrap";
+            el.value = "1";
+        }
+    }
+</script>

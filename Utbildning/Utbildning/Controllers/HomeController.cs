@@ -10,7 +10,7 @@ namespace Utbildning.Controllers
     {
         public ActionResult Index()
         {
-            return RedirectToAction("Index", "Kurser");
+            return View();
         }
 
         public ActionResult About()

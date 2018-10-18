@@ -26,7 +26,7 @@ namespace Utbildning.Areas.Admin.Controllers
 
             else if (User.IsInRole("Kursledare"))
                 return Redirect("~/Kursledare");
-            else return RedirectToAction("Index", "Home");
+            else return RedirectToAction("Index", "Kurser");
         }
     }
 }

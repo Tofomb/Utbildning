@@ -46,6 +46,7 @@ namespace Utbildning.Models
         public string Message { get; set; }
         [Display(Name = "Rabattkod")]
         public string DiscountCode { get; set; }
+        [Display(Name = "Bokningsdatum")]
         public DateTime BookingDate { get; set; }
     }
 }
