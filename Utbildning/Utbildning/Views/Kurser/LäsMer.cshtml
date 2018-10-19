@@ -37,7 +37,7 @@
             @foreach (var item in ViewBag.CourseOccasionViewBag)
             {
                 <div class="CourseOccasionItem">
-                    @DBHandler.Format(item.StartDate) <a class="Boka" href='@Url.Action("Boka", "Kurser", new {id=item.Id } )'>Boka</a>
+                    @DBHandler.Format(item.StartDate) - @DBHandler.Format(item.EndDate) <a class="Boka" href='@Url.Action("Boka", "Kurser", new {id=item.Id } )'>Boka</a>
                 </div>
             }
         </div>
