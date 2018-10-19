@@ -52,7 +52,6 @@ namespace Utbildning.Areas.Kursledare.Controllers
             }
         }
 
-
         // GET: Kursledare/Profil
         [NoCache]
         [Authorize(Roles = "Kursledare")]

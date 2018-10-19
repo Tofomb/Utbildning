@@ -15,11 +15,14 @@ namespace Utbildning
 {
     public partial class Startup
     {
+        //#Ändra lite grejer här innan den körs första gången
+        private const string AdminEmail = "PUT ADMIN MAIL HERE"; //Byt ut mot önskat admin inloggnigns email.
+        private const string AdminPW = "PUT ADMIN LOG IN PASSWORD HERE"; //Byt ut mot önskat standard lösenord. Det här lösenordet bör bytas så fort du loggat in första gången.
         private const string ExpirationTime = "60"; //Amount of days program waits before deleting courseoccasions
         private const string Email = "PUT SENDER EMAIL HERE";
         private const string Host = "PUT HOST HERE";
         private const string Port = "PUT PORT HERE";
-        private const string Credentials = "PUT PASSWORD HERE";
+        private const string Credentials = "PUT EMAIL PASSWORD HERE";
 
         public void Configuration(IAppBuilder app)
         {
@@ -41,8 +44,8 @@ namespace Utbildning
                 var AdminRole = new IdentityRole() { Name = "Admin" };
                 RoleMng.Create(AdminRole);
 
-                var AdminUser = new ApplicationUser() { UserName = "admin@castra.se" };
-                string Pw = "Q2FzdHJh";
+                var AdminUser = new ApplicationUser() { UserName = AdminEmail, Email = AdminEmail };
+                string Pw = AdminPW;
 
                 var NewUser = UserMng.Create(AdminUser, Pw);
 
@@ -56,17 +59,6 @@ namespace Utbildning
             {
                 var KLRole = new IdentityRole() { Name = "Kursledare" };
                 RoleMng.Create(KLRole);
-
-                //REMOVE FOLLOWING LATER WHEN OBSOLETE. Only used to have a default KL user.
-                var KLUser = new ApplicationUser() { UserName = "kl@m.m" };
-                string Pw = "Q2FzdHJh";
-
-                var NewUser = UserMng.Create(KLUser, Pw);
-
-                if (NewUser.Succeeded)
-                {
-                    var result = UserMng.AddToRole(KLUser.Id, "Kursledare");
-                }
             }
         }
 

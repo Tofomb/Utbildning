@@ -92,6 +92,8 @@ namespace Utbildning.Areas.Admin.Controllers
                 var result = await UserManager.CreateAsync(user, pw);
                 if (result.Succeeded)
                 {
+                    // MailHandler.SendTester("", user.Email, "Nytt Konto På Castra Utbildning", MailText, "");
+                    // TODO: Add confirmation email, un-comment 'Send' after Castra mail has been implemented
                     MailHandler.Send(user.Email, "Nytt Konto På Castra Utbildning", MailText);
 
                     await UserManager.AddToRoleAsync(user.Id, "Kursledare");
