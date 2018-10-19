@@ -15,7 +15,11 @@ namespace Utbildning
 {
     public partial class Startup
     {
-        private const int ExpirationTime = 30; //Amount of days program waits before deleting courseoccasions
+        private const string ExpirationTime = "60"; //Amount of days program waits before deleting courseoccasions
+        private const string Email = "PUT SENDER EMAIL HERE";
+        private const string Host = "PUT HOST HERE";
+        private const string Port = "PUT PORT HERE";
+        private const string Credentials = "PUT PASSWORD HERE";
 
         public void Configuration(IAppBuilder app)
         {
@@ -109,7 +113,23 @@ namespace Utbildning
                 }
                 if (!siteConfigurations.Exists(x => x.Property == "ExpirationTime"))
                 {
-                    db.SiteConfigurations.Add(new SiteConfiguration("ExpirationTime", "60"));
+                    db.SiteConfigurations.Add(new SiteConfiguration("ExpirationTime", ExpirationTime));
+                }
+                if (!siteConfigurations.Exists(x => x.Property == "Email"))
+                {
+                    db.SiteConfigurations.Add(new SiteConfiguration("Email", Email));
+                }
+                if (!siteConfigurations.Exists(x => x.Property == "Host"))
+                {
+                    db.SiteConfigurations.Add(new SiteConfiguration("Host", Host));
+                }
+                if (!siteConfigurations.Exists(x => x.Property == "Port"))
+                {
+                    db.SiteConfigurations.Add(new SiteConfiguration("Port", Port));
+                }
+                if (!siteConfigurations.Exists(x => x.Property == "Credentials"))
+                {
+                    db.SiteConfigurations.Add(new SiteConfiguration("Credentials", Credentials));
                 }
                 db.SaveChanges();
             }
@@ -134,7 +154,7 @@ namespace Utbildning
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
                 //ExpirationTime = db.SiteConfiguration.ToList().First().ExpirationTime;
-                List<CourseOccasion> OldCOs = db.CourseOccasions.ToList().Where(x => x.StartDate.AddDays(ExpirationTime) < DateTime.Now).ToList();
+                List<CourseOccasion> OldCOs = db.CourseOccasions.ToList().Where(x => x.StartDate.AddDays(int.Parse(db.SiteConfigurations.Where(y => y.Property == "ExpirationTime").First().Value)) < DateTime.Now).ToList();
                 foreach (CourseOccasion co in OldCOs)
                 {
                     db.CourseOccasions.Remove(co);

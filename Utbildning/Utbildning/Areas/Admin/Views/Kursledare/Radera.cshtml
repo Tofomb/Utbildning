@@ -1,0 +1,16 @@
+﻿@model Utbildning.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Radera";
+}
+
+<h2>Radera</h2>
+
+<p>Är du säker på att du vill radera @(Model.UserName ?? Model.Email)?</p>
+
+@using (Html.BeginForm())
+{
+    <input type="submit" value="Delete" class="btn btn-default" />
+    <br/><br/>
+    <a href=".">← Tillbaka</a>
+}

@@ -24,13 +24,15 @@ namespace Utbildning.Classes
 
         public static void Send(string Recipient, string Subject, string Body)
         {
-            MailMessage mail = new MailMessage("CASTRA MAIL ???", Recipient);
+            List<string> EmailProperties = GetEmailProperties();
+            MailMessage mail = new MailMessage(EmailProperties[0], Recipient);
             SmtpClient client = new SmtpClient
             {
-                Port = 25, //?
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Host = "" //?
+                Host = EmailProperties[1],
+                Port = int.Parse(EmailProperties[2]),
+                Credentials = new NetworkCredential(EmailProperties[0], EmailProperties[3])
             };
 
             mail.IsBodyHtml = true;
@@ -40,18 +42,20 @@ namespace Utbildning.Classes
         }
 
         public static void Send(string[] Recipients, string Subject, string Body)
-        {
-            MailMessage mail = new MailMessage("CASTRA MAIL ???", "");
+        {            
+            List<string> EmailProperties = GetEmailProperties();
+            MailMessage mail = new MailMessage(EmailProperties[0], "");
             foreach (string s in Recipients)
             {
                 mail.Bcc.Add(s);
             }
             SmtpClient client = new SmtpClient
             {
-                Port = 25, //?
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Host = "" //?
+                Host = EmailProperties[1],
+                Port = int.Parse(EmailProperties[2]),
+                Credentials = new NetworkCredential(EmailProperties[0], EmailProperties[3])
             };
 
             mail.IsBodyHtml = true;
@@ -60,6 +64,27 @@ namespace Utbildning.Classes
             client.Send(mail);
         }
 
+        /// <summary>
+        /// <para>Returns a list of 4 strings.</para>
+        /// <para>GetEmailProperties()[0] == Email</para>
+        /// <para>GetEmailProperties()[1] == Host</para>
+        /// <para>GetEmailProperties()[2] == Port</para>
+        /// <para>GetEmailProperties()[3] == Credentials</para>
+        /// </summary>        
+        private static List<string> GetEmailProperties()
+        {
+            List<string> Properties = new List<string>();
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                Properties.Add(db.SiteConfigurations.Where(x => x.Property == "Email").First().Value);
+                Properties.Add(db.SiteConfigurations.Where(x => x.Property == "Host").First().Value);
+                Properties.Add(db.SiteConfigurations.Where(x => x.Property == "Port").First().Value);
+                Properties.Add(db.SiteConfigurations.Where(x => x.Property == "Credentials").First().Value);
+            }
+            return Properties;
+        }
+
+        /*
         public static void SendTester(string From, string Recipient, string Subject, string Body, string Password)
         {
             MailMessage mail = new MailMessage(From, Recipient);
@@ -76,6 +101,7 @@ namespace Utbildning.Classes
             mail.Body = Body;
             client.Send(mail);
         }
+        */
 
         public static string GetInfo(string Email)
         {
