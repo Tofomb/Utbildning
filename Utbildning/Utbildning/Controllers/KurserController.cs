@@ -109,8 +109,8 @@ namespace Utbildning.Controllers
                             db.SaveChanges();
 
                             // Tester
-                            string MailText = DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "\n Tack för din bokning, " + booking.Firstname + " " + booking.Lastname + "\n Platser:" + booking.Bookings + "\n Om du har några frågor, hör av dig till kursansvarig: " + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Email + $"<br/>Avbokning: <a href='" + URLHandler.GetBaseUrl(Request.Url) + $"/Kurser/Avboka?email={URLHandler.GenAUId(booking.Email + booking.Id)}' Avboka";
-                            string MailTextKL = "Ny bokning \n" + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "\n" + booking.Firstname + " " + booking.Lastname + "\n Platser:" + booking.Bookings;
+                            string MailText = DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "<br/>Tack för din bokning, " + booking.Firstname + " " + booking.Lastname + "<br/>Platser:" + booking.Bookings + "<br/>Om du har några frågor, hör av dig till kursansvarig: " + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Email + $"<br/>Avbokning: <a href='" + URLHandler.GetBaseUrl(Request.Url) + $"/Kurser/Avboka?email={URLHandler.GenAUId(booking.Email + booking.Id)}' Avboka";
+                            string MailTextKL = "Ny bokning <br/>" + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "<br/>" + booking.Firstname + " " + booking.Lastname + "<br/>Platser:" + booking.Bookings;
 
                             MailHandler.Send(booking.Email, "Bokningsbekräftelse",  MailText);
                             MailHandler.Send(DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Email, "Bokningsbekräftelse", MailTextKL);
@@ -182,18 +182,18 @@ namespace Utbildning.Controllers
 
                 UserData += "Namn: " + x.Firstname;
                 UserData += " " + x.Lastname;
-                UserData += "\n Mail: " + x.Email;
-                UserData += "\n Telefonnummer: " + x.PhoneNumber;
-                UserData += "\n Fakturaadress: " + x.BillingAddress;
-                UserData += "\n Postkod: " + x.PostalCode;
-                UserData += "\n Stad: " + x.City;
-                UserData += "\n Meddelande: " + x.Message;
-                UserData += "\n Rabattkod: " + x.DiscountCode;
-                UserData += "\n Bokningsdatum: " + x.BookingDate;
-                UserData += "\n Antal bokningar: " + x.Bookings;
-                UserData += "\n Kurs: " + DBHandler.GetCourse(DBHandler.GetCourseOccasion(x.CourseOccasionId)).Name;
-                UserData += "\n Kurstillfälle: " + DBHandler.GetCourseOccasion(x.CourseOccasionId).StartDate;
-                UserData += "\n \n";
+                UserData += "<br/>Mail: " + x.Email;
+                UserData += "<br/>Telefonnummer: " + x.PhoneNumber;
+                UserData += "<br/>Fakturaadress: " + x.BillingAddress;
+                UserData += "<br/>Postkod: " + x.PostalCode;
+                UserData += "<br/>Stad: " + x.City;
+                UserData += "<br/>Meddelande: " + x.Message;
+                UserData += "<br/>Rabattkod: " + x.DiscountCode;
+                UserData += "<br/>Bokningsdatum: " + x.BookingDate;
+                UserData += "<br/>Antal bokningar: " + x.Bookings;
+                UserData += "<br/>Kurs: " + DBHandler.GetCourse(DBHandler.GetCourseOccasion(x.CourseOccasionId)).Name;
+                UserData += "<br/>Kurstillfälle: " + DBHandler.GetCourseOccasion(x.CourseOccasionId).StartDate;
+                UserData += "<br/><br/>";
 
             }
 

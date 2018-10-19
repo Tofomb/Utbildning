@@ -32,7 +32,8 @@ namespace Utbildning.Classes
                 UseDefaultCredentials = false,
                 Host = EmailProperties[1],
                 Port = int.Parse(EmailProperties[2]),
-                Credentials = new NetworkCredential(EmailProperties[0], EmailProperties[3])
+                Credentials = new NetworkCredential(EmailProperties[0], EmailProperties[3]),
+                EnableSsl = true
             };
 
             mail.IsBodyHtml = true;
@@ -55,7 +56,8 @@ namespace Utbildning.Classes
                 UseDefaultCredentials = false,
                 Host = EmailProperties[1],
                 Port = int.Parse(EmailProperties[2]),
-                Credentials = new NetworkCredential(EmailProperties[0], EmailProperties[3])
+                Credentials = new NetworkCredential(EmailProperties[0], EmailProperties[3]),
+                EnableSsl = true
             };
 
             mail.IsBodyHtml = true;
