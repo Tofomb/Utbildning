@@ -109,7 +109,7 @@ namespace Utbildning.Controllers
                             db.SaveChanges();
 
                             // Tester
-                            string MailText = DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "\n Tack för din bokning, " + booking.Firstname + " " + booking.Lastname + "\n Platser:" + booking.Bookings + "\n Om du har några frågor, hör av dig till kursansvarig: " + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Email + $"<br/>Avbokning: <a href='" + URLHandler.GetBaseUrl(Request.Url) + $"/Kurser/Avboka?email={URLHandler.GenAUId(booking.Email + booking.Id)}' Avboka";
+                            string MailText = DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "\n Tack för din bokning, " + booking.Firstname + " " + booking.Lastname + "\n Platser:" + booking.Bookings + "\n Om du har några frågor, hör av dig till kursansvarig: " + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Email + $"<br/>Avbokning: <a href='" + URLHandler.GetBaseUrl(Request.Url) + $"/Kurser/Avboka?email={URLHandler.GenAUId(booking.Email + booking.Id)}'>Avboka</a>";
                             string MailTextKL = "Ny bokning \n" + DBHandler.GetCourse(DBHandler.GetCourseOccasion(booking.CourseOccasionId)).Name + " " + DBHandler.GetCourseOccasion(booking.CourseOccasionId).StartDate.Format() + "\n" + booking.Firstname + " " + booking.Lastname + "\n Platser:" + booking.Bookings;
 
                             MailHandler.Send(booking.Email, "Bokningsbekräftelse",  MailText);
@@ -202,7 +202,7 @@ namespace Utbildning.Controllers
             string MailText = "Du efterfrågade en utskrit om all data som Castra Utbildning har sparat kopplat till din mail, om du önskar att ta bort information från vår databas, ta kontakt med kursledaren. Om hen inte svarar inom rimlig tid så får du gärna ta kontakt med hemsidans administratör.";
 
 
-            MailHandler.Send(UserEmail, "Användardata Castra-utbildning", UserData + MailText);
+            MailHandler.Send(UserEmail, "Användardata Castra-utbildning: ", UserData + MailText);
 
             //Tester
             // MailHandler.SendTester("",UserEmail,"Användardata Castra", UserData + MailText,"");
