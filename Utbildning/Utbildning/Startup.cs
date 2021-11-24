@@ -16,13 +16,13 @@ namespace Utbildning
     public partial class Startup
     {
         //#Ändra lite grejer här innan den körs första gången
-        private const string AdminEmail = "PUT ADMIN MAIL HERE"; //Byt ut mot önskat admin inloggnigns email.
-        private const string AdminPW = "PUT ADMIN LOG IN PASSWORD HERE"; //Byt ut mot önskat standard lösenord. Det här lösenordet bör bytas så fort du loggat in första gången.
+        private const string AdminEmail = "admin@test.test"; //Byt ut mot önskat admin inloggnigns email.
+        private const string AdminPW = "qwerty123"; //Byt ut mot önskat standard lösenord. Det här lösenordet bör bytas så fort du loggat in första gången.
         private const string ExpirationTime = "60"; //Amount of days program waits before deleting courseoccasions
-        private const string Email = "PUT SENDER EMAIL HERE";
-        private const string Host = "PUT HOST HERE";
-        private const string Port = "PUT PORT HERE";
-        private const string Credentials = "PUT EMAIL PASSWORD HERE";
+        private const string Email = "70r510n@gmail.com";
+        private const string Host = "test";
+        private const string Port = "test";
+        private const string Credentials = "N0tgoright";
 
         public void Configuration(IAppBuilder app)
         {

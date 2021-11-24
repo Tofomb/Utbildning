@@ -12,7 +12,7 @@
         title = li[i].getElementsByClassName("container-info")[0].getElementsByClassName("text-title")[0];
         tags = li[i].getElementsByClassName("container-info")[0].getElementsByClassName("tags")[0];
 
-        if (getFilter() != -1) {
+        if (getFilter() !== -1) {
             if (title.innerHTML.toUpperCase().indexOf(filter) > -1 && tags.innerHTML.toUpperCase().indexOf(getFilter()) > -1) {
                 li[i].style.display = "";
             } else {
